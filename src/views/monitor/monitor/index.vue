@@ -1,0 +1,450 @@
+<template>
+	<div class="canvas-container layout-padding">
+		<div class="layout-padding-auto layout-padding-view canvas-warp">
+			<div class="canvas">
+				<!-- 顶部工具栏 -->
+				<Tool @tool="onToolClick" :titel="state.title" />
+				<div class="canvas-content">
+					<!-- 绘画区 -->
+					<div class="canvas-right" id="canvas" ref="canvasRightRef">
+						<v-stage ref="stage" :config="state.stageSize">
+							<v-layer ref="layer">
+								<component v-for="item in state.componentData" :key="item.id" :is="item.component" :config="item.config" @dblclick="ondblclick" />
+							</v-layer>
+						</v-stage>
+					</div>
+
+					<!-- 节点信息 -->
+					<Node ref="devicePropertiesRef" :props="selectedNode"></Node>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script lang="ts">
+import Convery from '../configuration/component/device/convery/index.vue';
+import Konva from 'konva';
+
+export default {
+	components: {
+		convery: Convery,
+	},
+};
+</script>
+
+<script setup lang="ts" name="pagescanvas1">
+import { defineAsyncComponent, reactive, onMounted, onUnmounted, nextTick, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { storeToRefs } from 'pinia';
+import { useThemeConfig } from '/@/stores/themeConfig';
+import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
+import { useSignalRStore } from '/@/stores/signalR';
+import signalR from '/@/utils/signalR';
+import { useMonitorApi } from '/@/api/monitor';
+
+// 引入组件
+const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
+
+const Node = defineAsyncComponent(() => import('./node/index.vue'));
+
+const image = new window.Image();
+image.src = 'device/Convery-Transverse.svg';
+image.onload = () => {
+	// set image only when it is loaded
+	state.image = image;
+};
+// 定义变量内容
+const canvasRightRef = ref();
+const helpRef = ref();
+const stage = ref();
+const layer = ref();
+const selectedNode = ref();
+const devicePropertiesRef = ref();
+const stores = useTagsViewRoutes();
+const storesSignalR = useSignalRStore();
+const storesThemeConfig = useThemeConfig();
+const { themeConfig } = storeToRefs(storesThemeConfig);
+const state = reactive({
+	componentData: [] as Array<CanvasComponent>,
+	SR: {} as signalR.HubConnection,
+	isShow: false,
+	stageSize: {
+		width: 800,
+		height: 800,
+		draggable: true,
+	},
+	isEditing: false,
+	selectedShapeName: '',
+	selected: [] as Array<any>,
+	image: null as unknown,
+	title: '设备监控',
+});
+
+// 设置 宽度小于 768，不支持操
+const setClientWidth = () => {
+	const clientWidth = document.body.clientWidth;
+	clientWidth < 768 ? (state.isShow = true) : (state.isShow = false);
+};
+// 左侧导航-数据初始化
+const initLeftNavList = async () => {
+	state.title = '入库区域';
+	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
+	var componentData = respond.monitorDevices.map((device: any) => {
+		device.config = JSON.parse(device.config);
+		device.config.draggable = false;
+		return device;
+	});
+
+	// 查询接口数据
+	state.componentData = componentData;
+};
+
+const ondblclick = (e: any) => {
+	// 获取设备节点信息
+
+	let id = e.target.id() === '' ? e.target.getParent().id() : e.target.id();
+
+	const component = state.componentData.find((r) => r.config.id === id);
+	if (component?.component === 'convery') {
+		let device = e.target.id() === '' ? e.target.getParent() : e.target;
+		// device.children[0].fill(Konva.Util.getRandomColor());
+		let node = device.children[0];
+		node.cache();
+		node.filters([Konva.Filters.RGBA]);
+		node.blue(0);
+		node.green(255);
+		node.alpha(0.8);
+
+		//device.children[0].stroke('red');
+		//device.children[0].strokeEnabled(true);
+
+		devicePropertiesRef.value.openDialog(component?.config.text);
+	}
+};
+
+// 初始化 Konva
+const initKonva = () => {
+	let ele = document.getElementById('canvas');
+	state.stageSize.width = ele?.offsetWidth ?? 800;
+	state.stageSize.height = ele?.offsetHeight ?? 800;
+};
+
+// 顶部工具栏-当前项点击
+const onToolClick = (fnName: String) => {
+	switch (fnName) {
+		case 'help':
+			onToolHelp();
+			break;
+		case 'download':
+			onToolDownload();
+			break;
+		case 'submit':
+			onToolSubmit();
+			break;
+		case 'copy':
+			onToolCopy();
+			break;
+		case 'del':
+			onToolDel();
+			break;
+		case 'fullscreen':
+			onToolFullscreen();
+			break;
+	}
+};
+// 顶部工具栏-帮助
+const onToolHelp = () => {
+	nextTick(() => {
+		helpRef.value.open();
+	});
+};
+// 顶部工具栏-下载
+const onToolDownload = () => {
+	const { globalTitle } = themeConfig.value;
+	// const href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state.jsplumbData, null, '\t'));
+	const aLink = document.createElement('a');
+	// aLink.setAttribute('href', href);
+	aLink.setAttribute('download', `${globalTitle}工作流.json`);
+	aLink.click();
+	aLink.remove();
+	ElMessage.success('下载成功');
+};
+// 顶部工具栏-提交
+const onToolSubmit = async () => {
+	// console.log(state.jsplumbData);
+	var componentData = JSON.parse(JSON.stringify(state.componentData));
+	componentData = componentData.map((device: any) => {
+		device.config = JSON.stringify(device.config);
+		device.id = '00000000-0000-0000-0000-000000000000';
+		return device;
+	});
+
+	var data = { id: '017bcd59-38bf-f00d-3436-3a11d8ebe1cc', AreaName: '入库区域监控', monitorDevices: componentData };
+	await useMonitorApi().updateMonitor(data);
+
+	ElMessage.success('数据提交成功');
+};
+// 顶部工具栏-复制
+const onToolCopy = () => {
+	//	copyText(JSON.stringify(state.jsplumbData));
+};
+// 顶部工具栏-删除
+const onToolDel = () => {
+	ElMessageBox.confirm('此操作将清空画布，是否继续？', '提示', {
+		confirmButtonText: '清空',
+		cancelButtonText: '取消',
+	})
+		.then(() => {
+			state.componentData.forEach(() => {
+				//	state.jsPlumb.removeAllEndpoints(v.nodeId);
+			});
+			nextTick(() => {
+				// state.jsplumbData = {nodeList: [],	lineList: [],};
+				ElMessage.success('清空画布成功');
+			});
+		})
+		.catch(() => {});
+};
+// 顶部工具栏-全屏
+const onToolFullscreen = () => {
+	stores.setCurrenFullscreen(true);
+};
+
+// 页面加载时
+onMounted(async () => {
+	await initLeftNavList();
+	initKonva();
+	setClientWidth();
+	window.addEventListener('resize', setClientWidth);
+	// 订阅设备实时信息
+	state.SR = await signalR.init(`main`);
+	state.SR.on('ondevicepropvaluechange', (data) => {
+		console.log(data);
+		// 反序列化
+		var deviceProperties = JSON.parse(data);
+
+		// 查找设备
+		const component = state.componentData.find((r) => r.config.text === deviceProperties.DeviceNo);
+
+		var st = stage.value.getStage();
+		let id = '#' + component?.config.id;
+		var device = st.findOne(id);
+
+		if (component?.component === 'convery') {
+			// device.children[0].fill(Konva.Util.getRandomColor());
+			let node = device.children[0];
+
+			// device.children[0].stroke('red');
+			// device.children[0].strokeEnabled(true);
+
+			// 更新设备状态
+			node.cache();
+			node.filters([Konva.Filters.RGBA]);
+
+			// 空载
+			if (deviceProperties.Model.TaskNo === 0) {
+				node.blue(127);
+				node.green(127);
+				node.red(127);
+			} else if (
+				// 运行
+				deviceProperties.Model.TaskNo > 10000 &&
+				deviceProperties.Model.ToNode != deviceProperties.DeviceNo &&
+				deviceProperties.Model.ToNode !== 1
+			) {
+				node.blue(0);
+				node.green(225);
+				node.red(0);
+			} else if (
+				//  载货
+				deviceProperties.Model.TaskNo > 10000 &&
+				(deviceProperties.Model.ToNode == deviceProperties.DeviceNo || deviceProperties.Model.ToNode === 1)
+			) {
+				node.blue(0);
+				node.green(225);
+				node.red(0);
+			}
+			node.alpha(0.8);
+		}
+	});
+
+	await state.SR.start();
+});
+
+// 页面卸载时
+onUnmounted(async () => {
+	window.removeEventListener('resize', setClientWidth);
+	// 取消订阅设备实时信息
+	await state.SR.stop();
+});
+</script>
+
+<style scoped lang="scss">
+.canvas-container {
+	position: relative;
+	.canvas-warp {
+		position: relative;
+	}
+	.canvas {
+		display: flex;
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		.canvas-content {
+			display: flex;
+			height: calc(100% - 35px);
+			.canvas-left {
+				width: 220px;
+				height: 100%;
+				border-right: 1px solid var(--el-border-color-light, #ebeef5);
+				:deep(.el-collapse-item__content) {
+					padding-bottom: 0;
+				}
+				.canvas-left-title {
+					height: 50px;
+					display: flex;
+					align-items: center;
+					padding: 0 10px;
+					border-top: 1px solid var(--el-border-color-light, #ebeef5);
+					color: var(--el-text-color-primary);
+					cursor: default;
+					span {
+						flex: 1;
+					}
+				}
+				.canvas-left-item {
+					display: inline-block;
+					width: calc(50% - 15px);
+					position: relative;
+					cursor: move;
+					margin: 0 0 10px 10px;
+					.canvas-left-item-icon {
+						height: 35px;
+						display: flex;
+						align-items: center;
+						transition: all 0.3s ease;
+						padding: 5px 10px;
+						border: 1px dashed transparent;
+						background: var(--next-bg-color);
+						border-radius: 3px;
+						i,
+						.name {
+							color: var(--el-text-color-secondary);
+							transition: all 0.3s ease;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
+						}
+						&:hover {
+							transition: all 0.3s ease;
+							border: 1px dashed var(--el-color-primary);
+							background: var(--el-color-primary-light-9);
+							border-radius: 5px;
+							i,
+							.name {
+								transition: all 0.3s ease;
+								color: var(--el-color-primary);
+							}
+						}
+					}
+				}
+				& .canvas-left-id:first-of-type {
+					.canvas-left-title {
+						border-top: none;
+					}
+				}
+			}
+			.canvas-right {
+				flex: 1;
+				position: relative;
+				overflow: hidden;
+				height: 100%;
+				background-image: linear-gradient(90deg, rgb(156 214 255 / 15%) 10%, rgba(0, 0, 0, 0) 10%),
+					linear-gradient(rgb(156 214 255 / 15%) 10%, rgba(0, 0, 0, 0) 10%);
+				background-size: 10px 10px;
+				.canvas-right-clone {
+					position: absolute;
+					.canvas-right-box {
+						height: 35px;
+						align-items: center;
+						color: var(--el-text-color-secondary);
+						padding: 0 10px;
+						border-radius: 3px;
+						cursor: move;
+						transition: all 0.3s ease;
+						min-width: 94.5px;
+						background: var(--el-color-white);
+						border: 1px solid var(--el-border-color-light, #ebeef5);
+						.canvas-left-item-icon {
+							display: flex;
+							align-items: center;
+							height: 35px;
+						}
+						&:hover {
+							border: 1px dashed var(--el-color-primary);
+							background: var(--el-color-primary-light-9);
+							transition: all 0.3s ease;
+							color: var(--el-color-primary);
+							i {
+								cursor: Crosshair;
+							}
+						}
+					}
+					.canvas-right-active {
+						border: 1px dashed var(--el-color-primary);
+						background: var(--el-color-primary-light-9);
+						color: var(--el-color-primary);
+					}
+				}
+				:deep(.jtk-overlay):not(.aLabel) {
+					padding: 4px 10px;
+					border: 1px solid var(--el-border-color-light, #ebeef5) !important;
+					color: var(--el-text-color-secondary) !important;
+					background: var(--el-color-white) !important;
+					border-radius: 3px;
+					font-size: 10px;
+				}
+				:deep(.jtk-overlay.canvas-right-empty-label) {
+					display: none;
+				}
+			}
+			.nodeInfo {
+				background: #fff;
+				position: fixed;
+				width: 300px;
+				position: absolute;
+				top: 35px;
+				right: 0;
+				height: 100%;
+				border-left: 1px solid var(--el-border-color-light, #ebeef5);
+			}
+		}
+	}
+	.canvas-mask {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		&::after {
+			content: '手机版不支持 jsPlumb 操作';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 1;
+			background: rgba(255, 255, 255, 0.9);
+			color: #666666;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+}
+</style>
+: number: number

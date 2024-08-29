@@ -1,2 +1,0 @@
-# wcsui
-wcs  ui

@@ -1,0 +1,98 @@
+<template>
+	<div class="system-dept-dialog-container">
+		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
+			<el-form ref="deptDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
+				<el-row :gutter="35">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="设备编号" prop="deviceNo">
+							<el-input v-model="state.ruleForm.deviceNo" disabled placeholder="设备编号" />
+						</el-form-item>
+					</el-col>
+
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="任务号">
+							<el-input v-model="state.ruleForm.taskNo" placeholder="任务号" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="条码">
+							<el-input v-model="state.ruleForm.barcode" placeholder="任务号" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="起始地址">
+							<el-input v-model="state.ruleForm.fromNode" placeholder="起始地址" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="目标地址">
+							<el-input v-model="state.ruleForm.toNode" placeholder="目标地址" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button @click="onCancel" size="default">取 消</el-button>
+					<el-button type="primary" @click="onSubmit" size="default">提 交</el-button>
+				</span>
+			</template>
+		</el-dialog>
+	</div>
+</template>
+
+<script setup lang="ts" name="systemDeptDialog">
+import { reactive, ref } from 'vue';
+import { useDeptApi } from '/@/api/dept';
+
+// 定义子组件向父组件传值/事件
+const emit = defineEmits(['refresh']);
+
+// 定义变量内容
+const deptDialogFormRef = ref();
+const state = reactive({
+	ruleForm: {
+		deviceNo: '',
+		taskNo: '',
+		barcode: '',
+		fromNode: '',
+		toNode: '',
+	},
+	dialog: {
+		isShowDialog: false,
+		deviceNo: '',
+		title: '',
+	},
+});
+
+// 打开弹窗
+const openDialog = (deviceNo: string) => {
+	state.ruleForm.deviceNo = deviceNo;
+
+	state.dialog.title = deviceNo + ' 设备信息';
+	state.dialog.deviceNo = deviceNo;
+	state.dialog.isShowDialog = true;
+};
+// 关闭弹窗
+const closeDialog = () => {
+	state.dialog.isShowDialog = false;
+};
+// 取消
+const onCancel = () => {
+	closeDialog();
+};
+// 提交
+const onSubmit = () => {
+	deptDialogFormRef.value.validate(async (valid: boolean) => {
+		if (!valid) return;
+		await useDeptApi().addDept(state.ruleForm);
+		closeDialog(); // 关闭弹窗
+		emit('refresh');
+	});
+};
+
+// 暴露变量
+defineExpose({
+	openDialog,
+});
+</script>

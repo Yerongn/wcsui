@@ -1,0 +1,162 @@
+// 左侧菜单导航数据
+export const leftNavList = [
+	{
+		title: '基础图形',
+		icon: 'iconfont icon-shouye',
+		isOpen: true,
+		id: '1',
+		children: [
+			{
+				icon: 'iconfont icon-fangkuang',
+				name: '矩形',
+				id: '11',
+				componentType: 'v-rect',
+				config: {
+					x: 20,
+					y: 50,
+					width: 100,
+					height: 100,
+					fill: '#e6e6e6',
+					shadowBlur: 0,
+					draggable: true,
+					name: '1',
+				},
+				form: [
+					{
+						type: 'input',
+						label: '客户姓名',
+						prop: 'name',
+						placeholder: '请输入客户姓名',
+						required: true,
+						disabled: false,
+					},
+					{
+						type: 'select',
+						label: '性别',
+						prop: 'sex',
+						placeholder: '请选择性别',
+						required: true,
+						disabled: false,
+						options: [
+							{
+								value: '0',
+								label: '女',
+							},
+							{
+								value: '1',
+								label: '男',
+							},
+						],
+					},
+					{
+						type: 'input',
+						label: '员工编号',
+						prop: 'number',
+						placeholder: '请输入员工编号',
+						required: true,
+						disabled: false,
+					},
+					{
+						type: 'input',
+						label: '办公电话',
+						prop: 'mobile',
+						placeholder: '请输入办公电话',
+						required: true,
+						disabled: false,
+					},
+					{
+						type: 'select',
+						label: '权限分配',
+						prop: 'role',
+						placeholder: '请选择性别',
+						required: true,
+						disabled: false,
+						options: [
+							{
+								value: '0',
+								label: '编辑权限',
+							},
+							{
+								value: '1',
+								label: '删除权限',
+							},
+						],
+					},
+					{
+						type: 'checkbox',
+						label: '模块选择',
+						prop: 'module',
+						placeholder: '请选择模块',
+						required: true,
+						disabled: false,
+					},
+				],
+			},
+			{
+				icon: 'iconfont icon-fuwenben',
+				name: '文本',
+				id: '12',
+				componentType: 'v-text',
+				config: {
+					x: 20,
+					y: 50,
+					text: 'Some text on canvas',
+					fontSize: 20,
+					draggable: true,
+					name: '1',
+				},
+				form: [
+					{
+						type: 'input',
+						label: '等级',
+						prop: 'grade',
+						placeholder: '请输入等级',
+						required: true,
+						disabled: false,
+					},
+					{
+						type: 'input',
+						label: '登记密码',
+						prop: 'password',
+						placeholder: '请输入登记密码',
+						required: true,
+						disabled: false,
+					},
+				],
+			},
+		],
+	},
+	{
+		title: '物流设备',
+		isOpen: true,
+		icon: 'iconfont icon-caijian',
+		id: '2',
+		children: [
+			{
+				icon: 'iconfont icon-fuwenben',
+				name: '输送线',
+				id: '21',
+				componentType: 'convery',
+				config: {
+					x: 20,
+					y: 50,
+					width: 50,
+					height: 50,
+					text: '1001',
+					name: '1',
+					rotation: 0,
+					scaleX: 1,
+					scaleY: 1,
+					draggable: true,
+				},
+				form: [
+					{
+						type: 'input',
+						label: '活动名称7',
+						prop: 'name21',
+					},
+				],
+			},
+		],
+	},
+];
