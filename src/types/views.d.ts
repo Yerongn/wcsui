@@ -84,6 +84,21 @@ declare type TreeType = {
 	children?: TreeType[];
 };
 
+// job
+declare type JobType<T = any> = {
+	jobId: string;
+	groupName: string;
+	jobType: string;
+	assemblyName: string;
+	description: string;
+	concurrent: boolean;
+	includeAnnotations: boolean;
+	properties: string;
+	updatedTime: T;
+	status: boolean;
+	triggerArgs: string;
+};
+
 // user
 declare type RowUserType<T = any> = {
 	id: string;
@@ -109,6 +124,7 @@ declare interface SysUserState {
 	tableData: SysUserTableType;
 }
 
+// dept
 declare type DeptTreeType = {
 	id: string;
 	deptName: string;
@@ -120,7 +136,6 @@ declare type DeptTreeType = {
 	children?: DeptTreeType[];
 };
 
-// dept
 declare interface RowDeptType extends DeptTreeType {
 	id: string;
 	parentId: string;

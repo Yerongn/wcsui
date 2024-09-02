@@ -1,47 +1,8 @@
 <template>
 	<div class="workflow-drawer-node">
 		<el-tabs type="border-card" v-model="state.tabsActive">
-			<!-- 节点编辑 -->
-			<el-tab-pane label="节点编辑" name="1">
-				<el-scrollbar>
-					<el-form :model="state.node" :rules="state.nodeRules" ref="nodeFormRef" size="default" label-width="80px" class="pt15 pr15 pb15 pl15">
-						<el-form-item label="数据id" prop="id">
-							<el-input v-model="state.node.id" placeholder="请输入数据id" clearable disabled></el-input>
-						</el-form-item>
-						<el-form-item label="节点id" prop="nodeId">
-							<el-input v-model="state.node.nodeId" placeholder="请输入节点id" clearable disabled></el-input>
-						</el-form-item>
-						<el-form-item label="类型" prop="type">
-							<el-input v-model="state.node.type" placeholder="请输入类型" clearable disabled></el-input>
-						</el-form-item>
-						<el-form-item label="left坐标" prop="left">
-							<el-input v-model="state.node.left" placeholder="请输入left坐标" clearable disabled></el-input>
-						</el-form-item>
-						<el-form-item label="top坐标" prop="top">
-							<el-input v-model="state.node.top" placeholder="请输入top坐标" clearable disabled></el-input>
-						</el-form-item>
-						<el-form-item label="icon图标" prop="icon">
-							<el-input v-model="state.node.icon" placeholder="请输入icon图标" clearable></el-input>
-						</el-form-item>
-						<el-form-item label="名称" prop="name">
-							<el-input v-model="state.node.name" placeholder="请输入名称" clearable></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-button class="mb15" @click="onNodeRefresh">
-								<SvgIcon name="ele-RefreshRight" />
-								重置
-							</el-button>
-							<el-button type="primary" class="mb15" @click="onNodeSubmit">
-								<SvgIcon name="ele-Check" />
-								保存
-							</el-button>
-						</el-form-item>
-					</el-form>
-				</el-scrollbar>
-			</el-tab-pane>
-
 			<!-- 扩展表单 -->
-			<el-tab-pane label="扩展表单" name="2">
+			<el-tab-pane label="节点编辑" name="1">
 				<el-scrollbar>
 					<el-form :model="state.form" ref="extendFormRef" size="default" label-width="80px" class="pt15 pr15 pb15 pl15">
 						<el-form-item
@@ -79,15 +40,55 @@
 					</el-form>
 				</el-scrollbar>
 			</el-tab-pane>
+			<!-- 节点编辑 -->
+			<el-tab-pane label="节点属性" name="2" disabled>
+				<el-scrollbar>
+					<el-form :model="state.node" :rules="state.nodeRules" ref="nodeFormRef" size="default" label-width="80px" class="pt15 pr15 pb15 pl15">
+						<el-form-item label="数据id" prop="id">
+							<el-input v-model="state.node.id" placeholder="请输入数据id" clearable disabled></el-input>
+						</el-form-item>
+						<el-form-item label="节点id" prop="nodeId">
+							<el-input v-model="state.node.nodeId" placeholder="请输入节点id" clearable disabled></el-input>
+						</el-form-item>
+						<el-form-item label="类型" prop="type">
+							<el-input v-model="state.node.type" placeholder="请输入类型" clearable disabled></el-input>
+						</el-form-item>
+						<el-form-item label="left坐标" prop="left">
+							<el-input v-model="state.node.left" placeholder="请输入left坐标" clearable disabled></el-input>
+						</el-form-item>
+						<el-form-item label="top坐标" prop="top">
+							<el-input v-model="state.node.top" placeholder="请输入top坐标" clearable disabled></el-input>
+						</el-form-item>
+						<el-form-item label="icon图标" prop="icon">
+							<el-input v-model="state.node.icon" placeholder="请输入icon图标" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="名称" prop="name">
+							<el-input v-model="state.node.name" placeholder="请输入名称" clearable></el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button class="mb15" @click="onNodeRefresh">
+								<SvgIcon name="ele-RefreshRight" />
+								重置
+							</el-button>
+							<el-button type="primary" class="mb15" @click="onNodeSubmit">
+								<SvgIcon name="ele-Check" />
+								保存
+							</el-button>
+						</el-form-item>
+					</el-form>
+				</el-scrollbar>
+			</el-tab-pane>
+			
 
-			<!-- 图表可视化 -->
-			<el-tab-pane label="图表可视化" name="3">
+			<!-- 图表可视化 
+			<el-tab-pane label="图表可视化" name="3" >
 				<el-scrollbar>
 					<div class="flex-content-right">
 						<div style="height: 200px; width: 320px" ref="chartsMonitorRef"></div>
 					</div>
 				</el-scrollbar>
 			</el-tab-pane>
+			-->
 		</el-tabs>
 	</div>
 </template>
