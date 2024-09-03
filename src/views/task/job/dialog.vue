@@ -13,18 +13,18 @@
 							<el-input v-model="state.ruleForm.groupName" placeholder="请输入任务组名" clearable></el-input>
 						</el-form-item>
 					</el-col>
-                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="任务类型">
 							<el-input v-model="state.ruleForm.jobType" placeholder="请输入任务类型" clearable></el-input>
 						</el-form-item>
 					</el-col>
-                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="程序集名称">
 							<el-input v-model="state.ruleForm.assemblyName" placeholder="请输入程序集" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-                        <el-form-item label="执行模式">
+						<el-form-item label="执行模式">
 							<el-switch v-model="state.ruleForm.concurrent" inline-prompt active-text="并行" inactive-text="串行"></el-switch>
 						</el-form-item>
 					</el-col>
@@ -71,7 +71,7 @@ const openDialog = async (type: string, row: JobType) => {
 		state.dialog.title = '修改任务';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = { } as JobType;
+		state.ruleForm = {} as JobType;
 		state.dialog.title = '新增任务';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用
