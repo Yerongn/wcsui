@@ -191,11 +191,22 @@ declare type ProcessFlowType = {
 declare type RuleEngineType = {
 	id: string;
 	ruleName: string;
-	workFlowId: string;
-	workFlowName: string;
+	workflowId: string;
+	workflowName: string;
 	deviceNo: string;
 	expression: string;
 	remark: string;
+	state: boolean;
+	orderNum: number;
+	creationTime: string;
+};
+
+// DeviceType
+declare type DeviceType = {
+	id: string;
+	deviceNo: string;
+	deviceType: string;
+	deviceBrand: string;
 	state: boolean;
 	orderNum: number;
 	creationTime: string;

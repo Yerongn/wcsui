@@ -10,12 +10,16 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="设备编号" prop="deviceNo" :rules="[{ required: true, message: '设备编号不能为空', trigger: 'blur' }]">
-							<el-input v-model="state.ruleForm.deviceNo" placeholder="请输入设备编号" clearable></el-input>
+							<el-select v-model="state.ruleForm.deviceNo" filterable placeholder="请选择" clearable class="w100">
+								<el-option v-for="item in state.deviceData" :key="item.id" :label="item.deviceNo" :value="item.deviceNo" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="工艺流程" prop="workFlowId" :rules="[{ required: true, message: '工艺流程不能为空', trigger: 'blur' }]">
-							<el-input v-model="state.ruleForm.workFlowId" placeholder="请输入工艺流程" clearable></el-input>
+						<el-form-item label="工艺流程" prop="workflowId" :rules="[{ required: true, message: '工艺流程不能为空', trigger: 'blur' }]">
+							<el-select v-model="state.ruleForm.workflowId" filterable placeholder="请选择" clearable class="w100">
+								<el-option v-for="item in state.processFlowData" :key="item.id" :label="item.processflowName" :value="item.id" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -43,6 +47,8 @@
 <script setup lang="ts" name="systemDeptDialog">
 import { reactive, ref } from 'vue';
 import { useRuleEngineApi } from '/@/api/ruleEngine';
+import { useDeviceApi } from '/@/api/device';
+import { useProcessFlowApi } from '/@/api/processflow';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -51,6 +57,8 @@ const guidEmpty = '00000000-0000-0000-0000-000000000000';
 // 定义变量内容
 const ruleEngineDialogFormRef = ref();
 const state = reactive({
+	deviceData: [] as DeviceType[], // 设备数据
+	processFlowData: [] as ProcessFlowType[], // 流程数据
 	ruleForm: {} as RuleEngineType,
 	dialog: {
 		isShowDialog: false,
@@ -61,7 +69,10 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = (type: string, row: RuleEngineType) => {
+const openDialog = async (type: string, row: RuleEngineType) => {
+	await getDeviceData();
+	await getProcessFlowData();
+
 	if (type === 'edit') {
 		state.ruleForm = row;
 		state.dialog.title = '修改规则';
@@ -101,6 +112,18 @@ const onSubmit = () => {
 		closeDialog(); // 关闭弹窗
 		emit('refresh');
 	});
+};
+
+// 获取下拉数据
+const getDeviceData = async () => {
+	const response = await useDeviceApi().getDeviceList();
+	state.deviceData = response.items;
+};
+
+// 获取下拉数据
+const getProcessFlowData = async () => {
+	const response = await useProcessFlowApi().getProcessFlowList();
+	state.processFlowData = response.items;
 };
 
 // 暴露变量

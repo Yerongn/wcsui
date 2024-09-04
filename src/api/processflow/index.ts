@@ -49,6 +49,12 @@ export function useProcessFlowApi() {
 				method: 'get',
 			});
 		},
+		getProcessFlowList: () => {
+			return request({
+				url: '/process-flow/process-flow-list',
+				method: 'get',
+			});
+		},
 		getProcess: () => {
 			return request({
 				url: '/process-flow/process',

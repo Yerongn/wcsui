@@ -32,7 +32,7 @@
 				<el-table-column prop="ruleName" label="规则名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="expression" label="规则表达式" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="deviceNo" label="设备号" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="workFlowName" label="流程名称" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="workflowName" label="流程名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="state" label="规则状态" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.state">启用</el-tag>
@@ -48,6 +48,19 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<el-pagination
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:pager-count="5"
+				:page-sizes="[10, 20, 30]"
+				v-model:current-page="state.tableData.queryParams.skipCount"
+				background
+				v-model:page-size="state.tableData.queryParams.maxResultCount"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="state.tableData.total"
+			>
+			</el-pagination>
 		</el-card>
 		<RuleEngineDialog ref="processFlowDialogRef" @refresh="getTableData()" />
 	</div>
@@ -69,6 +82,8 @@ const state = reactive({
 		total: 0,
 		loading: false,
 		queryParams: {
+			skipCount: 1,
+			maxResultCount: 10,
 			ruleName: '',
 		},
 	},
@@ -103,6 +118,18 @@ const onTabelRowDel = (row: RuleEngineType) => {
 		})
 		.catch(() => {});
 };
+
+// 分页改变
+const onHandleSizeChange = (val: number) => {
+	state.tableData.queryParams.maxResultCount = val;
+	getTableData();
+};
+// 分页改变
+const onHandleCurrentChange = (val: number) => {
+	state.tableData.queryParams.skipCount = val;
+	getTableData();
+};
+
 // 页面加载时
 onMounted(() => {
 	getTableData();

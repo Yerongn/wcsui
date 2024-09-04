@@ -46,6 +46,19 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<el-pagination
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:pager-count="5"
+				:page-sizes="[10, 20, 30]"
+				v-model:current-page="state.tableData.queryParams.skipCount"
+				background
+				v-model:page-size="state.tableData.queryParams.maxResultCount"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="state.tableData.total"
+			>
+			</el-pagination>
 		</el-card>
 		<ProcessFlowDialog ref="processFlowDialogRef" @refresh="getTableData()" />
 	</div>
@@ -67,6 +80,8 @@ const state = reactive({
 		total: 0,
 		loading: false,
 		queryParams: {
+			skipCount: 1,
+			maxResultCount: 10,
 			processflowName: '',
 		},
 	},
@@ -101,6 +116,18 @@ const onTabelRowDel = (row: ProcessFlowType) => {
 		})
 		.catch(() => {});
 };
+
+// 分页改变
+const onHandleSizeChange = (val: number) => {
+	state.tableData.queryParams.maxResultCount = val;
+	getTableData();
+};
+// 分页改变
+const onHandleCurrentChange = (val: number) => {
+	state.tableData.queryParams.skipCount = val;
+	getTableData();
+};
+
 // 页面加载时
 onMounted(() => {
 	getTableData();
