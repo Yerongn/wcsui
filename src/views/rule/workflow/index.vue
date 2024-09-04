@@ -72,8 +72,6 @@ import { defineAsyncComponent, reactive, onMounted, onUnmounted, nextTick, ref }
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { jsPlumb } from 'jsplumb';
 import Sortable from 'sortablejs';
-import { storeToRefs } from 'pinia';
-import { useThemeConfig } from '/@/stores/themeConfig';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import commonFunction from '/@/utils/commonFunction';
 import { leftNavList } from './js/mock';
@@ -96,8 +94,6 @@ const contextmenuLineRef = ref();
 const drawerRef = ref();
 const helpRef = ref();
 const stores = useTagsViewRoutes();
-const storesThemeConfig = useThemeConfig();
-const { themeConfig } = storeToRefs(storesThemeConfig);
 const { copyText } = commonFunction();
 const state = reactive<WorkflowState>({
 	leftNavList: [],

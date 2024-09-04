@@ -78,7 +78,6 @@
 					</el-form>
 				</el-scrollbar>
 			</el-tab-pane>
-			
 
 			<!-- 图表可视化 
 			<el-tab-pane label="图表可视化" name="3" >
@@ -97,9 +96,7 @@
 import { reactive, ref, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 import * as echarts from 'echarts';
-import { cwd } from 'process';
 import { useProcessFlowApi } from '/@/api/processflow';
-import { Label } from 'konva/lib/shapes/Label';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['submit', 'close']);

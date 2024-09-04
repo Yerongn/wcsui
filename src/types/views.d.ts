@@ -187,6 +187,20 @@ declare type ProcessFlowType = {
 	creationTime: string;
 };
 
+// RuleEngineType
+declare type RuleEngineType = {
+	id: string;
+	ruleName: string;
+	workFlowId: string;
+	workFlowName: string;
+	deviceNo: string;
+	expression: string;
+	remark: string;
+	state: boolean;
+	orderNum: number;
+	creationTime: string;
+};
+
 /**
  * views pages
  */

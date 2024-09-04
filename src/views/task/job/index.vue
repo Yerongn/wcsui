@@ -2,9 +2,10 @@
 	<div class="system-job-container layout-padding">
 		<el-card shadow="hover" class="layout-padding-auto">
 			<div class="system-job-search mb15">
-				<el-input size="default" placeholder="请输入任务名称" v-model="state.tableData.queryParams.jobId" style="max-width: 180px" > </el-input>
-				<el-input size="default" placeholder="请输入任务组名" v-model="state.tableData.queryParams.groupName" style="max-width: 180px" class="ml10"> </el-input>
-                <el-button size="default" type="primary" @click="getTableData" class="ml10">
+				<el-input size="default" placeholder="请输入任务名称" v-model="state.tableData.queryParams.jobId" style="max-width: 180px"> </el-input>
+				<el-input size="default" placeholder="请输入任务组名" v-model="state.tableData.queryParams.groupName" style="max-width: 180px" class="ml10">
+				</el-input>
+				<el-button size="default" type="primary" @click="getTableData" class="ml10">
 					<el-icon>
 						<ele-Search />
 					</el-icon>
@@ -23,22 +24,20 @@
 				<el-table-column prop="groupName" label="任务组名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="jobType" label="任务类型" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="assemblyName" label="程序集" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="assemblyName" label="程序集" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="assemblyName" label="程序集" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="status" label="任务状态" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="concurrent" label="执行方式" show-overflow-tooltip>
+				<el-table-column prop="concurrent" label="执行方式" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.state">并行</el-tag>
+						<el-tag type="success" v-if="scope.row.concurrent">并行</el-tag>
 						<el-tag type="info" v-else>串行</el-tag>
 					</template>
 				</el-table-column>
-                <el-table-column prop="triggerArgs" label="触发器参数" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="triggerArgs" label="触发器参数" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="description" label="任务描述" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="updatedTime" label="最后执行时间" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="100">
 					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onOpenEditUser('edit', scope.row)"
-							>修改</el-button
-						>
+						<el-button size="small" text type="primary" @click="onOpenEditUser('edit', scope.row)">修改</el-button>
 						<el-button size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -77,7 +76,7 @@ const state = reactive({
 		total: 0,
 		loading: false,
 		queryParams: {
-            jobId: '',
+			jobId: '',
 			groupName: '',
 			skipCount: 1,
 			maxResultCount: 10,
