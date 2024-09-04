@@ -212,6 +212,26 @@ declare type DeviceType = {
 	creationTime: string;
 };
 
+// DriveType
+declare type DriveType = {
+	id: string;
+	driveName: string;
+	driveType: string;
+	driveargs: DriveargType[];
+	state: boolean;
+	remark: string;
+	orderNum: number;
+	creationTime: string;
+};
+
+// DriveargType
+declare type DriveargType = {
+	id: string;
+	propertyName: string;
+	propertyValue: string;
+	propertyDesc: string;
+};
+
 /**
  * views pages
  */
