@@ -9,8 +9,10 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="驱动类型">
-							<el-input v-model="state.ruleForm.driveType" placeholder="请输入驱动类型" clearable></el-input>
+						<el-form-item label="驱动类型" prop="driveType" :rules="[{ required: true, message: '驱动类型不能为空', trigger: 'blur' }]">
+							<el-select v-model="state.ruleForm.driveType" placeholder="请选择" clearable class="w100" @change="onDriveTypeChange">
+								<el-option v-for="item in state.driveType" :key="item.driveType" :label="item.driveType" :value="item.driveType" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -56,7 +58,8 @@ const guidEmpty = '00000000-0000-0000-0000-000000000000';
 // 定义变量内容
 const driveDialogFormRef = ref();
 const state = reactive({
-	ruleForm: {} as DriveType,
+	ruleForm: {} as Drive,
+	driveType: [] as DriveType[],
 	dialog: {
 		isShowDialog: false,
 		type: '',
@@ -66,13 +69,16 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = async (type: string, row: DriveType) => {
+const openDialog = async (type: string, row: Drive) => {
+	const response = await useDriveApi().geDriveTypeAndArg();
+	state.driveType = response.items;
+
 	if (type === 'edit') {
 		state.ruleForm = row;
 		state.dialog.title = '修改驱动';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = {} as DriveType;
+		state.ruleForm = {} as Drive;
 		state.dialog.title = '新增驱动';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用
@@ -103,6 +109,11 @@ const onSubmit = () => {
 		closeDialog(); // 关闭弹窗
 		emit('refresh');
 	});
+};
+
+const onDriveTypeChange = (value: string) => {
+	const driveType = state.driveType.find((d) => d.driveType === value);
+	state.ruleForm.driveargs = driveType?.driveargs ?? [];
 };
 
 // 暴露变量

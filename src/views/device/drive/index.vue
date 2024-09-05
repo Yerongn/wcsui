@@ -67,7 +67,7 @@ const DriveDialog = defineAsyncComponent(() => import('/@/views/device/drive/dia
 const driveDialogRef = ref();
 const state = reactive({
 	tableData: {
-		data: [] as DriveType[],
+		data: [] as Drive[],
 		total: 0,
 		loading: false,
 		queryParams: {

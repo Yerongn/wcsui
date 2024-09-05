@@ -42,5 +42,11 @@ export function useDriveApi() {
 				method: 'get',
 			});
 		},
+		geDriveTypeAndArg: () => {
+			return request({
+				url: '/drive/drive-type-and-arg',
+				method: 'get',
+			});
+		},
 	};
 }
