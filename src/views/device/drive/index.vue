@@ -91,11 +91,11 @@ const onOpenAddDrive = (type: string) => {
 	driveDialogRef.value.openDialog(type);
 };
 // 打开修改用户弹窗
-const onOpenEditDrive = (type: string, row: DriveType) => {
+const onOpenEditDrive = (type: string, row: Drive) => {
 	driveDialogRef.value.openDialog(type, row);
 };
 // 删除用户
-const onRowDel = (row: DriveType) => {
+const onRowDel = (row: Drive) => {
 	ElMessageBox.confirm(`此操作将永久删除账户名称：“${row.driveName}”，是否继续?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
