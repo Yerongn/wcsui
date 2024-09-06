@@ -4,7 +4,7 @@
 			<el-form ref="driveDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="账户驱动">
+						<el-form-item label="驱动名称">
 							<el-input v-model="state.ruleForm.driveName" placeholder="请输入驱动名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -53,7 +53,6 @@ import { useDriveApi } from '/@/api/drive';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
-const guidEmpty = '00000000-0000-0000-0000-000000000000';
 
 // 定义变量内容
 const driveDialogFormRef = ref();

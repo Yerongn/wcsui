@@ -239,6 +239,39 @@ declare type DriveargType = {
 	propertyDesc: string;
 };
 
+// GroupType
+declare type Group = {
+	id: string;
+	groupName: string;
+	driveName: string;
+	scanInterval: number;
+	driveId: string;
+	driveargs: DriveargType[];
+	state: boolean;
+	remark: string;
+	orderNum: number;
+	creationTime: string;
+};
+
+// Sharp7DeviceProtocol
+declare type Sharp7DeviceProtocol = {
+	id: string;
+	groupId: string;
+	groupName: string;
+	deviceNo: string;
+	protocolId: string;
+	protocol: string;
+	driveName: string;
+	dbNumber: string;
+	startByte: string;
+	dataLength: number;
+	transmissionMode: string;
+	state: boolean;
+	remark: string;
+	orderNum: number;
+	creationTime: string;
+};
+
 /**
  * views pages
  */
