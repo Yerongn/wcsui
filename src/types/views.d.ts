@@ -218,7 +218,7 @@ declare type Drive = {
 	driveName: string;
 	driveType: string;
 	driveargs: DriveargType[];
-	state: boolean;
+	state: boolean = true;
 	remark: string;
 	orderNum: number;
 	creationTime: string;

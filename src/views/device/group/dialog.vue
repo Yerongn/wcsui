@@ -9,7 +9,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="设备驱动" prop="groupType" :rules="[{ required: true, message: '设备驱动不能为空', trigger: 'blur' }]">
+						<el-form-item label="设备驱动" prop="driveId" :rules="[{ required: true, message: '设备驱动不能为空', trigger: 'blur' }]">
 							<el-select v-model="state.ruleForm.driveId" placeholder="请选择" clearable class="w100">
 								<el-option v-for="item in state.drives" :key="item.id" :label="item.driveName" :value="item.id" />
 							</el-select>
@@ -73,7 +73,7 @@ const openDialog = async (type: string, row: Group) => {
 		state.dialog.title = '修改分组';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = {} as Group;
+		state.ruleForm = { state: true, scanInterval: 500 } as Group;
 		state.dialog.title = '新增分组';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用

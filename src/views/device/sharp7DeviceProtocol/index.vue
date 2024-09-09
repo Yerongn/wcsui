@@ -13,7 +13,7 @@
 					<el-icon>
 						<ele-FolderAdd />
 					</el-icon>
-					新增分组
+					新增设备协议
 				</el-button>
 			</div>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
