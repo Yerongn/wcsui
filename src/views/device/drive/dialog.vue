@@ -77,7 +77,7 @@ const openDialog = async (type: string, row: Drive) => {
 		state.dialog.title = '修改驱动';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = {} as Drive;
+		state.ruleForm = { state: true } as Drive;
 		state.dialog.title = '新增驱动';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用
