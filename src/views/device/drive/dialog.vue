@@ -32,7 +32,11 @@
 					<el-table-column prop="propertyName" label="属性名称" width="180" />
 					<el-table-column prop="propertyValue" label="属性值">
 						<template #default="{ row }">
-							<el-input v-model="row.propertyValue"></el-input>
+							<el-select v-if="row.propertyName === 'CpuType'" v-model="row.propertyValue" placeholder="请选择" clearable class="w100">
+								<el-option v-for="item in state.cpuType" :key="item.dicValue" :label="item.dicLabel" :value="item.dicValue" />
+							</el-select>
+
+							<el-input v-else v-model="row.propertyValue"></el-input>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -50,6 +54,7 @@
 <script setup lang="ts" name="systemDriveDialog">
 import { reactive, ref } from 'vue';
 import { useDriveApi } from '/@/api/drive';
+import { useDicApi } from '/@/api/dic';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -59,6 +64,7 @@ const driveDialogFormRef = ref();
 const state = reactive({
 	ruleForm: {} as Drive,
 	driveType: [] as DriveType[],
+	cpuType: [] as ListType[],
 	dialog: {
 		isShowDialog: false,
 		type: '',
@@ -69,8 +75,11 @@ const state = reactive({
 
 // 打开弹窗
 const openDialog = async (type: string, row: Drive) => {
-	const response = await useDriveApi().geDriveTypeAndArg();
+	let response = await useDriveApi().geDriveTypeAndArg();
 	state.driveType = response.items;
+
+	response = await useDicApi().getDicsByDicType('CpuType');
+	state.cpuType = response.items;
 
 	if (type === 'edit') {
 		state.ruleForm = row;

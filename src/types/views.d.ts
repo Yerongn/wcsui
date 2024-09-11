@@ -157,6 +157,7 @@ type ListType = {
 	id: string;
 	dicLabel: string;
 	dicValue: string;
+	orderNum: number;
 };
 
 declare interface RowDicType {

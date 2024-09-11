@@ -99,9 +99,10 @@ const onRowDel = (row: RowDicType) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	})
-		.then(() => {
-			getTableData();
+		.then(async () => {
+			await useDicApi().delDic(row.id);
 			ElMessage.success('删除成功');
+			getTableData();
 		})
 		.catch(() => {});
 };

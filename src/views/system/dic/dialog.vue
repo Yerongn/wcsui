@@ -81,6 +81,7 @@ const state = reactive({
 		title: '',
 		submitTxt: '',
 	},
+	index: 0,
 });
 
 // 打开弹窗
@@ -89,11 +90,12 @@ const openDialog = (type: string, row: RowDicType) => {
 		state.ruleForm = row;
 		state.dialog.title = '修改字典';
 		state.dialog.submitTxt = '修 改';
+		state.index = state.ruleForm.dictionaries.at(-1)?.orderNum ?? 0;
 	} else {
 		state.dialog.title = '新增字典';
 		state.dialog.submitTxt = '新 增';
 
-		state.ruleForm = { id: guidEmpty, state: true, dictionaries: [{ id: guidEmpty, dicLabel: '', dicValue: '' }] } as RowDicType;
+		state.ruleForm = { id: guidEmpty, state: true, dictionaries: [{ id: guidEmpty, dicLabel: '', dicValue: '', orderNum: 0 }] } as RowDicType;
 		// 清空表单，此项需加表单验证才能使用
 		// nextTick(() => {
 		// 	dicDialogFormRef.value.resetFields();
@@ -125,10 +127,13 @@ const onSubmit = () => {
 };
 // 新增行
 const onAddRow = () => {
+	state.index++;
+
 	state.ruleForm.dictionaries.push({
 		id: guidEmpty,
 		dicLabel: '',
 		dicValue: '',
+		orderNum: state.index,
 	});
 };
 // 删除行
