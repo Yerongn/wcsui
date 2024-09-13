@@ -91,7 +91,7 @@ const openDialog = async (type: string, row: Sharp7DeviceProtocol) => {
 		state.dialog.title = '修改分组';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = {} as Sharp7DeviceProtocol;
+		state.ruleForm = { state: true } as Sharp7DeviceProtocol;
 		state.dialog.title = '新增分组';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用

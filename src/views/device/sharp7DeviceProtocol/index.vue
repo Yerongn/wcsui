@@ -23,6 +23,7 @@
 				<el-table-column prop="dbNumber" label="Db块编号" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="startByte" label="起始偏移量" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="dataLength" label="数据长度" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="groupName" label="分组" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="state" label="状态" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.state">启用</el-tag>
