@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg"  width="3840" height="3840" preserveAspectRatio="xMinYMin meet" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="146.95974731445312 105.85408782958984 3634.080322265625 3600.285400390625"><rect id="svgEditorBackground" x="146.95974731445312" y="105.85408782958984" width="3634.080322265625" height="3600.285400390625" style="fill:none;stroke:none"/>
+ <defs id="svgEditorDefs">
+  <linearGradient id="svg_22" spreadMethod="reflect" x1="0.52" x2="0" y1="0.42" y2="0.41">
+   <stop id="jq_stop_9744" offset="0" stop-color="#e5e5e5"/>
+   <stop id="jq_stop_1390" offset="1" stop-color="#1a1a1a"/>
+  </linearGradient>
+ </defs>
+ <g class="layer" transform="matrix(0 -1 1 0 58.0031 3870)">
+  <title>Layer 1</title>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="e4_rectangle" stroke="black" stroke-width="1px" transform="matrix(1 0 0 1 0 0) matrix(0 1 -1.04441 0 4533.75 -329.653)" width="318.07" x="539.14" y="1025.17"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_23" stroke="black" stroke-width="1px" transform="matrix(0 1 -1.04719 0 4544.53 -329.653)" width="318.07" x="1126.62" y="1019.5"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_24" stroke="black" stroke-width="1px" transform="matrix(-1 0 0 -1.25122 2539.65 7240.01)" width="318.07" x="2074.62" y="2827.54"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_25" stroke="black" stroke-width="1px" transform="matrix(1 0 0 1 0 0) matrix(-1 0 0 -1.25122 2539.65 7240.01)" width="318.07" x="-1241.39" y="2824.34"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_26" stroke="black" stroke-width="1px" transform="matrix(1 0 0 1 0 0) matrix(0 1 -1.04719 0 4544.53 -329.653)" width="318.07" x="1766.62" y="1021.4"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_27" stroke="black" stroke-width="1px" transform="matrix(1 0 0 1 0 0) matrix(0 1 -1.04719 0 4544.53 -329.653)" width="318.07" x="2326.62" y="1029.04"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_28" stroke="black" stroke-width="1px" transform="matrix(1 0 0 1 0 0) matrix(0 1 -1.04719 0 4544.53 -329.653)" width="318.07" x="2930.62" y="1029.04"/>
+  <rect fill="url(#svg_22)" fill-opacity="0.7" height="2874.22" id="svg_29" stroke="black" stroke-width="1px" transform="matrix(0 1 -1.04719 0 4544.53 -329.653)" width="318.07" x="3554.62" y="1021.4"/>
+  <path d="m2068.03,2172.1l6,-5.98l6,5.98l-3,0l0,6.01l-6,0l0,-6.01l-3,0z" fill="url(#svg_22)" fill-opacity="0.7" id="svg_2" stroke="black"/>
+ </g>
+</svg>

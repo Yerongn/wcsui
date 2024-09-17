@@ -68,11 +68,14 @@
 </template>
 
 <script lang="ts">
-import Convery from './component/device/convery/index.vue';
+import ConveryTransverse from './component/device/convery-transverse/index.vue';
+
+import ConveryPortrait from './component/device/convery-portrait/index.vue';
 
 export default {
 	components: {
-		convery: Convery,
+		converyPortrait: ConveryPortrait,
+		converyTransverse: ConveryTransverse,
 	},
 };
 </script>
@@ -94,12 +97,6 @@ const Tool = defineAsyncComponent(() => import('./component/tool/index.vue'));
 
 const Node = defineAsyncComponent(() => import('./component/node/index.vue'));
 
-const image = new window.Image();
-image.src = 'device/Convery-Transverse.svg';
-image.onload = () => {
-	// set image only when it is loaded
-	state.image = image;
-};
 // 定义变量内容
 const leftNavRefs = ref([]);
 const canvasRightRef = ref();
@@ -127,7 +124,6 @@ const state = reactive({
 	selectedShapeName: '',
 	selected: [] as Array<any>,
 	selectionRectangle: { x: 0, y: 0, width: 0, height: 0, visible: false, listening: false, fill: 'rgba(230,230,250,0.5)' },
-	image: null as unknown,
 });
 
 // 设置 宽度小于 768，不支持操
@@ -232,7 +228,7 @@ const handleStageMouseDown = (e: any) => {
 		// 查询选中的id
 		let id = e.target.id() === '' ? e.target.getParent().id() : e.target.id();
 		const rect = state.componentData.find((r) => r.config.id === id);
-		devicePropertiesRef.value.getAttrs(rect?.config);
+		devicePropertiesRef.value.getAttrs(rect?.component, rect?.config, shape);
 	} else if (metaPressed && isSelected) {
 		// 如果按键且已经选中，取消选择
 		state.selected.splice(state.selected.indexOf(shape), 1);
@@ -509,7 +505,7 @@ const onDragend = (e: any) => {
 			// 查询选中的id
 			let id = e.target.id() === '' ? e.target.getParent().id() : e.target.id();
 			const rect = state.componentData.find((r) => r.config.id === id);
-			devicePropertiesRef.value.getAttrs(rect?.config);
+			devicePropertiesRef.value.getAttrs(rect?.component, rect?.config, e.target);
 		}
 	}
 

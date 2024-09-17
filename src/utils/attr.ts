@@ -1,13 +1,9 @@
 export const styleData = [
-	{ key: 'deviceNo', label: '设备号' },
-	{ key: 'text', label: '文本' },
 	{ key: 'x', label: 'x 坐标' },
 	{ key: 'y', label: 'y 坐标' },
 	{ key: 'scaleX', label: 'x 缩放比' },
 	{ key: 'scaleY', label: 'y 缩放比' },
 	{ key: 'rotation', label: '旋转角度' },
-	{ key: 'width', label: '宽' },
-	{ key: 'height', label: '高' },
 	{ key: 'color', label: '颜色' },
 	{ key: 'backgroundColor', label: '背景色' },
 	{ key: 'borderWidth', label: '边框宽度' },
