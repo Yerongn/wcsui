@@ -889,6 +889,7 @@ onUnmounted(() => {
 						border: 1px dashed transparent;
 						background: var(--next-bg-color);
 						border-radius: 3px;
+						user-select: none;
 						i,
 						.name {
 							color: var(--el-text-color-secondary);
