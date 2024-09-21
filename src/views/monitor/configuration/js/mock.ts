@@ -134,6 +134,31 @@ export const leftNavList = [
 		children: [
 			{
 				icon: 'iconfont icon-fuwenben',
+				name: '电控柜',
+				id: '26',
+				componentType: 'cabinet',
+				config: {
+					x: 20,
+					y: 50,
+					width: 50,
+					height: 50,
+					deviceNo: '1001',
+					name: '1',
+					rotation: 0,
+					scaleX: 1,
+					scaleY: 1,
+					draggable: true,
+				},
+				form: [
+					{
+						type: 'input',
+						label: '活动名称7',
+						prop: 'name21',
+					},
+				],
+			},
+			{
+				icon: 'iconfont icon-fuwenben',
 				name: '输送线-横向',
 				id: '21',
 				componentType: 'converyTransverse',
@@ -160,7 +185,7 @@ export const leftNavList = [
 			{
 				icon: 'iconfont icon-fuwenben',
 				name: '输送线-纵向',
-				id: '21',
+				id: '22',
 				componentType: 'converyPortrait',
 				config: {
 					x: 20,
@@ -185,7 +210,7 @@ export const leftNavList = [
 			{
 				icon: 'iconfont icon-fuwenben',
 				name: '输送线-半圆',
-				id: '21',
+				id: '23',
 				componentType: 'converyHalfCircle',
 				config: {
 					x: 20,
@@ -210,7 +235,7 @@ export const leftNavList = [
 			{
 				icon: 'iconfont icon-fuwenben',
 				name: '输送线-1/4圆',
-				id: '21',
+				id: '24',
 				componentType: 'convery1/4Circle',
 				config: {
 					x: 20,

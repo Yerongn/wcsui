@@ -8,7 +8,6 @@
 			}"
 		>
 		</v-image>
-
 		<v-text
 			:config="{
 				y: props.config.height, //
@@ -21,12 +20,10 @@
 				scaleY: 1,
 			}"
 		/>
-
-		<v-rect :config="{ x: 10, y: 10, width: props.config.width - 20, height: props.config.height - 20, fill: '#e6e6e6' }"></v-rect>
 	</v-group>
 </template>
 
-<script setup lang="ts" name="converyTransverse">
+<script setup lang="ts" name="converyPortrait">
 import { reactive } from 'vue';
 
 const props = defineProps(['config']);
@@ -35,7 +32,7 @@ const state = reactive({
 	image: null as any,
 });
 const image = new window.Image();
-image.src = 'device/Convery-Transverse.svg';
+image.src = 'device/Cabinet.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;

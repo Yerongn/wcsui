@@ -72,10 +72,13 @@ import ConveryTransverse from './component/device/convery-transverse/index.vue';
 
 import ConveryPortrait from './component/device/convery-portrait/index.vue';
 
+import Cabinet from './component/device/cabinet/index.vue';
+
 export default {
 	components: {
 		converyPortrait: ConveryPortrait,
 		converyTransverse: ConveryTransverse,
+		cabinet: Cabinet,
 	},
 };
 </script>
@@ -157,6 +160,9 @@ const initSortable = () => {
 			sort: false,
 			draggable: '.canvas-left-item',
 			forceFallback: true,
+			ondragstart: function (evt: any) {
+				evt.preventDefault();
+			},
 			onEnd: function (evt: any) {
 				const { id, type } = evt.clone.dataset;
 				const { clientX, clientY } = evt.originalEvent;
@@ -879,6 +885,7 @@ onUnmounted(() => {
 					width: calc(50% - 15px);
 					position: relative;
 					cursor: move;
+					user-select: none;
 					margin: 0 0 10px 10px;
 					.canvas-left-item-icon {
 						height: 35px;
