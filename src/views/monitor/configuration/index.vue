@@ -114,6 +114,7 @@ const stores = useTagsViewRoutes();
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 var GUIDELINE_OFFSET = 5;
+
 const state = reactive({
 	leftNavList: [] as Array<any>,
 	componentData: [] as Array<CanvasComponent>,
@@ -190,6 +191,9 @@ const initSortable = () => {
 					config.y = mousePos.y - stageY;
 					config.name = 'object';
 					config.id = nodeId;
+					if (type.startsWith('convery')) {
+						config.deviceNo = getMaxDeviceNo();
+					}
 					const node = {
 						id: nodeId,
 						component: type,
@@ -660,6 +664,22 @@ const onTextDblclick = (e: any) => {
 	});
 };
 
+const getMaxDeviceNo = () => {
+	var converys = state.componentData.filter((c: CanvasComponent) => c.component.startsWith('convery'));
+	const maxConvery = converys.reduce(
+		(max: CanvasComponent, component: CanvasComponent) => (component.config.deviceNo > max.config.deviceNo ? component : max),
+		{
+			id: '',
+			component: '',
+			config: {
+				deviceNo: '1000',
+			},
+		}
+	);
+
+	return parseInt(maxConvery.config.deviceNo) + 1;
+};
+
 // 初始化 Konva
 const initKonva = () => {
 	let ele = document.getElementById('canvas');
@@ -806,6 +826,43 @@ const onToolSubmit = async () => {
 };
 // 顶部工具栏-复制
 const onToolCopy = () => {
+	if (state.selected.length !== 1) return;
+
+	// 查询选中的id
+	let id = state.selected[0].id() === '' ? state.selected[0].getParent().id() : state.selected[0].id();
+
+	const rect = state.componentData.find((r) => r.config.id === id);
+
+	if (rect === undefined) return;
+
+	const nodeId = Math.random().toString(36).substr(2, 12) + 'object';
+	// 处理节点数据
+
+	let config: any;
+	config = { ...rect.config };
+	config.x = rect.config.x + rect.config.width;
+	config.y = rect.config.y;
+	config.name = 'object';
+	config.id = nodeId;
+	if (rect.component.startsWith('convery')) {
+		config.deviceNo = getMaxDeviceNo();
+	}
+	const node = {
+		id: nodeId,
+		component: rect.component,
+		config: config,
+	};
+	// 右侧视图内容数组
+	state.componentData.push(node);
+
+	nextTick(() => {
+		var st = stage.value.getStage();
+		var device = st.findOne('#' + nodeId);
+		state.selected = [device];
+
+		transformer.value.getNode().nodes(state.selected);
+	});
+
 	//	copyText(JSON.stringify(state.jsplumbData));
 };
 // 顶部工具栏-删除
@@ -819,6 +876,7 @@ const onToolDel = () => {
 				//	state.jsPlumb.removeAllEndpoints(v.nodeId);
 			});
 			nextTick(() => {
+				state.componentData = [];
 				// state.jsplumbData = {nodeList: [],	lineList: [],};
 				ElMessage.success('清空画布成功');
 			});
@@ -896,6 +954,7 @@ onUnmounted(() => {
 						border: 1px dashed transparent;
 						background: var(--next-bg-color);
 						border-radius: 3px;
+						user-select: none;
 						i,
 						.name {
 							color: var(--el-text-color-secondary);
