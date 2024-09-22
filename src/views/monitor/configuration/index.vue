@@ -4,7 +4,7 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" :config="state.stageSize" />
+				<Tool @tool="onToolClick" @setStageHeight="setStageHeight" @set-stage-width="setStageWidth" :config="state.stageSize" />
 				<!-- 左侧导航区 -->
 				<div class="canvas-content">
 					<div class="canvas-left">
@@ -73,6 +73,7 @@ import ConveryPortrait from './component/device/convery-portrait/index.vue';
 import Cabinet from './component/device/cabinet/index.vue';
 import GoodsShelves from './component/device/goodsShelves/index.vue';
 import StackerCrane from './component/device/StackerCrane/index.vue';
+import { stat } from 'fs';
 
 export default {
 	components: {
@@ -148,6 +149,11 @@ const initLeftNavList = async () => {
 		device.config = JSON.parse(device.config);
 		return device;
 	});
+
+	state.stageSize.width = respond.stageWidth;
+	state.stageSize.height = respond.stageHeight;
+	state.stageSize.scaleX = respond.stageScale;
+	state.stageSize.scaleY = respond.stageScale;
 
 	// 查询接口数据
 	state.componentData = componentData;
@@ -686,9 +692,9 @@ const getMaxDeviceNo = () => {
 
 // 初始化 Konva
 const initKonva = () => {
-	let ele = document.getElementById('canvas');
-	state.stageSize.width = ele?.offsetWidth ?? 800;
-	state.stageSize.height = ele?.offsetHeight ?? 800;
+	// let ele = document.getElementById('canvas');
+	// state.stageSize.width = ele?.offsetWidth ?? 800;
+	// state.stageSize.height = ele?.offsetHeight ?? 800;
 
 	var st = stage.value.getStage();
 	var container = st.container();
@@ -773,6 +779,18 @@ const handleDeleteKeyDown = (e: any) => {
 	state.selected = [];
 };
 
+const setStageHeight = (value: number) => {
+	var st = stage.value.getStage();
+	st.height(Math.floor(value));
+	state.stageSize.height = Math.floor(value);
+};
+
+const setStageWidth = (value: number) => {
+	var st = stage.value.getStage();
+	st.width(Math.floor(value));
+	state.stageSize.width = Math.floor(value);
+};
+
 // 顶部工具栏-当前项点击
 const onToolClick = (fnName: String) => {
 	switch (fnName) {
@@ -831,7 +849,15 @@ const onToolSubmit = async () => {
 		return device;
 	});
 
-	var data = { id: '017bcd59-38bf-f00d-3436-3a11d8ebe1cc', AreaName: '入库区域监控', monitorDevices: componentData };
+	var data = {
+		id: '017bcd59-38bf-f00d-3436-3a11d8ebe1cc',
+		areaName: '入库区域监控',
+		monitorDevices: componentData,
+		stageWidth: state.stageSize.width,
+		stageHeight: state.stageSize.height,
+		stageScale: state.stageSize.scaleX,
+	};
+
 	await useMonitorApi().updateMonitor(data);
 
 	ElMessage.success('数据提交成功');
@@ -997,7 +1023,7 @@ onUnmounted(() => {
 			.canvas-right {
 				flex: 1;
 				position: relative;
-				overflow: hidden;
+				overflow: auto;
 				height: 100%;
 				background-image: linear-gradient(90deg, rgb(156 214 255 / 15%) 10%, rgba(0, 0, 0, 0) 10%),
 					linear-gradient(rgb(156 214 255 / 15%) 10%, rgba(0, 0, 0, 0) 10%);

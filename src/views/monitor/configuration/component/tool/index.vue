@@ -4,10 +4,10 @@
 
 		<div class="workflow-tool-right">
 			<el-text size="small"> W: </el-text>
-			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small"></el-input>
+			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small" @change="widthValueChange"></el-input>
 
 			<el-text size="small"> H: </el-text>
-			<el-input v-model="state.height" style="width: 80px; padding: 5px 10px" size="small" />
+			<el-input v-model="state.height" style="width: 80px; padding: 5px 10px" size="small" @change="heightValueChange" />
 
 			<div class="workflow-tool-icon" title="放大" @click="onToolClick('zoomIn')">
 				<SvgIcon name="ele-ZoomIn" />
@@ -34,7 +34,7 @@ import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 
 // 定义子组件向父组件传值/事件
-const emit = defineEmits(['tool']);
+const emit = defineEmits(['tool', 'setStageWidth', 'setStageHeight']);
 
 const props = defineProps(['config']);
 
@@ -53,6 +53,14 @@ const state = reactive({
 		{ icon: 'ele-FullScreen', title: '全屏', fnName: 'fullscreen' },
 	],
 });
+
+const widthValueChange = () => {
+	emit('setStageWidth', state.width);
+};
+
+const heightValueChange = () => {
+	emit('setStageHeight', state.height);
+};
 
 // 设置 tool 标题
 const setToolTitle = computed(() => {
