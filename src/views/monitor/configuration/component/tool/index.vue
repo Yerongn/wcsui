@@ -1,6 +1,25 @@
 <template>
 	<div class="workflow-tool">
 		<div class="pl15">{{ setToolTitle }}</div>
+
+		<div class="workflow-tool-right">
+			<el-text size="small"> W: </el-text>
+			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small"></el-input>
+
+			<el-text size="small"> H: </el-text>
+			<el-input v-model="state.height" style="width: 80px; padding: 5px 10px" size="small" />
+
+			<div class="workflow-tool-icon" title="放大" @click="onToolClick('zoomIn')">
+				<SvgIcon name="ele-ZoomIn" />
+			</div>
+
+			<el-text size="small"> {{ Math.floor(props.config.scaleX * 100) }}%</el-text>
+
+			<div class="workflow-tool-icon" title="缩小" @click="onToolClick('zoomOut')">
+				<SvgIcon name="ele-ZoomOut" />
+			</div>
+		</div>
+
 		<div class="workflow-tool-right">
 			<div class="workflow-tool-icon" v-for="(v, k) in state.toolList" :key="k" :title="v.title" @click="onToolClick(v.fnName)">
 				<SvgIcon :name="v.icon" />
@@ -17,10 +36,14 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['tool']);
 
+const props = defineProps(['config']);
+
 // 定义变量内容
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 const state = reactive({
+	width: props.config.width,
+	height: props.config.height,
 	toolList: [
 		{ icon: 'ele-Help', title: '帮助', fnName: 'help' },
 		{ icon: 'ele-Download', title: '下载', fnName: 'download' },
@@ -47,6 +70,7 @@ const onToolClick = (fnName: string) => {
 	height: 35px;
 	display: flex;
 	align-items: center;
+	user-select: none;
 	border-bottom: 1px solid var(--el-border-color-light, #ebeef5);
 	color: var(--el-text-color-primary);
 	.workflow-tool-right {

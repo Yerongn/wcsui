@@ -4,7 +4,7 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" />
+				<Tool @tool="onToolClick" :config="state.stageSize" />
 				<!-- 左侧导航区 -->
 				<div class="canvas-content">
 					<div class="canvas-left">
@@ -125,6 +125,8 @@ const state = reactive({
 		width: 800,
 		height: 800,
 		draggable: false,
+		scaleX: 1,
+		scaleY: 1,
 	},
 	isEditing: false,
 	selectedShapeName: '',
@@ -791,6 +793,14 @@ const onToolClick = (fnName: String) => {
 			break;
 		case 'fullscreen':
 			onToolFullscreen();
+			break;
+		case 'zoomIn':
+			state.stageSize.scaleX = state.stageSize.scaleX + 0.1;
+			state.stageSize.scaleY = state.stageSize.scaleY + 0.1;
+			break;
+		case 'zoomOut':
+			state.stageSize.scaleX = state.stageSize.scaleX - 0.1;
+			state.stageSize.scaleY = state.stageSize.scaleY - 0.1;
 			break;
 	}
 };
