@@ -23,12 +23,19 @@
 </template>
 
 <script lang="ts">
-import Convery from '../configuration/component/device/convery/index.vue';
-import Konva from 'konva';
+import ConveryTransverse from '../configuration/component/device/convery-transverse/index.vue';
+import ConveryPortrait from '../configuration/component/device/convery-portrait/index.vue';
+import Cabinet from '../configuration/component/device/cabinet/index.vue';
+import GoodsShelves from '../configuration/component/device/goodsShelves/index.vue';
+import StackerCrane from '../configuration/component/device/StackerCrane/index.vue';
 
 export default {
 	components: {
-		convery: Convery,
+		converyPortrait: ConveryPortrait,
+		converyTransverse: ConveryTransverse,
+		cabinet: Cabinet,
+		goodsShelves: GoodsShelves,
+		stackerCrane: StackerCrane,
 	},
 };
 </script>
@@ -48,12 +55,6 @@ const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
 
 const Node = defineAsyncComponent(() => import('./node/index.vue'));
 
-const image = new window.Image();
-image.src = 'device/Convery-Transverse.svg';
-image.onload = () => {
-	// set image only when it is loaded
-	state.image = image;
-};
 // 定义变量内容
 const canvasRightRef = ref();
 const helpRef = ref();

@@ -69,16 +69,18 @@
 
 <script lang="ts">
 import ConveryTransverse from './component/device/convery-transverse/index.vue';
-
 import ConveryPortrait from './component/device/convery-portrait/index.vue';
-
 import Cabinet from './component/device/cabinet/index.vue';
+import GoodsShelves from './component/device/goodsShelves/index.vue';
+import StackerCrane from './component/device/StackerCrane/index.vue';
 
 export default {
 	components: {
 		converyPortrait: ConveryPortrait,
 		converyTransverse: ConveryTransverse,
 		cabinet: Cabinet,
+		goodsShelves: GoodsShelves,
+		stackerCrane: StackerCrane,
 	},
 };
 </script>
