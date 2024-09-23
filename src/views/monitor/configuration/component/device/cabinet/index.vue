@@ -14,7 +14,7 @@
 				align: 'center',
 				width: props.config.width,
 				padding: 0,
-				text: props.config.deviceNo,
+				text: props.config.driveName,
 				fontSize: 14,
 				scaleX: 1,
 				scaleY: 1,

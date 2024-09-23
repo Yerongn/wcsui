@@ -2,32 +2,46 @@
 	<div id="node">
 		<el-tabs v-model="state.tabsActive">
 			<!-- 编辑测试 -->
-			<el-tab-pane label="基础属性" name="0">
-				<el-scrollbar>
-					<el-form size="default" label-width="80px" class="pt15 pr15 pb15 pl15">
-						<el-form-item v-if="state.form.component === 'converyTransverse'" label="设备编号" prop="deviceNo">
-							<el-input v-model="nodeConfig['deviceNo']" clearable></el-input>
-						</el-form-item>
-						<el-form-item v-if="state.form.component === 'converyTransverse'" label="设备长度" prop="width">
-							<el-input-number v-model="state.form.width" :min="1" :max="1500" clearable @change="widthValueChange"></el-input-number>
-						</el-form-item>
-						<el-form-item v-if="state.form.component === 'converyPportrait'" label="设备长度" prop="height">
-							<el-input-number v-model="state.form.height" :min="1" :max="500" clearable @change="heightValueChange"></el-input-number>
-						</el-form-item>
+			<el-scrollbar>
+				<el-form size="default" label-width="80px" class="pt15 pr15 pb15 pl15">
+					<el-collapse v-model="activeName" accordion>
+						<el-collapse-item title="设备属性" name="1">
+							<el-form-item v-if="state.form.component === 'cabinet'" label="设备驱动">
+								<el-select v-model="nodeConfig['driveId']" placeholder="请选择" clearable class="w100">
+									<el-option v-for="item in state.drives" :key="item.id" :label="item.driveName" :value="item.id" />
+								</el-select>
+							</el-form-item>
 
-						<el-form-item v-if="state.form.component === 'v-text'" label="文本" prop="text">
-							<el-input v-model="nodeConfig['text']" clearable></el-input>
-						</el-form-item>
-						<el-form-item v-if="state.form.component === 'v-rect'" label="填充色" prop="fill">
-							<el-color-picker v-model="nodeConfig['fill']" show-alpha />
-						</el-form-item>
+							<el-form-item
+								v-if="state.form.component.startsWith('convery') || state.form.component === 'stackerCrane'"
+								label="设备编号"
+								prop="deviceNo"
+							>
+								<el-input v-model="nodeConfig['deviceNo']" clearable></el-input>
+							</el-form-item>
+							<el-form-item v-if="state.form.component === 'converyTransverse'" label="设备长度" prop="width">
+								<el-input-number v-model="state.form.width" :min="1" :max="1500" clearable @change="widthValueChange"></el-input-number>
+							</el-form-item>
+							<el-form-item v-if="state.form.component === 'converyPportrait'" label="设备长度" prop="height">
+								<el-input-number v-model="state.form.height" :min="1" :max="500" clearable @change="heightValueChange"></el-input-number>
+							</el-form-item>
+						</el-collapse-item>
 
-						<el-form-item v-for="({ key, label }, index) in state.styleKeys" :key="index" :label="label">
-							<el-input-number v-model="nodeConfig[key]" :step="0.1" :precision="1" :controls-step="0.1" />
-						</el-form-item>
-					</el-form>
-				</el-scrollbar>
-			</el-tab-pane>
+						<el-collapse-item title="基础属性" name="2">
+							<el-form-item v-if="state.form.component === 'v-text'" label="文本" prop="text">
+								<el-input v-model="nodeConfig['text']" clearable></el-input>
+							</el-form-item>
+							<el-form-item v-if="state.form.component === 'v-rect'" label="填充色" prop="fill">
+								<el-color-picker v-model="nodeConfig['fill']" show-alpha />
+							</el-form-item>
+
+							<el-form-item v-for="({ key, label }, index) in state.styleKeys" :key="index" :label="label">
+								<el-input-number v-model="nodeConfig[key]" :step="0.1" :precision="1" :controls-step="0.1" />
+							</el-form-item>
+						</el-collapse-item>
+					</el-collapse>
+				</el-form>
+			</el-scrollbar>
 		</el-tabs>
 	</div>
 </template>
@@ -38,7 +52,9 @@ import { reactive, ref } from 'vue';
 import { styleData } from '/@/utils/attr';
 import { Shape } from 'konva/lib/Shape';
 import { Group } from 'konva/lib/Group';
+import { useDriveApi } from '/@/api/drive';
 
+const activeName = ref('1');
 const nodeConfig = ref();
 
 const state = reactive({
@@ -59,7 +75,9 @@ const state = reactive({
 		width: 0,
 		height: 0,
 		color: '#409EFF',
+		driveId: '',
 	},
+	drives: [] as Drive[],
 	tabsActive: '0',
 	loading: {
 		extend: false,
@@ -68,7 +86,7 @@ const state = reactive({
 });
 
 //获取节点属性
-const getAttrs = (component: string, config: any, shape: Shape | Group) => {
+const getAttrs = async (component: string, config: any, shape: Shape | Group) => {
 	if (config) {
 		nodeConfig.value = config;
 		const curComponentStyleKeys = Object.keys(config);
@@ -79,6 +97,9 @@ const getAttrs = (component: string, config: any, shape: Shape | Group) => {
 	state.form.width = config.width;
 	state.form.height = config.height;
 	state.form.component = component;
+
+	const response = await useDriveApi().getDriveList();
+	state.drives = response.items;
 };
 
 const widthValueChange = (value: number) => {

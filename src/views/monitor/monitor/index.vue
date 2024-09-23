@@ -3,7 +3,7 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" :titel="state.title" />
+				<Tool @tool="onToolClick" :titel="state.title" :config="state.stageSize" />
 				<div class="canvas-content">
 					<!-- 绘画区 -->
 					<div class="canvas-right" id="canvas" ref="canvasRightRef">
@@ -73,6 +73,8 @@ const state = reactive({
 	stageSize: {
 		width: 800,
 		height: 800,
+		scaleX: 1,
+		scaleY: 1,
 		draggable: true,
 	},
 	isEditing: false,
@@ -152,6 +154,14 @@ const onToolClick = (fnName: String) => {
 		case 'fullscreen':
 			onToolFullscreen();
 			break;
+		case 'zoomIn':
+			state.stageSize.scaleX = state.stageSize.scaleX + 0.1;
+			state.stageSize.scaleY = state.stageSize.scaleY + 0.1;
+			break;
+		case 'zoomOut':
+			state.stageSize.scaleX = state.stageSize.scaleX - 0.1;
+			state.stageSize.scaleY = state.stageSize.scaleY - 0.1;
+			break;
 	}
 };
 // 顶部工具栏-帮助
@@ -221,7 +231,6 @@ onMounted(async () => {
 	// 订阅设备实时信息
 	state.SR = await signalR.init(`main`);
 	state.SR.on('ondevicepropvaluechange', (data) => {
-		console.log(data);
 		// 反序列化
 		var deviceProperties = JSON.parse(data);
 

@@ -142,7 +142,8 @@ export const leftNavList = [
 					y: 50,
 					width: 50,
 					height: 50,
-					deviceNo: '1001',
+					driveId: '',
+					driveName: '',
 					name: '1',
 					rotation: 0,
 					scaleX: 1,
@@ -282,6 +283,7 @@ export const leftNavList = [
 				config: {
 					x: 20,
 					y: 50,
+					deviceNo: 'SC01',
 					width: 80,
 					height: 40,
 					name: '1',

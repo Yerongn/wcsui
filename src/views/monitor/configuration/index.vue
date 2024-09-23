@@ -692,9 +692,9 @@ const getMaxDeviceNo = () => {
 
 // 初始化 Konva
 const initKonva = () => {
-	// let ele = document.getElementById('canvas');
-	// state.stageSize.width = ele?.offsetWidth ?? 800;
-	// state.stageSize.height = ele?.offsetHeight ?? 800;
+	let ele = document.getElementById('canvas');
+	state.stageSize.width = ele?.offsetWidth ?? 800;
+	state.stageSize.height = ele?.offsetHeight ?? 800;
 
 	var st = stage.value.getStage();
 	var container = st.container();
