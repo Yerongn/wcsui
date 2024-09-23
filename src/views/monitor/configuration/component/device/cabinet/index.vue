@@ -13,9 +13,9 @@
 				y: props.config.height, //
 				align: 'center',
 				width: props.config.width,
-				padding: 0,
+				padding: 2,
 				text: props.config.driveName,
-				fontSize: 14,
+				fontSize: 10,
 				scaleX: 1,
 				scaleY: 1,
 			}"

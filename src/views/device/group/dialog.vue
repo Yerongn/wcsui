@@ -10,7 +10,10 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="设备驱动" prop="driveId" :rules="[{ required: true, message: '设备驱动不能为空', trigger: 'blur' }]">
-							<el-select v-model="state.ruleForm.driveId" placeholder="请选择" clearable class="w100">
+							<el-select v-model="state.ruleForm.driveId" popper-class="custom-header" placeholder="请选择" clearable class="w100">
+								<template #header>
+									<el-button text bg size="small"> Add </el-button>
+								</template>
 								<el-option v-for="item in state.drives" :key="item.id" :label="item.driveName" :value="item.id" />
 							</el-select>
 						</el-form-item>

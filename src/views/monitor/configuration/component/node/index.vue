@@ -7,7 +7,10 @@
 					<el-collapse v-model="activeName" accordion>
 						<el-collapse-item title="设备属性" name="1">
 							<el-form-item v-if="state.form.component === 'cabinet'" label="设备驱动">
-								<el-select v-model="nodeConfig['driveId']" placeholder="请选择" clearable class="w100">
+								<el-select v-model="nodeConfig['driveId']" popper-class="custom-header" placeholder="请选择" @change="driveIdChange" class="w100">
+									<template #header>
+										<el-button text bg size="small" @click="addDrive"> 新增驱动 </el-button>
+									</template>
 									<el-option v-for="item in state.drives" :key="item.id" :label="item.driveName" :value="item.id" />
 								</el-select>
 							</el-form-item>
@@ -44,18 +47,24 @@
 			</el-scrollbar>
 		</el-tabs>
 	</div>
+
+	<Drawer ref="drawerRef" />
 </template>
 
 <script setup lang="ts" name="canvasNode">
-import { reactive, ref } from 'vue';
+import { defineAsyncComponent, reactive, ref } from 'vue';
 
 import { styleData } from '/@/utils/attr';
 import { Shape } from 'konva/lib/Shape';
 import { Group } from 'konva/lib/Group';
 import { useDriveApi } from '/@/api/drive';
 
+const Drawer = defineAsyncComponent(() => import('../drawer/index.vue'));
+
 const activeName = ref('1');
 const nodeConfig = ref();
+
+const drawerRef = ref();
 
 const state = reactive({
 	node: {},
@@ -122,6 +131,15 @@ const heightValueChange = (value: number) => {
 	state.shape.height(value);
 	state.shape.cache();
 	nodeConfig.value['height'] = value;
+};
+
+const driveIdChange = (value: string) => {
+	const drive = state.drives.find((d) => d.id === value);
+	nodeConfig.value['driveName'] = drive?.driveName;
+};
+
+const addDrive = async () => {
+	await drawerRef.value.open();
 };
 
 defineExpose({
