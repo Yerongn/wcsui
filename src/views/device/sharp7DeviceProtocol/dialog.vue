@@ -64,6 +64,7 @@
 import { reactive, ref } from 'vue';
 import { useGroupApi } from '/@/api/group';
 import { useDeviceApi } from '/@/api/device';
+import { useSharp7DeviceProtocolApi } from '/@/api/sharp7DeviceProtocol';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -125,9 +126,9 @@ const onSubmit = () => {
 	groupDialogFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.dialog.type === 'add') {
-			await useGroupApi().addGroup(state.ruleForm);
+			await useSharp7DeviceProtocolApi().addSharp7DeviceProtocol(state.ruleForm);
 		} else {
-			await useGroupApi().updateGroup(state.ruleForm);
+			await useSharp7DeviceProtocolApi().updateSharp7DeviceProtocol(state.ruleForm);
 		}
 		closeDialog(); // 关闭弹窗
 		emit('refresh');

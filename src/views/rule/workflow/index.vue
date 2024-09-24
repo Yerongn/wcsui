@@ -134,7 +134,7 @@ const initLeftNavList = async () => {
 	// 界面数据加载
 	let response = await useProcessFlowApi().getProcessFlowsById(route.params.id);
 
-	state.jsplumbData = JSON.parse(response.processflowConfigure);
+	if (response.processflowConfigure !== '') state.jsplumbData = JSON.parse(response.processflowConfigure);
 };
 // 左侧导航-初始化拖动
 const initSortable = () => {
@@ -493,6 +493,7 @@ onUnmounted(() => {
 			.workflow-left {
 				width: 220px;
 				height: 100%;
+				user-select: none;
 				border-right: 1px solid var(--el-border-color-light, #ebeef5);
 				:deep(.el-collapse-item__content) {
 					padding-bottom: 0;

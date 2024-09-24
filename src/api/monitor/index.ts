@@ -32,7 +32,7 @@ export function useMonitorApi() {
 		},
 		getMonitor: (id: any) => {
 			return request({
-				url: '/monitor/' + id,
+				url: '/device-monitor/' + id,
 				method: 'get',
 			});
 		},

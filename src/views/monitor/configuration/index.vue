@@ -145,10 +145,14 @@ const initLeftNavList = async () => {
 	state.leftNavList = leftNavList;
 
 	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
+
+	console.log(respond.monitorDevices);
 	var componentData = respond.monitorDevices.map((device: any) => {
 		device.config = JSON.parse(device.config);
 		return device;
 	});
+
+	console.log(componentData);
 
 	state.stageSize.width = respond.stageWidth;
 	state.stageSize.height = respond.stageHeight;
@@ -852,9 +856,10 @@ const onToolDownload = () => {
 const onToolSubmit = async () => {
 	// console.log(state.jsplumbData);
 	var componentData = JSON.parse(JSON.stringify(state.componentData));
-	componentData = componentData.map((device: any) => {
+	componentData = componentData.map((device: any, index: number) => {
 		device.config = JSON.stringify(device.config);
 		device.id = '00000000-0000-0000-0000-000000000000';
+		device.OrderNum = index;
 		return device;
 	});
 
