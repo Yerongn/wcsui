@@ -2,6 +2,24 @@
 	<div class="workflow-tool">
 		<div class="pl15">{{ setToolTitle }}</div>
 
+		<el-divider direction="vertical" />
+		<el-text size="small"> 设备复制: </el-text>
+
+		<div class="workflow-tool-icon" title="左复制" @click="onToolClick('leftCopy')">
+			<SvgIcon name="ele-Back" />
+		</div>
+
+		<div class="workflow-tool-icon" title="右复制" @click="onToolClick('rightCopy')">
+			<SvgIcon name="ele-Right" />
+		</div>
+
+		<div class="workflow-tool-icon" title="上复制" @click="onToolClick('topCopy')">
+			<SvgIcon name="ele-Top" />
+		</div>
+
+		<div class="workflow-tool-icon" title="下复制" @click="onToolClick('bottomCopy')">
+			<SvgIcon name="ele-Bottom" />
+		</div>
 		<div class="workflow-tool-right">
 			<el-text size="small"> W: </el-text>
 			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small" @change="widthValueChange"></el-input>

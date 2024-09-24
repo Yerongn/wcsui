@@ -803,8 +803,17 @@ const onToolClick = (fnName: String) => {
 		case 'submit':
 			onToolSubmit();
 			break;
-		case 'copy':
-			onToolCopy();
+		case 'leftCopy':
+			onToolLeftCopy();
+			break;
+		case 'rightCopy':
+			onToolRightCopy();
+			break;
+		case 'topCopy':
+			onToolTopCopy();
+			break;
+		case 'bottomCopy':
+			onToolBottomCopy();
 			break;
 		case 'del':
 			onToolDel();
@@ -862,8 +871,48 @@ const onToolSubmit = async () => {
 
 	ElMessage.success('数据提交成功');
 };
+
 // 顶部工具栏-复制
-const onToolCopy = () => {
+const onToolLeftCopy = () => {
+	if (state.selected.length !== 1) return;
+
+	// 查询选中的id
+	let id = state.selected[0].id() === '' ? state.selected[0].getParent().id() : state.selected[0].id();
+
+	const rect = state.componentData.find((r) => r.config.id === id);
+
+	if (rect === undefined) return;
+
+	const nodeId = Math.random().toString(36).substr(2, 12) + 'object';
+	// 处理节点数据
+
+	let config: any;
+	config = { ...rect.config };
+	config.x = rect.config.x - rect.config.width;
+	config.y = rect.config.y;
+	config.name = 'object';
+	config.id = nodeId;
+	if (rect.component.startsWith('convery')) {
+		config.deviceNo = getMaxDeviceNo();
+	}
+	const node = {
+		id: nodeId,
+		component: rect.component,
+		config: config,
+	};
+	// 右侧视图内容数组
+	state.componentData.push(node);
+
+	nextTick(() => {
+		var st = stage.value.getStage();
+		var device = st.findOne('#' + nodeId);
+		state.selected = [device];
+
+		transformer.value.getNode().nodes(state.selected);
+	});
+};
+
+const onToolRightCopy = () => {
 	if (state.selected.length !== 1) return;
 
 	// 查询选中的id
@@ -900,9 +949,86 @@ const onToolCopy = () => {
 
 		transformer.value.getNode().nodes(state.selected);
 	});
-
-	//	copyText(JSON.stringify(state.jsplumbData));
 };
+
+const onToolTopCopy = () => {
+	if (state.selected.length !== 1) return;
+
+	// 查询选中的id
+	let id = state.selected[0].id() === '' ? state.selected[0].getParent().id() : state.selected[0].id();
+
+	const rect = state.componentData.find((r) => r.config.id === id);
+
+	if (rect === undefined) return;
+
+	const nodeId = Math.random().toString(36).substr(2, 12) + 'object';
+	// 处理节点数据
+
+	let config: any;
+	config = { ...rect.config };
+	config.x = rect.config.x;
+	config.y = rect.config.y - rect.config.height;
+	config.name = 'object';
+	config.id = nodeId;
+	if (rect.component.startsWith('convery')) {
+		config.deviceNo = getMaxDeviceNo();
+	}
+	const node = {
+		id: nodeId,
+		component: rect.component,
+		config: config,
+	};
+	// 右侧视图内容数组
+	state.componentData.push(node);
+
+	nextTick(() => {
+		var st = stage.value.getStage();
+		var device = st.findOne('#' + nodeId);
+		state.selected = [device];
+
+		transformer.value.getNode().nodes(state.selected);
+	});
+};
+
+const onToolBottomCopy = () => {
+	if (state.selected.length !== 1) return;
+
+	// 查询选中的id
+	let id = state.selected[0].id() === '' ? state.selected[0].getParent().id() : state.selected[0].id();
+
+	const rect = state.componentData.find((r) => r.config.id === id);
+
+	if (rect === undefined) return;
+
+	const nodeId = Math.random().toString(36).substr(2, 12) + 'object';
+	// 处理节点数据
+
+	let config: any;
+	config = { ...rect.config };
+	config.x = rect.config.x;
+	config.y = rect.config.y + rect.config.height;
+	config.name = 'object';
+	config.id = nodeId;
+	if (rect.component.startsWith('convery')) {
+		config.deviceNo = getMaxDeviceNo();
+	}
+	const node = {
+		id: nodeId,
+		component: rect.component,
+		config: config,
+	};
+	// 右侧视图内容数组
+	state.componentData.push(node);
+
+	nextTick(() => {
+		var st = stage.value.getStage();
+		var device = st.findOne('#' + nodeId);
+		state.selected = [device];
+
+		transformer.value.getNode().nodes(state.selected);
+	});
+};
+
 // 顶部工具栏-删除
 const onToolDel = () => {
 	ElMessageBox.confirm('此操作将清空画布，是否继续？', '提示', {
