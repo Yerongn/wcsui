@@ -15,6 +15,18 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="协议类型" prop="protocolType" :rules="[{ required: true, message: '设备编号不能为空', trigger: 'blur' }]">
+							<el-select v-model="state.ruleForm.protocolType" filterable placeholder="请选择" clearable class="w100">
+								<el-option
+									v-for="item in state.protocolTypeList"
+									:key="item.protocolType"
+									:label="item.protocolTypeDescribe"
+									:value="item.protocolType"
+								/>
+							</el-select>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="工艺流程" prop="workflowId" :rules="[{ required: true, message: '工艺流程不能为空', trigger: 'blur' }]">
 							<el-select v-model="state.ruleForm.workflowId" filterable placeholder="请选择" clearable class="w100">
@@ -48,6 +60,7 @@
 import { reactive, ref } from 'vue';
 import { useRuleEngineApi } from '/@/api/ruleEngine';
 import { useDeviceApi } from '/@/api/device';
+import { useProtocolTypeApi } from '/@/api/protocol';
 import { useProcessFlowApi } from '/@/api/processflow';
 
 // 定义子组件向父组件传值/事件
@@ -60,6 +73,7 @@ const state = reactive({
 	deviceData: [] as DeviceType[], // 设备数据
 	processFlowData: [] as ProcessFlowType[], // 流程数据
 	ruleForm: {} as RuleEngineType,
+	protocolTypeList: [] as Array<protocolType>,
 	dialog: {
 		isShowDialog: false,
 		type: '',
@@ -122,8 +136,11 @@ const getDeviceData = async () => {
 
 // 获取下拉数据
 const getProcessFlowData = async () => {
-	const response = await useProcessFlowApi().getProcessFlowList();
+	let response = await useProcessFlowApi().getProcessFlowList();
 	state.processFlowData = response.items;
+
+	response = await useProtocolTypeApi().getProtocolType();
+	state.protocolTypeList = response.items;
 };
 
 // 暴露变量

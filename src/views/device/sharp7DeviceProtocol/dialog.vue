@@ -12,7 +12,14 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="设备协议">
-							<el-input v-model="state.ruleForm.protocol" placeholder="请输入设备协议" clearable></el-input>
+							<el-select v-model="state.ruleForm.protocol" placeholder="请选择" clearable class="w100">
+								<el-option
+									v-for="item in state.protocolTypeList"
+									:key="item.protocolType"
+									:label="item.protocolTypeDescribe"
+									:value="item.protocolType"
+								/>
+							</el-select>
 						</el-form-item>
 					</el-col>
 
@@ -64,6 +71,7 @@
 import { reactive, ref } from 'vue';
 import { useGroupApi } from '/@/api/group';
 import { useDeviceApi } from '/@/api/device';
+import { useProtocolTypeApi } from '/@/api/protocol';
 import { useSharp7DeviceProtocolApi } from '/@/api/sharp7DeviceProtocol';
 
 // 定义子组件向父组件传值/事件
@@ -74,6 +82,7 @@ const groupDialogFormRef = ref();
 const state = reactive({
 	ruleForm: {} as Sharp7DeviceProtocol,
 	groups: [] as Group[],
+	protocolTypeList: [] as Array<protocolType>,
 	devices: [] as DeviceType[], // 设备数据
 	dialog: {
 		isShowDialog: false,
@@ -111,6 +120,9 @@ const openDialog = async (type: string, row: Sharp7DeviceProtocol) => {
 		// devices
 		response = await useDeviceApi().getDeviceList();
 		state.devices = response.items;
+
+		response = await useProtocolTypeApi().getProtocolType();
+		state.protocolTypeList = response.items;
 	}
 };
 // 关闭弹窗

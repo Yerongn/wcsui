@@ -6,7 +6,7 @@
 		<el-text size="small"> 设备复制: </el-text>
 
 		<div class="workflow-tool-icon" title="左复制" @click="onToolClick('leftCopy')">
-			<SvgIcon name="ele-Back" />
+			<el-text size="small"> 左</el-text>
 		</div>
 
 		<div class="workflow-tool-icon" title="右复制" @click="onToolClick('rightCopy')">

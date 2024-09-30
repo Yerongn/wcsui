@@ -194,6 +194,7 @@ declare type RuleEngineType = {
 	ruleName: string;
 	workflowId: string;
 	workflowName: string;
+	protocolType: string;
 	deviceNo: string;
 	expression: string;
 	remark: string;
@@ -271,6 +272,12 @@ declare type Sharp7DeviceProtocol = {
 	remark: string;
 	orderNum: number;
 	creationTime: string;
+};
+
+declare type protocolType = {
+	protocolType: string;
+	protocolTypeDescribe: string;
+	protocolType: string;
 };
 
 /**

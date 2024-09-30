@@ -134,12 +134,12 @@ const getParentData = async (data: object) => {
 	if (state.node.id === '14' || state.node.id === '21') {
 		if (state.processList.length == 0) {
 			const response = await useProcessFlowApi().getProcess();
-			state.processList = response;
+			state.processList = response.items;
 		}
 
 		if (state.processDataTypeList.length == 0) {
 			const response = await useProcessFlowApi().getProcessDataType();
-			state.processDataTypeList = response;
+			state.processDataTypeList = response.items;
 		}
 
 		if (state.node.id === '14')
@@ -150,9 +150,11 @@ const getParentData = async (data: object) => {
 				label: item.processDataTypeDescribe,
 			}));
 		}
+
 		state.form['process'] = state.node.process;
 	}
-	initChartsMonitor();
+
+	//initChartsMonitor();
 };
 // 节点编辑-重置
 const onNodeRefresh = () => {

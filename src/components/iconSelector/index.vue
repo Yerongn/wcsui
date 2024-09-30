@@ -31,7 +31,6 @@
 		>
 			<template #default>
 				<div class="icon-selector-warp">
-					<div class="icon-selector-warp-title">{{ title }}</div>
 					<el-tabs v-model="state.fontIconTabActive" @tab-click="onIconClick">
 						<el-tab-pane lazy label="ali" name="ali">
 							<IconList :list="fontIconSheetsFilterList" :empty="emptyDescription" :prefix="state.fontIconPrefix" @get-icon="onColClick" />
