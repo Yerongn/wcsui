@@ -10,7 +10,7 @@
 		</v-image>
 
 		<v-rect
-			v-if="state.loaded"
+			v-if="props.config.loaded"
 			:config="{ x: 12, y: 12, width: props.config.width - 25, height: props.config.height - 25, fill: 'rgba(217, 129, 14, 1)' }"
 		></v-rect>
 
@@ -39,10 +39,18 @@ const state = reactive({
 	image: null as any,
 });
 
+//获取节点属性
+const setAttrs = async (config: any) => {
+	console.log(config);
+};
+
 const image = new window.Image();
 image.src = 'device/Convery-Transverse.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;
 };
+defineExpose({
+	setAttrs,
+});
 </script>

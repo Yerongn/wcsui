@@ -13,7 +13,13 @@
 					<el-icon>
 						<ele-FolderAdd />
 					</el-icon>
-					新增设备协议
+					新增
+				</el-button>
+				<el-button size="default" type="success" class="ml10" @click="onOpenBatchAdd()">
+					<el-icon>
+						<ele-FolderAdd />
+					</el-icon>
+					批量新增
 				</el-button>
 			</div>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
@@ -63,6 +69,8 @@
 			</el-pagination>
 		</el-card>
 		<Sharp7DeviceProtocolDialog ref="sharp7DeviceProtocolDialogRef" @refresh="getTableData()" />
+
+		<BatchAdd ref="batchAddRef" @refresh="getTableData()" />
 	</div>
 </template>
 
@@ -74,8 +82,11 @@ import { useSharp7DeviceProtocolApi } from '/@/api/sharp7DeviceProtocol';
 // 引入组件
 const Sharp7DeviceProtocolDialog = defineAsyncComponent(() => import('/@/views/device/sharp7DeviceProtocol/dialog.vue'));
 
+const BatchAdd = defineAsyncComponent(() => import('/@/views/device/sharp7DeviceProtocol/batchAdd.vue'));
+
 // 定义变量内容
 const sharp7DeviceProtocolDialogRef = ref();
+const batchAddRef = ref();
 const state = reactive({
 	tableData: {
 		data: [] as Sharp7DeviceProtocol[],
@@ -105,6 +116,12 @@ const onOpenAddSharp7DeviceProtocol = (type: string) => {
 const onOpenEditSharp7DeviceProtocol = (type: string, row: Sharp7DeviceProtocol) => {
 	sharp7DeviceProtocolDialogRef.value.openDialog(type, row);
 };
+
+// 批量新增
+const onOpenBatchAdd = () => {
+	batchAddRef.value.openDialog();
+};
+
 // 删除用户
 const onRowDel = (row: Sharp7DeviceProtocol) => {
 	ElMessageBox.confirm(`此操作将永久删除设备协议：“${row.deviceNo}_${row.protocol}”，是否继续?`, '提示', {

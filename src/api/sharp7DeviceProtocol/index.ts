@@ -1,4 +1,5 @@
 import request from '/@/utils/request';
+import BatchAdd from '/@/views/device/sharp7DeviceProtocol/batchAdd.vue';
 
 export function useSharp7DeviceProtocolApi() {
 	return {
@@ -40,6 +41,13 @@ export function useSharp7DeviceProtocolApi() {
 			return request({
 				url: '/sharp7Device-protocol/sharp7Device-protocol-list',
 				method: 'get',
+			});
+		},
+		batchAdd: (data: any) => {
+			return request({
+				url: '/sharp7Device-protocol/batch-add',
+				method: 'post',
+				data: data,
 			});
 		},
 	};

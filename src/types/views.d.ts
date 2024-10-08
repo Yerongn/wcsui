@@ -275,6 +275,17 @@ declare type Sharp7DeviceProtocol = {
 	creationTime: string;
 };
 
+// batchAddDto
+declare type BatchAddDto = {
+	groupId: string;
+	deviceNo: string;
+	protocol: string;
+	dbNumber: string;
+	startByte: string;
+	dataLength: number;
+	deviceNum: number;
+};
+
 declare type protocolType = {
 	protocolType: string;
 	protocolTypeDescribe: string;

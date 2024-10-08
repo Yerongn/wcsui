@@ -1,21 +1,20 @@
 <template>
 	<div class="system-group-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
-			<el-form ref="groupDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
+			<el-form ref="batchAddDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="设备编号" prop="deviceNo" :rules="[{ required: true, message: '设备编号不能为空', trigger: 'blur' }]">
-							<el-select v-model="state.ruleForm.deviceNo" filterable placeholder="请选择" clearable class="w100">
-								<el-option v-for="item in state.devices" :key="item.id" :label="item.deviceNo" :value="item.deviceNo" />
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="设备协议">
+							<el-select v-model="state.ruleForm.protocol" placeholder="请选择" clearable class="w100">
+								<el-option
+									v-for="item in state.protocolTypeList"
+									:key="item.protocolType"
+									:label="item.protocolTypeDescribe"
+									:value="item.protocolType"
+								/>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="设备协议">
-							<el-input v-model="state.ruleForm.protocol" placeholder="请输入设备协议" clearable></el-input>
-						</el-form-item>
-					</el-col>
-
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="设备分组" prop="groupId" :rules="[{ required: true, message: '分组不能为空', trigger: 'blur' }]">
 							<el-select v-model="state.ruleForm.groupId" placeholder="请选择" clearable class="w100">
@@ -39,13 +38,15 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="状态">
-							<el-switch v-model="state.ruleForm.state" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+						<el-form-item label="起始设备" prop="deviceNo" :rules="[{ required: true, message: '设备编号不能为空', trigger: 'blur' }]">
+							<el-select v-model="state.ruleForm.deviceNo" filterable placeholder="请选择" clearable class="w100">
+								<el-option v-for="item in state.devices" :key="item.id" :label="item.deviceNo" :value="item.deviceNo" />
+							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="分组描述">
-							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入分组描述" maxlength="150"></el-input>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="设备数量">
+							<el-input v-model="state.ruleForm.deviceNum" placeholder="请输入数据长度" clearable></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -64,42 +65,33 @@
 import { reactive, ref } from 'vue';
 import { useGroupApi } from '/@/api/group';
 import { useDeviceApi } from '/@/api/device';
+import { useProtocolTypeApi } from '/@/api/protocol';
+import { useSharp7DeviceProtocolApi } from '/@/api/sharp7DeviceProtocol';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
 
 // 定义变量内容
-const groupDialogFormRef = ref();
+const batchAddDialogFormRef = ref();
 const state = reactive({
-	ruleForm: {} as Sharp7DeviceProtocol,
+	ruleForm: {} as BatchAddDto,
+	protocolTypeList: [] as Array<protocolType>,
 	groups: [] as Group[],
 	devices: [] as DeviceType[], // 设备数据
 	dialog: {
 		isShowDialog: false,
-		type: '',
 		title: '',
 		submitTxt: '',
 	},
 });
 
 // 打开弹窗
-const openDialog = async (type: string, row: Sharp7DeviceProtocol) => {
+const openDialog = async () => {
 	await getlistData();
 
-	if (type === 'edit') {
-		state.ruleForm = row;
-		state.dialog.title = '修改分组';
-		state.dialog.submitTxt = '修 改';
-	} else {
-		state.ruleForm = { state: true } as Sharp7DeviceProtocol;
-		state.dialog.title = '新增分组';
-		state.dialog.submitTxt = '新 增';
-		// 清空表单，此项需加表单验证才能使用
-		// nextTick(() => {
-		// 	groupDialogFormRef.value.resetFields();
-		// });
-	}
-	state.dialog.type = type;
+	state.ruleForm = {} as BatchAddDto;
+	state.dialog.title = '批量新增';
+	state.dialog.submitTxt = '新 增';
 	state.dialog.isShowDialog = true;
 
 	async function getlistData() {
@@ -110,6 +102,9 @@ const openDialog = async (type: string, row: Sharp7DeviceProtocol) => {
 		// devices
 		response = await useDeviceApi().getDeviceList();
 		state.devices = response.items;
+
+		response = await useProtocolTypeApi().getProtocolType();
+		state.protocolTypeList = response.items;
 	}
 };
 // 关闭弹窗
@@ -122,13 +117,10 @@ const onCancel = () => {
 };
 // 提交
 const onSubmit = () => {
-	groupDialogFormRef.value.validate(async (valid: boolean) => {
+	batchAddDialogFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
-		if (state.dialog.type === 'add') {
-			await useGroupApi().addGroup(state.ruleForm);
-		} else {
-			await useGroupApi().updateGroup(state.ruleForm);
-		}
+		await useSharp7DeviceProtocolApi().batchAdd(state.ruleForm);
+
 		closeDialog(); // 关闭弹窗
 		emit('refresh');
 	});

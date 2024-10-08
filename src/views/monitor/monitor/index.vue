@@ -9,7 +9,14 @@
 					<div class="canvas-right" id="canvas" ref="canvasRightRef">
 						<v-stage ref="stage" :config="state.stageSize">
 							<v-layer ref="layer">
-								<component v-for="item in state.componentData" :key="item.id" :is="item.component" :config="item.config" @dblclick="ondblclick" />
+								<component
+									v-for="(item, index) in state.componentData"
+									:key="item.id"
+									:is="item.component"
+									:config="item.config"
+									:ref="setComponentRef(index)"
+									@dblclick="ondblclick"
+								/>
 							</v-layer>
 						</v-stage>
 					</div>
@@ -55,6 +62,18 @@ import Konva from 'konva';
 const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
 
 const Node = defineAsyncComponent(() => import('./node/index.vue'));
+
+// 用于存储组件引用的数组
+const componentRefs = ref([]);
+
+// 设置组件引用
+const setComponentRef = (index: number) => {
+	return (el: never) => {
+		if (el) {
+			componentRefs.value[index] = el;
+		}
+	};
+};
 
 // 定义变量内容
 const canvasRightRef = ref();
@@ -115,7 +134,10 @@ const ondblclick = (e: any) => {
 	let id = e.target.id() === '' ? e.target.getParent().id() : e.target.id();
 
 	const component = state.componentData.find((r) => r.config.id === id);
-	if (component?.component === 'convery') {
+
+	componentRefs.value[state.componentData.indexOf(component)].setAttrs('22312');
+
+	if (component?.component.startsWith('convery')) {
 		let device = e.target.id() === '' ? e.target.getParent() : e.target;
 		// device.children[0].fill(Konva.Util.getRandomColor());
 		let node = device.children[0];
