@@ -72,7 +72,7 @@ import ConveryTransverse from './component/device/convery-transverse/index.vue';
 import ConveryPortrait from './component/device/convery-portrait/index.vue';
 import Cabinet from './component/device/cabinet/index.vue';
 import GoodsShelves from './component/device/goodsShelves/index.vue';
-import StackerCrane from './component/device/StackerCrane/index.vue';
+import StackerCrane from './component/device/stackerCrane/index.vue';
 import { stat } from 'fs';
 
 export default {
@@ -146,13 +146,10 @@ const initLeftNavList = async () => {
 
 	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
 
-	console.log(respond.monitorDevices);
 	var componentData = respond.monitorDevices.map((device: any) => {
 		device.config = JSON.parse(device.config);
 		return device;
 	});
-
-	console.log(componentData);
 
 	state.stageSize.width = respond.stageWidth;
 	state.stageSize.height = respond.stageHeight;

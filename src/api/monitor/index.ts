@@ -1,3 +1,4 @@
+import { getServers } from 'dns';
 import request from '/@/utils/request';
 
 export function useMonitorApi() {
@@ -34,6 +35,13 @@ export function useMonitorApi() {
 			return request({
 				url: '/device-monitor/' + id,
 				method: 'get',
+			});
+		},
+		getServersState: (ids: Array<String>) => {
+			return request({
+				url: '/device-monitor/get-services-state',
+				method: 'post',
+				data: ids,
 			});
 		},
 		test: () => {

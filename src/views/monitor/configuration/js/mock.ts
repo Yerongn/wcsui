@@ -144,6 +144,7 @@ export const leftNavList = [
 					height: 50,
 					driveId: '',
 					driveName: '',
+					connectionState: 0,
 					name: '1',
 					rotation: 0,
 					scaleX: 1,

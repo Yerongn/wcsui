@@ -27,7 +27,7 @@ import ConveryTransverse from '../configuration/component/device/convery-transve
 import ConveryPortrait from '../configuration/component/device/convery-portrait/index.vue';
 import Cabinet from '../configuration/component/device/cabinet/index.vue';
 import GoodsShelves from '../configuration/component/device/goodsShelves/index.vue';
-import StackerCrane from '../configuration/component/device/StackerCrane/index.vue';
+import StackerCrane from '../configuration/component/device/stackerCrane/index.vue';
 
 export default {
 	components: {
@@ -49,6 +49,7 @@ import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { useSignalRStore } from '/@/stores/signalR';
 import signalR from '/@/utils/signalR';
 import { useMonitorApi } from '/@/api/monitor';
+import Konva from 'konva';
 
 // 引入组件
 const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
@@ -101,6 +102,11 @@ const initLeftNavList = async () => {
 
 	// 查询接口数据
 	state.componentData = componentData;
+
+	const serviceIds = state.componentData.filter((x) => x.component === 'cabinet').map((c) => c.config.driveId);
+	const serviceRespond = await useMonitorApi().getServersState(serviceIds);
+
+	serviceRespond.items.forEach(cabinetStateChange);
 };
 
 const ondblclick = (e: any) => {
@@ -279,8 +285,48 @@ onMounted(async () => {
 		}
 	});
 
+	state.SR.on('onservicestatechange', (data) => {
+		// 反序列化
+		var servicestate = JSON.parse(data);
+
+		cabinetStateChange(servicestate);
+	});
+
 	await state.SR.start();
 });
+
+const cabinetStateChange = (servicestate: any) => {
+	// 查找设备
+	const component = state.componentData.find((r) => r.component === 'cabinet' && r.config.driveId === servicestate.id);
+
+	var st = stage.value.getStage();
+	let id = '#' + component?.config.id;
+	var service = st.findOne(id);
+	// device.children[0].fill(Konva.Util.getRandomColor());
+	let node = service.children[0];
+
+	// 更新设备状态
+	node.cache();
+	node.filters([Konva.Filters.RGBA]);
+
+	// 初始化 橙色
+	if (servicestate.connectionState === 'Initial') {
+		node.blue(127);
+		node.green(127);
+		node.red(127);
+	} else if (servicestate.connectionState === 'Connected') {
+		// 已连接绿色
+		node.blue(0);
+		node.green(225);
+		node.red(0);
+	} else {
+		// 红色
+		node.blue(0);
+		node.green(0);
+		node.red(225);
+	}
+	node.alpha(0.8);
+};
 
 // 页面卸载时
 onUnmounted(async () => {

@@ -20,6 +20,12 @@
 				<el-table-column type="index" label="序号" width="60" />
 				<el-table-column prop="groupName" label="分组名称" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="driveName" label="驱动名称" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="isRead" label="自动读取" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.isRead">是</el-tag>
+						<el-tag type="info" v-else>否</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="scanInterval" label="扫描频率" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="state" label="分组状态" show-overflow-tooltip>
 					<template #default="scope">

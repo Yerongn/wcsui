@@ -20,9 +20,14 @@
 							<el-input v-model="state.ruleForm.scanInterval" placeholder="请输入扫描频率" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6" class="mb20">
 						<el-form-item label="分组状态">
 							<el-switch v-model="state.ruleForm.state" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6" class="mb20">
+						<el-form-item label="自动读取">
+							<el-switch v-model="state.ruleForm.isRead" inline-prompt active-text="是" inactive-text="否"></el-switch>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -73,7 +78,7 @@ const openDialog = async (type: string, row: Group) => {
 		state.dialog.title = '修改分组';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = { state: true, scanInterval: 500 } as Group;
+		state.ruleForm = { state: true, scanInterval: 500, isRead: true } as Group;
 		state.dialog.title = '新增分组';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用

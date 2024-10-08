@@ -250,6 +250,7 @@ declare type Group = {
 	driveId: string;
 	driveargs: DriveargType[];
 	state: boolean;
+	isRead: boolean;
 	remark: string;
 	orderNum: number;
 	creationTime: string;
@@ -398,6 +399,14 @@ declare type ProcessDataType = {
 	processDataTypeName: string;
 	processDataType: string;
 	processDataTypeDescribe: string;
+};
+
+// serviceMessageClintType
+declare type serviceMessageClintType = {
+	connectionState: string;
+	id: string;
+	name: string;
+	messageType: string;
 };
 
 // workflow drawer
