@@ -10,7 +10,7 @@
 		</v-image>
 
 		<v-rect
-			v-if="props.config.loaded"
+			v-if="state.loaded"
 			:config="{ x: 12, y: 12, width: props.config.width - 25, height: props.config.height - 25, fill: 'rgba(217, 129, 14, 1)' }"
 		></v-rect>
 
@@ -41,7 +41,7 @@ const state = reactive({
 
 //获取节点属性
 const setAttrs = async (config: any) => {
-	console.log(config);
+	state.loaded = config.state.loaded;
 };
 
 const image = new window.Image();

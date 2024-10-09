@@ -4,19 +4,13 @@
 			<el-form ref="deptDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="设备编号" prop="deviceNo">
-							<el-input v-model="state.ruleForm.deviceNo" disabled placeholder="设备编号" />
-						</el-form-item>
-					</el-col>
-
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="任务号">
-							<el-input v-model="state.ruleForm.taskNo" placeholder="任务号" />
+						<el-form-item label="任务编号">
+							<el-input v-model="state.ruleForm.taskNo" placeholder="任务编号" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="条码">
-							<el-input v-model="state.ruleForm.barcode" placeholder="任务号" />
+						<el-form-item label="容器条码">
+							<el-input v-model="state.ruleForm.barcode" placeholder="容器条码" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -43,16 +37,12 @@
 
 <script setup lang="ts" name="systemDeptDialog">
 import { reactive, ref } from 'vue';
-import { useDeptApi } from '/@/api/dept';
-
-// 定义子组件向父组件传值/事件
-const emit = defineEmits(['refresh']);
+import { useMonitorApi } from '/@/api/monitor';
 
 // 定义变量内容
 const deptDialogFormRef = ref();
 const state = reactive({
 	ruleForm: {
-		deviceNo: '',
 		taskNo: '',
 		barcode: '',
 		fromNode: '',
@@ -66,11 +56,17 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = (deviceNo: string) => {
-	state.ruleForm.deviceNo = deviceNo;
-
+const openDialog = async (deviceNo: string) => {
 	state.dialog.title = deviceNo + ' 设备信息';
 	state.dialog.deviceNo = deviceNo;
+
+	var response = await useMonitorApi().getConveryState(deviceNo);
+
+	state.ruleForm.taskNo = response.taskNo;
+	state.ruleForm.barcode = response.barcode;
+	state.ruleForm.fromNode = response.fromNode;
+	state.ruleForm.toNode = response.toNode;
+
 	state.dialog.isShowDialog = true;
 };
 // 关闭弹窗
@@ -85,9 +81,8 @@ const onCancel = () => {
 const onSubmit = () => {
 	deptDialogFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
-		await useDeptApi().addDept(state.ruleForm);
+		await useMonitorApi().updateConveryState(state.dialog.deviceNo, state.ruleForm);
 		closeDialog(); // 关闭弹窗
-		emit('refresh');
 	});
 };
 

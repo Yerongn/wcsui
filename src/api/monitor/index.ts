@@ -1,4 +1,3 @@
-import { getServers } from 'dns';
 import request from '/@/utils/request';
 
 export function useMonitorApi() {
@@ -42,6 +41,26 @@ export function useMonitorApi() {
 				url: '/device-monitor/get-services-state',
 				method: 'post',
 				data: ids,
+			});
+		},
+		getDevicesState: (deviceNos: Array<String>) => {
+			return request({
+				url: '/device-monitor/get-device-message',
+				method: 'post',
+				data: deviceNos,
+			});
+		},
+		getConveryState: (deviceNo: any) => {
+			return request({
+				url: '/device-monitor/convery-model/' + deviceNo,
+				method: 'get',
+			});
+		},
+		updateConveryState: (deviceNo: string, data: any) => {
+			return request({
+				url: '/device-monitor/convery-model/' + deviceNo,
+				method: 'put',
+				data: data,
 			});
 		},
 		test: () => {

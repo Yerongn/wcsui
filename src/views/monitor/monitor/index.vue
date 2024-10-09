@@ -35,6 +35,8 @@ import ConveryPortrait from '../configuration/component/device/convery-portrait/
 import Cabinet from '../configuration/component/device/cabinet/index.vue';
 import GoodsShelves from '../configuration/component/device/goodsShelves/index.vue';
 import StackerCrane from '../configuration/component/device/stackerCrane/index.vue';
+import { init } from 'echarts';
+import { useData } from 'element-plus/es/components/table-v2/src/composables';
 
 export default {
 	components: {
@@ -112,6 +114,8 @@ const setClientWidth = () => {
 // 左侧导航-数据初始化
 const initLeftNavList = async () => {
 	state.title = '入库区域';
+
+	// 查询数据
 	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
 	var componentData = respond.monitorDevices.map((device: any) => {
 		device.config = JSON.parse(device.config);
@@ -119,13 +123,19 @@ const initLeftNavList = async () => {
 		return device;
 	});
 
-	// 查询接口数据
 	state.componentData = componentData;
+};
 
+const initMonitorState = async () => {
+	// 电控柜
 	const serviceIds = state.componentData.filter((x) => x.component === 'cabinet').map((c) => c.config.driveId);
 	const serviceRespond = await useMonitorApi().getServersState(serviceIds);
-
 	serviceRespond.items.forEach(cabinetStateChange);
+
+	// 物流设备
+	const deviceNos = state.componentData.filter((x) => x.config.deviceNo !== undefined).map((c) => c.config.deviceNo);
+	const deviceRespond = await useMonitorApi().getDevicesState(deviceNos);
+	deviceRespond.items.forEach(deviceStateChange);
 };
 
 const ondblclick = (e: any) => {
@@ -135,22 +145,8 @@ const ondblclick = (e: any) => {
 
 	const component = state.componentData.find((r) => r.config.id === id);
 
-	componentRefs.value[state.componentData.indexOf(component)].setAttrs('22312');
-
 	if (component?.component.startsWith('convery')) {
-		let device = e.target.id() === '' ? e.target.getParent() : e.target;
-		// device.children[0].fill(Konva.Util.getRandomColor());
-		let node = device.children[0];
-		node.cache();
-		node.filters([Konva.Filters.RGBA]);
-		node.blue(0);
-		node.green(255);
-		node.alpha(0.8);
-
-		//device.children[0].stroke('red');
-		//device.children[0].strokeEnabled(true);
-
-		devicePropertiesRef.value.openDialog(component?.config.text);
+		devicePropertiesRef.value.openDialog(component?.config.deviceNo);
 	}
 };
 
@@ -169,15 +165,6 @@ const onToolClick = (fnName: String) => {
 			break;
 		case 'download':
 			onToolDownload();
-			break;
-		case 'submit':
-			onToolSubmit();
-			break;
-		case 'copy':
-			onToolCopy();
-			break;
-		case 'del':
-			onToolDel();
 			break;
 		case 'fullscreen':
 			onToolFullscreen();
@@ -209,42 +196,7 @@ const onToolDownload = () => {
 	aLink.remove();
 	ElMessage.success('下载成功');
 };
-// 顶部工具栏-提交
-const onToolSubmit = async () => {
-	// console.log(state.jsplumbData);
-	var componentData = JSON.parse(JSON.stringify(state.componentData));
-	componentData = componentData.map((device: any) => {
-		device.config = JSON.stringify(device.config);
-		device.id = '00000000-0000-0000-0000-000000000000';
-		return device;
-	});
 
-	var data = { id: '017bcd59-38bf-f00d-3436-3a11d8ebe1cc', AreaName: '入库区域监控', monitorDevices: componentData };
-	await useMonitorApi().updateMonitor(data);
-
-	ElMessage.success('数据提交成功');
-};
-// 顶部工具栏-复制
-const onToolCopy = () => {
-	//	copyText(JSON.stringify(state.jsplumbData));
-};
-// 顶部工具栏-删除
-const onToolDel = () => {
-	ElMessageBox.confirm('此操作将清空画布，是否继续？', '提示', {
-		confirmButtonText: '清空',
-		cancelButtonText: '取消',
-	})
-		.then(() => {
-			state.componentData.forEach(() => {
-				//	state.jsPlumb.removeAllEndpoints(v.nodeId);
-			});
-			nextTick(() => {
-				// state.jsplumbData = {nodeList: [],	lineList: [],};
-				ElMessage.success('清空画布成功');
-			});
-		})
-		.catch(() => {});
-};
 // 顶部工具栏-全屏
 const onToolFullscreen = () => {
 	stores.setCurrenFullscreen(true);
@@ -254,57 +206,17 @@ const onToolFullscreen = () => {
 onMounted(async () => {
 	await initLeftNavList();
 	initKonva();
+	await initMonitorState();
 	setClientWidth();
 	window.addEventListener('resize', setClientWidth);
 	// 订阅设备实时信息
 	state.SR = await signalR.init(`main`);
+
 	state.SR.on('ondevicepropvaluechange', (data) => {
 		// 反序列化
 		var deviceProperties = JSON.parse(data);
 
-		// 查找设备
-		const component = state.componentData.find((r) => r.config.text === deviceProperties.DeviceNo);
-
-		var st = stage.value.getStage();
-		let id = '#' + component?.config.id;
-		var device = st.findOne(id);
-
-		if (component?.component === 'convery') {
-			// device.children[0].fill(Konva.Util.getRandomColor());
-			let node = device.children[0];
-
-			// device.children[0].stroke('red');
-			// device.children[0].strokeEnabled(true);
-
-			// 更新设备状态
-			node.cache();
-			node.filters([Konva.Filters.RGBA]);
-
-			// 空载
-			if (deviceProperties.Model.TaskNo === 0) {
-				node.blue(127);
-				node.green(127);
-				node.red(127);
-			} else if (
-				// 运行
-				deviceProperties.Model.TaskNo > 10000 &&
-				deviceProperties.Model.ToNode != deviceProperties.DeviceNo &&
-				deviceProperties.Model.ToNode !== 1
-			) {
-				node.blue(0);
-				node.green(225);
-				node.red(0);
-			} else if (
-				//  载货
-				deviceProperties.Model.TaskNo > 10000 &&
-				(deviceProperties.Model.ToNode == deviceProperties.DeviceNo || deviceProperties.Model.ToNode === 1)
-			) {
-				node.blue(0);
-				node.green(225);
-				node.red(0);
-			}
-			node.alpha(0.8);
-		}
+		deviceStateChange(deviceProperties);
 	});
 
 	state.SR.on('onservicestatechange', (data) => {
@@ -316,6 +228,15 @@ onMounted(async () => {
 
 	await state.SR.start();
 });
+
+const deviceStateChange = (deviceState: any) => {
+	// 查找设备
+	if (deviceState === null) return;
+
+	const component = state.componentData.find((r) => r.config.deviceNo == deviceState.deviceNo);
+
+	if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(deviceState);
+};
 
 const cabinetStateChange = (servicestate: any) => {
 	// 查找设备
