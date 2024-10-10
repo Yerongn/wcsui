@@ -175,6 +175,8 @@ const initSortable = () => {
 						id,
 						from: {},
 						process: '',
+						interval: '1000',
+						stopCondition: 'data.IsComplete',
 					};
 					// 右侧视图内容数组
 					state.jsplumbData.nodeList.push(node);
@@ -371,13 +373,15 @@ const setLineLabel = (obj: any) => {
 };
 // 设置节点内容
 const setNodeContent = (obj: any) => {
-	const { nodeId, name, icon, process } = obj;
+	const { nodeId, name, icon, process, interval, stopCondition } = obj;
 	// 设置节点 name 与 icon
 	state.jsplumbData.nodeList.forEach((v) => {
 		if (v.nodeId === nodeId) {
 			v.name = name;
 			v.icon = icon;
 			v.process = process;
+			v.interval = interval;
+			v.stopCondition = stopCondition;
 		}
 	});
 	// 重绘

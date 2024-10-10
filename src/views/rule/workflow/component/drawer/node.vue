@@ -152,6 +152,10 @@ const getParentData = async (data: object) => {
 		}
 
 		state.form['process'] = state.node.process;
+	} else if (state.node.id === 'recur') {
+		state.form['interval'] = state.node.interval;
+
+		state.form['stopCondition'] = state.node.stopCondition;
 	}
 
 	//initChartsMonitor();
@@ -187,6 +191,13 @@ const onExtendSubmit = () => {
 					if (state.node.id === '14')
 						state.node.name = state.node.from[0]['options'].find((option: { value: any }) => option.value === state.form['process'])?.label || ''; //
 					state.node.process = state.form['process'];
+					state.node.from = {};
+					emit('submit', state.node);
+				}
+
+				if (state.node.id === 'recur') {
+					state.node.interval = state.form['interval'];
+					state.node.stopCondition = state.form['stopCondition'];
 					state.node.from = {};
 					emit('submit', state.node);
 				}

@@ -366,6 +366,8 @@ declare type NodeListState = {
 	icon: string;
 	name: string;
 	process: string;
+	stopCondition: string;
+	interval: string;
 };
 
 declare type LineListState = {

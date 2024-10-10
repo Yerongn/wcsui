@@ -35,14 +35,19 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-shangchuan',
-				name: '数据',
-				id: '23',
+				icon: 'iconfont icon-shuaxin',
+				name: '重复执行',
+				id: 'recur',
 				form: [
 					{
 						type: 'input',
-						label: '活动名称9',
-						prop: 'name23',
+						label: '时间间隔',
+						prop: 'interval',
+					},
+					{
+						type: 'input',
+						label: '停止条件',
+						prop: 'stopCondition',
 					},
 				],
 			},
@@ -67,6 +72,18 @@ export const leftNavList = [
 						required: true,
 						disabled: false,
 						options: [],
+					},
+				],
+			},
+			{
+				icon: 'iconfont icon-shangchuan',
+				name: '数据',
+				id: '15',
+				form: [
+					{
+						type: 'input',
+						label: '活动名称9',
+						prop: 'name23',
 					},
 				],
 			},
