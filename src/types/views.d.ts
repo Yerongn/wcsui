@@ -422,6 +422,12 @@ declare type serviceMessageClintType = {
 	messageType: string;
 };
 
+declare type DeviceLogType = {
+	timestamp: string;
+	level: string;
+	message: string;
+};
+
 // workflow drawer
 declare type WorkflowDrawerNodeState<T = any> = {
 	node: { [key: string]: T };
