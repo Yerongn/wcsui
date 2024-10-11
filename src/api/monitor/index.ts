@@ -63,6 +63,12 @@ export function useMonitorApi() {
 				data: data,
 			});
 		},
+		getDeviceLog: (deviceNo: any) => {
+			return request({
+				url: '/device-monitor/device-log/' + deviceNo,
+				method: 'get',
+			});
+		},
 		test: () => {
 			return request({
 				url: '/test/hello-world',
