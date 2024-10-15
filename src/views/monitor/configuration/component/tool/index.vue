@@ -3,23 +3,30 @@
 		<div class="pl15">{{ setToolTitle }}</div>
 
 		<el-divider direction="vertical" />
-		<el-text size="small"> 设备复制: </el-text>
 
-		<div class="workflow-tool-icon" title="左复制" @click="onToolClick('leftCopy')">
+		<el-text size="small" style="left: 10px"> 复制: </el-text>
+		<el-button-group style="padding-left: 10px">
+			<el-button size="small" title="上复制" @click="onToolClick('topCopy')">上</el-button>
+			<el-button size="small" title="下复制" @click="onToolClick('bottomCopy')">下</el-button>
+			<el-button size="small" title="左复制" @click="onToolClick('leftCopy')">左</el-button>
+			<el-button size="small" title="右复制" @click="onToolClick('rightCopy')">右</el-button>
+		</el-button-group>
+
+		<!-- <div class="workflow-tool-icon" title="左复制" >
 			<el-text size="small"> 左</el-text>
 		</div>
 
-		<div class="workflow-tool-icon" title="右复制" @click="onToolClick('rightCopy')">
+		<div class="workflow-tool-icon" title="右复制" >
 			<SvgIcon name="ele-Right" />
 		</div>
 
-		<div class="workflow-tool-icon" title="上复制" @click="onToolClick('topCopy')">
+		<div class="workflow-tool-icon" title="上复制" >
 			<SvgIcon name="ele-Top" />
 		</div>
 
-		<div class="workflow-tool-icon" title="下复制" @click="onToolClick('bottomCopy')">
+		<div class="workflow-tool-icon" title="下复制" >
 			<SvgIcon name="ele-Bottom" />
-		</div>
+		</div> -->
 		<div class="workflow-tool-right">
 			<el-text size="small"> W: </el-text>
 			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small" @change="widthValueChange"></el-input>
@@ -64,9 +71,9 @@ const state = reactive({
 	height: props.config.height,
 	toolList: [
 		{ icon: 'ele-Help', title: '帮助', fnName: 'help' },
-		{ icon: 'ele-Download', title: '下载', fnName: 'download' },
+		// { icon: 'ele-Download', title: '下载', fnName: 'download' },
 		{ icon: 'ele-Check', title: '提交', fnName: 'submit' },
-		{ icon: 'ele-DocumentCopy', title: '复制', fnName: 'copy' },
+		// { icon: 'ele-DocumentCopy', title: '复制', fnName: 'copy' },
 		{ icon: 'ele-Delete', title: '删除', fnName: 'del' },
 		{ icon: 'ele-FullScreen', title: '全屏', fnName: 'fullscreen' },
 	],

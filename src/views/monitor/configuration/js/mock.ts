@@ -262,7 +262,7 @@ export const leftNavList = [
 			{
 				icon: 'iconfont icon-fuwenben',
 				name: '货架',
-				id: '25',
+				id: '27',
 				componentType: 'goodsShelves',
 				config: {
 					x: 20,

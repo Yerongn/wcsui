@@ -35,8 +35,6 @@ import ConveryPortrait from '../configuration/component/device/convery-portrait/
 import Cabinet from '../configuration/component/device/cabinet/index.vue';
 import GoodsShelves from '../configuration/component/device/goodsShelves/index.vue';
 import StackerCrane from '../configuration/component/device/stackerCrane/index.vue';
-import { init } from 'echarts';
-import { useData } from 'element-plus/es/components/table-v2/src/composables';
 
 export default {
 	components: {

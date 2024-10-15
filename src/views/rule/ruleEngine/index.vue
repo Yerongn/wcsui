@@ -31,9 +31,9 @@
 				</el-table-column>
 				<el-table-column prop="ruleName" label="规则名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="expression" label="规则表达式" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="deviceNo" label="设备号" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="deviceNo" label="设备号" width="80"> </el-table-column>
 				<el-table-column prop="workflowName" label="流程名称" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="state" label="规则状态" show-overflow-tooltip>
+				<el-table-column prop="state" label="规则状态" width="80">
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.state">启用</el-tag>
 						<el-tag type="info" v-else>禁用</el-tag>

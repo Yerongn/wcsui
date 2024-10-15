@@ -25,9 +25,9 @@
 								<el-tab-pane label="账号密码登录" name="account">
 									<Account />
 								</el-tab-pane>
-								<el-tab-pane label="手机号登录" name="mobile">
+								<!-- <el-tab-pane label="手机号登录" name="mobile">
 									<Mobile />
-								</el-tab-pane>
+								</el-tab-pane> -->
 							</el-tabs>
 						</div>
 						<Scan v-if="state.isScan" />
@@ -48,7 +48,7 @@ import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { NextLoading } from '/@/utils/loading';
 import logoMini from '/@/assets/logo-mini.svg';
-import loginMain from '/@/assets/login-main.svg';
+import loginMain from '/@/assets/login-bg1.svg';
 import loginBg from '/@/assets/login-bg.svg';
 
 // 引入组件
@@ -111,14 +111,14 @@ onMounted(() => {
 		}
 		.login-left-img {
 			position: absolute;
-			top: 50%;
-			left: 50%;
+			top: 40%;
+			left: 40%;
 			transform: translate(-50%, -50%);
 			width: 100%;
 			height: 52%;
 			img {
-				width: 100%;
-				height: 100%;
+				width: 120%;
+				height: 140%;
 				animation: error-num 0.6s ease;
 			}
 		}

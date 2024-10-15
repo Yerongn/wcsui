@@ -1,5 +1,5 @@
 <template>
-	<v-group :config="props.config">
+	<v-group ref="rectRef" :config="props.config">
 		<v-image
 			:config="{
 				image: state.image,
@@ -30,18 +30,31 @@
 </template>
 
 <script setup lang="ts" name="converyTransverse">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const props = defineProps(['config']);
 
+const rectRef = ref();
+
 const state = reactive({
 	loaded: false,
+	velocity: 25, // 移动每秒25个像素移动
 	image: null as any,
 });
 
 //获取节点属性
 const setAttrs = async (config: any) => {
 	state.loaded = config.state.loaded;
+	if (state.loaded) {
+		console.log('12312');
+		const node = rectRef.value;
+		const layer = node.getLayer();
+		var anim = new Konva.Animation(function (frame) {
+			var dist = state.velocity * (frame.timeDiff / 1000);
+			rectRef.value.getNode().move({ x: dist, y: 0 });
+		}, layer);
+		anim.start();
+	}
 };
 
 const image = new window.Image();

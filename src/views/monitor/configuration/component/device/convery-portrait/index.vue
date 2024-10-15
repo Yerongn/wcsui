@@ -9,6 +9,7 @@
 		>
 		</v-image>
 		<v-rect
+			ref="rectRef"
 			v-if="state.loaded"
 			:config="{ x: 12, y: 12, width: props.config.width - 25, height: props.config.height - 25, fill: 'rgba(217, 129, 14, 0.5)' }"
 		></v-rect>
@@ -29,18 +30,32 @@
 </template>
 
 <script setup lang="ts" name="converyPortrait">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import Konva from 'konva';
 
 const props = defineProps(['config']);
 
+const rectRef = ref();
+
 const state = reactive({
 	image: null as any,
+	velocity: 25, // 移动每秒25个像素移动
 	loaded: false,
 });
 
 //获取节点属性
 const setAttrs = async (config: any) => {
 	state.loaded = config.state.loaded;
+	if (state.loaded) {
+		console.log('12312');
+		const node = rectRef.value.getNode();
+		const layer = node.getLayer();
+		var anim = new Konva.Animation(function (frame) {
+			var dist = state.velocity * (frame.timeDiff / 1000);
+			rectRef.value.getNode().move({ x: dist, y: 0 });
+		}, layer);
+		anim.start();
+	}
 };
 
 const image = new window.Image();

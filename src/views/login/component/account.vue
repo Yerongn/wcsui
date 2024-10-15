@@ -22,7 +22,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3">
+		<!-- <el-form-item class="login-animation3">
 			<el-col :span="15">
 				<el-input text maxlength="4" placeholder="请输入验证码" v-model="state.ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
@@ -34,7 +34,7 @@
 			<el-col :span="8">
 				<el-button class="login-content-code" v-waves>1234</el-button>
 			</el-col>
-		</el-form-item>
+		</el-form-item> -->
 		<el-form-item class="login-animation4">
 			<el-button type="primary" class="login-content-submit" round v-waves @click="onSignIn" :loading="state.loading.signIn">
 				<span>登 录</span>

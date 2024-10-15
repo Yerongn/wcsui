@@ -21,23 +21,30 @@
 					</el-icon>
 					批量新增
 				</el-button>
+				<el-button size="danger" type="success" class="ml10" @click="onOpenBatchDelete()">
+					<el-icon>
+						<ele-Delete />
+					</el-icon>
+					删除
+				</el-button>
 			</div>
-			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
+			<el-table ref="tableRef" :data="state.tableData.data" v-loading="state.tableData.loading" @sort-change="onHandleSortChange" style="width: 100%">
+				<el-table-column type="selection" width="55" />
 				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="deviceNo" label="设备号" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="protocol" label="设备协议" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="dbNumber" label="Db块编号" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="startByte" label="起始偏移量" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="dataLength" label="数据长度" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="deviceNo" label="设备号" width="100" sortable="custom" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="protocol" label="设备协议" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="dbNumber" label="Db块编号" width="100" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="startByte" label="起始偏移量" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="dataLength" label="数据长度" width="80" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="groupName" label="分组" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="state" label="状态" show-overflow-tooltip>
+				<el-table-column prop="state" label="状态" width="80" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.state">启用</el-tag>
 						<el-tag type="info" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="remark" label="描述" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="creationTime" label="创建时间" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="creationTime" label="创建时间" sortable show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="100">
 					<template #default="scope">
 						<el-button
@@ -87,6 +94,7 @@ const BatchAdd = defineAsyncComponent(() => import('/@/views/device/sharp7Device
 // 定义变量内容
 const sharp7DeviceProtocolDialogRef = ref();
 const batchAddRef = ref();
+const tableRef = ref();
 const state = reactive({
 	tableData: {
 		data: [] as Sharp7DeviceProtocol[],
@@ -95,6 +103,7 @@ const state = reactive({
 		queryParams: {
 			deviceNo: '',
 			skipCount: 1,
+			sorting: '',
 			maxResultCount: 10,
 		},
 	},
@@ -122,6 +131,25 @@ const onOpenBatchAdd = () => {
 	batchAddRef.value.openDialog();
 };
 
+// 删除
+const onOpenBatchDelete = () => {
+	const selectable = tableRef.value.getSelectionRows();
+	if (selectable.length === 0) return;
+	const deviceProtocol = selectable.map((d: Sharp7DeviceProtocol) => `“${d.deviceNo}_${d.protocol}”`).toString();
+	const ids = selectable.map((d: Sharp7DeviceProtocol) => d.id);
+	ElMessageBox.confirm(`此操作将永久删除设备协议：“${deviceProtocol}”，是否继续?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await useSharp7DeviceProtocolApi().delSharp7DeviceProtocol(ids);
+			getTableData();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
 // 删除用户
 const onRowDel = (row: Sharp7DeviceProtocol) => {
 	ElMessageBox.confirm(`此操作将永久删除设备协议：“${row.deviceNo}_${row.protocol}”，是否继续?`, '提示', {
@@ -136,6 +164,13 @@ const onRowDel = (row: Sharp7DeviceProtocol) => {
 		})
 		.catch(() => {});
 };
+
+// 排序
+const onHandleSortChange = (sortInfo: any) => {
+	state.tableData.queryParams.sorting = `${sortInfo.prop} ${sortInfo.order === 'descending' ? 'desc' : 'asc'}`;
+	getTableData();
+};
+
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.tableData.queryParams.maxResultCount = val;
