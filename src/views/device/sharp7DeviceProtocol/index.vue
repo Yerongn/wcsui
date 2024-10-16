@@ -35,9 +35,9 @@
 				<el-table-column prop="protocol" label="设备协议" sortable show-overflow-tooltip></el-table-column>
 				<el-table-column prop="dbNumber" label="Db块编号" width="100" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="startByte" label="起始偏移量" sortable show-overflow-tooltip></el-table-column>
-				<el-table-column prop="dataLength" label="数据长度" width="80" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="dataLength" label="数据长度" width="100" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="groupName" label="分组" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="state" label="状态" width="80" show-overflow-tooltip>
+				<el-table-column prop="state" label="状态" width="100" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.state">启用</el-tag>
 						<el-tag type="info" v-else>禁用</el-tag>
