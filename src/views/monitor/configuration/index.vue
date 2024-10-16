@@ -30,7 +30,8 @@
 									:data-type="v.componentType"
 								>
 									<div class="canvas-left-item-icon">
-										<SvgIcon :name="v.icon" class="canvas-icon-drag" />
+										<SvgIcon v-if="v.icon.startsWith('iconfont')" :name="v.icon" class="canvas-icon-drag" />
+										<SvgIconV2 v-else :name="v.icon"></SvgIconV2>
 										<div class="font10 pl5 name">{{ v.name }}</div>
 									</div>
 								</div>
@@ -68,13 +69,13 @@
 </template>
 
 <script lang="ts">
-import ConveryTransverse from './component/device/convery-transverse/index.vue';
-import ConveryPortrait from './component/device/convery-portrait/index.vue';
-import Cabinet from './component/device/cabinet/index.vue';
-import GoodsShelves from './component/device/goodsShelves/index.vue';
-import StackerCrane from './component/device/stackerCrane/index.vue';
-import { stat } from 'fs';
+const ConveryTransverse = defineAsyncComponent(() => import('./component/device/convery-transverse/index.vue'));
+const ConveryPortrait = defineAsyncComponent(() => import('./component/device/convery-portrait/index.vue'));
+const Cabinet = defineAsyncComponent(() => import('./component/device/cabinet/index.vue'));
+const GoodsShelves = defineAsyncComponent(() => import('./component/device/goodsShelves/index.vue'));
+const StackerCrane = defineAsyncComponent(() => import('./component/device/stackerCrane/index.vue'));
 
+import SvgIconV2 from '../../../components/svgIconv2/index.vue';
 export default {
 	components: {
 		converyPortrait: ConveryPortrait,

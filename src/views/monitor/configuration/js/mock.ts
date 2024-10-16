@@ -133,7 +133,7 @@ export const leftNavList = [
 		id: '2',
 		children: [
 			{
-				icon: 'iconfont icon-fuwenben',
+				icon: 'cabinet',
 				name: '电控柜',
 				id: '26',
 				componentType: 'cabinet',
@@ -160,8 +160,8 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
-				name: '输送线-横向',
+				icon: 'convery-transverse',
+				name: '输送线',
 				id: '21',
 				componentType: 'converyTransverse',
 				config: {
@@ -185,8 +185,8 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
-				name: '输送线-纵向',
+				icon: 'convery-portrait',
+				name: '输送线',
 				id: '22',
 				componentType: 'converyPortrait',
 				config: {
@@ -210,8 +210,8 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
-				name: '输送线-半圆',
+				icon: 'convery-half-circle',
+				name: '输送线',
 				id: '23',
 				componentType: 'converyHalfCircle',
 				config: {
@@ -235,8 +235,8 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
-				name: '输送线-1/4圆',
+				icon: 'convery-1-4-circle',
+				name: '输送线',
 				id: '24',
 				componentType: 'convery1/4Circle',
 				config: {
@@ -260,7 +260,7 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
+				icon: 'goods-shelves',
 				name: '货架',
 				id: '27',
 				componentType: 'goodsShelves',
@@ -277,7 +277,7 @@ export const leftNavList = [
 				},
 			},
 			{
-				icon: 'iconfont icon-fuwenben',
+				icon: 'stacker-crane',
 				name: '堆垛机',
 				id: '25',
 				componentType: 'stackerCrane',

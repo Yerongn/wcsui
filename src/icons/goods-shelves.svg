@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <title>Layer 1</title>
+  <rect fill="#000000" fill-opacity="0" height="396" id="svg_1" stroke="#e5e5e5" stroke-width="30" transform="matrix(1 0 0 1 0 0)" width="539" x="51.75" y="45.25"/>
+  <line fill="none" fill-opacity="0" id="svg_2" stroke="#e5e5e5" stroke-width="30" transform="matrix(1 0 0 1 0 0)" x1="578.75" x2="59.75" y1="56.25" y2="429.25"/>
+  <line fill="none" fill-opacity="0" id="svg_3" stroke="#e5e5e5" stroke-width="30" transform="matrix(1 0 0 1 0 0)" x1="63.75" x2="581.75" y1="56.25" y2="428.25"/>
+  <circle cx="58.38" cy="434.75" fill="#999999" id="svg_12" r="29.55" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)"/>
+  <rect fill="#b2b2b2" height="62" id="svg_4" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)" width="66" x="19.38" y="13.5"/>
+  <rect fill="#b2b2b2" height="64" id="svg_5" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)" width="72" x="549.38" y="19"/>
+  <rect fill="#b2b2b2" height="58" id="svg_11" stroke="#b2b2b2" width="66" x="555.38" y="411"/>
+  <rect fill="#b2b2b2" height="64" id="svg_13" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)" width="66" x="22.38" y="406"/>
+  <circle cx="53.88" cy="50.5" fill="#7f7f7f" id="svg_14" r="17" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)"/>
+  <circle cx="585.88" cy="51" fill="#7f7f7f" id="svg_15" r="17" stroke="#b2b2b2"/>
+  <circle cx="590.38" cy="441" fill="#7f7f7f" id="svg_16" r="17" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)"/>
+  <circle cx="52.87" cy="438" fill="#7f7f7f" id="svg_17" r="17" stroke="#b2b2b2" transform="matrix(1 0 0 1 0 0)"/>
+ </g>
+</svg>

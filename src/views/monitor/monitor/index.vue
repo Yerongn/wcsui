@@ -30,11 +30,11 @@
 </template>
 
 <script lang="ts">
-import ConveryTransverse from '../configuration/component/device/convery-transverse/index.vue';
-import ConveryPortrait from '../configuration/component/device/convery-portrait/index.vue';
-import Cabinet from '../configuration/component/device/cabinet/index.vue';
-import GoodsShelves from '../configuration/component/device/goodsShelves/index.vue';
-import StackerCrane from '../configuration/component/device/stackerCrane/index.vue';
+const ConveryTransverse = defineAsyncComponent(() => import('../../monitor/configuration/component/device/convery-transverse/index.vue'));
+const ConveryPortrait = defineAsyncComponent(() => import('../../monitor/configuration/component/device/convery-portrait/index.vue'));
+const Cabinet = defineAsyncComponent(() => import('../../monitor/configuration/component/device/cabinet/index.vue'));
+const GoodsShelves = defineAsyncComponent(() => import('../../monitor/configuration/component/device/goodsShelves/index.vue'));
+const StackerCrane = defineAsyncComponent(() => import('../../monitor/configuration/component/device/stackerCrane/index.vue'));
 
 export default {
 	components: {
