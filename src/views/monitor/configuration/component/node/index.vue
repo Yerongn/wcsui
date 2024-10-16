@@ -48,7 +48,7 @@
 		</el-tabs>
 	</div>
 
-	<Drawer ref="drawerRef" />
+	<Drawer ref="drawerRef" @refresh="getDriveList()" />
 </template>
 
 <script setup lang="ts" name="canvasNode">
@@ -107,6 +107,10 @@ const getAttrs = async (component: string, config: any, shape: Shape | Group) =>
 	state.form.height = config.height;
 	state.form.component = component;
 
+	await getDriveList();
+};
+
+const getDriveList = async () => {
 	const response = await useDriveApi().getDriveList();
 	state.drives = response.items;
 };
