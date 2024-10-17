@@ -99,6 +99,56 @@ declare type JobType<T = any> = {
 	triggerArgs: string;
 };
 
+// wms
+declare type WmsTaskType<T = any> = {
+	id: string;
+	wmsTaskNo: string;
+	containerBarcode: string;
+	taskStatus: string;
+	taskType: string;
+	billType: string;
+	sourceAddress: string;
+	targetAddress: string;
+	priority: number;
+	creationTime: T;
+	finishTime: T;
+};
+
+// wcs
+declare type WcsTaskType<T = any> = {
+	id: string;
+	taskNo: string;
+	wmsTaskNo: string;
+	containerBarcode: string;
+	taskRunStatus: string;
+	taskType: string;
+	sourceAddress: string;
+	targetAddress: string;
+	priority: number;
+	creationTime: T;
+	finishTime: T;
+};
+
+// wcs
+declare type WcsSubTaskType<T = any> = {
+	id: string;
+	taskNo: string;
+	orderNum: number;
+	wmsTaskNo: string;
+	containerBarcode: string;
+	taskStatus: string;
+	taskRunStatus: string;
+	taskType: string;
+	executionDeviceType: string;
+	executionDevice: string;
+	sourceAddress: string;
+	targetAddress: string;
+	priority: number;
+	creationTime: T;
+	executionTime: T;
+	finishTime: T;
+};
+
 // user
 declare type RowUserType<T = any> = {
 	id: string;

@@ -131,7 +131,6 @@ const addgroupDrawerRef = ref();
 const addDeviceProtocolDrawerRef = ref();
 
 const AddgroupDrawer = defineAsyncComponent(() => import('./addgroup.vue'));
-
 const AddDeviceProtocolDrawer = defineAsyncComponent(() => import('./addDeviceProtocol.vue'));
 
 const state = reactive({
