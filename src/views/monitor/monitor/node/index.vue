@@ -108,9 +108,9 @@ const handleClick = async (tab: TabsPaneContext) => {
 const openDialog = async (deviceNo: string) => {
 	state.dialog.title = deviceNo + ' 设备信息';
 
-	if (state.dialog.deviceNo !== deviceNo) {
-		state.tableData.deviceLogData = [];
-	}
+	// if (state.dialog.deviceNo !== deviceNo) {
+	state.tableData.deviceLogData = [];
+	// }
 
 	state.dialog.deviceNo = deviceNo;
 	state.activeName = 'deviceInfo';

@@ -243,6 +243,8 @@ const cabinetStateChange = (servicestate: any) => {
 	var st = stage.value.getStage();
 	let id = '#' + component?.config.id;
 	var service = st.findOne(id);
+
+	if (service === undefined) return;
 	// device.children[0].fill(Konva.Util.getRandomColor());
 	let node = service.children[0];
 
