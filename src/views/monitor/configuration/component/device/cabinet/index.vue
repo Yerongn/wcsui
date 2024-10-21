@@ -27,6 +27,7 @@
 
 <script setup lang="ts" name="cabinet">
 import { reactive, ref } from 'vue';
+import Konva from 'konva';
 
 const props = defineProps(['config']);
 
@@ -35,6 +36,16 @@ const cabinet = ref();
 const state = reactive({
 	image: null as any,
 });
+
+//获取节点属性
+const setAttrs = async (config: any) => {
+	// var node = cabinet.value.getNode();
+	// console.log(node);
+	// node.cache();
+	// node.fill = 'red';
+	// node.filters([Konva.Filters.Blur]);
+	// node.blurRadius(10);
+};
 
 // watch(
 // 	() => props.config.connectionState,
@@ -61,4 +72,8 @@ image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;
 };
+
+defineExpose({
+	setAttrs,
+});
 </script>

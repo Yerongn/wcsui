@@ -204,7 +204,6 @@ const onToolFullscreen = () => {
 onMounted(async () => {
 	await initLeftNavList();
 	initKonva();
-	await initMonitorState();
 	setClientWidth();
 	window.addEventListener('resize', setClientWidth);
 	// 订阅设备实时信息
@@ -225,6 +224,8 @@ onMounted(async () => {
 	});
 
 	await state.SR.start();
+
+	await initMonitorState();
 });
 
 const deviceStateChange = (deviceState: any) => {
@@ -240,10 +241,11 @@ const cabinetStateChange = (servicestate: any) => {
 	// 查找设备
 	const component = state.componentData.find((r) => r.component === 'cabinet' && r.config.driveId === servicestate.id);
 
+	// if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(servicestate);
+
 	var st = stage.value.getStage();
 	let id = '#' + component?.config.id;
 	var service = st.findOne(id);
-
 	if (service === undefined) return;
 	// device.children[0].fill(Konva.Util.getRandomColor());
 	let node = service.children[0];
