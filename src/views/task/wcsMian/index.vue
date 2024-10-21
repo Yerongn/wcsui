@@ -40,16 +40,23 @@
 				</el-button>
 			</div>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
-				<el-table-column type="index" label="序号" width="60" />
 				<el-table-column type="expand">
 					<template #default="props">
 						<div m="4">
-							<el-table :data="props.row.family">
-								<el-table-column label="Name" prop="name" />
-								<el-table-column label="State" prop="state" />
-								<el-table-column label="City" prop="city" />
-								<el-table-column label="Address" prop="address" />
-								<el-table-column label="Zip" prop="zip" />
+							<el-table :data="props.row.taskSubs">
+								<el-table-column type="index" label="序号" width="60" />
+								<el-table-column prop="taskRunStatus" label="任务状态" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="taskStatus" label="是否可执行" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="sourceAddress" label="起始地址" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="targetAddress" label="目标地址" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="executionTime" label="执行时间" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="finishTime" label="完成时间" show-overflow-tooltip></el-table-column>
+								<el-table-column label="操作" width="100">
+									<template #default="scope">
+										<!-- <el-button size="small" text type="primary" @click="onOpenEditTask(scope.row)">修改</el-button> -->
+										<el-button size="small" text type="primary" @click="onRowDel(scope.row)">回收</el-button>
+									</template>
+								</el-table-column>
 							</el-table>
 						</div>
 					</template>

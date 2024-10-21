@@ -127,6 +127,7 @@ declare type WcsTaskType<T = any> = {
 	priority: number;
 	creationTime: T;
 	finishTime: T;
+	taskSubs: Array<WcsSubTaskType>;
 };
 
 // wcs
