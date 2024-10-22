@@ -119,6 +119,11 @@ const initLeftNavList = async () => {
 	});
 
 	state.componentData = componentData;
+
+	// state.stageSize.width = respond.stageWidth;
+	// state.stageSize.height = respond.stageHeight;
+	state.stageSize.scaleX = respond.stageScale;
+	state.stageSize.scaleY = respond.stageScale;
 };
 
 const initMonitorState = async () => {
