@@ -4,7 +4,8 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" @setStageHeight="setStageHeight" @set-stage-width="setStageWidth" :config="state.stageSize" />
+				<Tool @tool="onToolClick" v-model:width="state.stageSize.width" v-model:height="state.stageSize.height" :scaleX="state.stageSize.scaleX" />
+				<!-- @setStageHeight="setStageHeight" @set-stage-width="setStageWidth" -->
 				<!-- 左侧导航区 -->
 				<div class="canvas-content">
 					<div class="canvas-left">
@@ -695,8 +696,11 @@ const getMaxDeviceNo = () => {
 // 初始化 Konva
 const initKonva = () => {
 	let ele = document.getElementById('canvas');
-	state.stageSize.width = ele?.offsetWidth ?? 800;
-	state.stageSize.height = ele?.offsetHeight ?? 800;
+	const offsetWidth = ele?.offsetWidth ?? state.stageSize.width;
+	const offsetHeight = ele?.offsetHeight ?? state.stageSize.height;
+
+	state.stageSize.width = offsetWidth > state.stageSize.width ? offsetHeight : state.stageSize.width;
+	state.stageSize.height = offsetHeight > state.stageSize.height ? offsetHeight : state.stageSize.height;
 
 	var st = stage.value.getStage();
 	var container = st.container();
@@ -779,18 +783,6 @@ const handleDeleteKeyDown = (e: any) => {
 		);
 	});
 	state.selected = [];
-};
-
-const setStageHeight = (value: number) => {
-	var st = stage.value.getStage();
-	st.height(Math.floor(value));
-	state.stageSize.height = Math.floor(value);
-};
-
-const setStageWidth = (value: number) => {
-	var st = stage.value.getStage();
-	st.width(Math.floor(value));
-	state.stageSize.width = Math.floor(value);
 };
 
 // 顶部工具栏-当前项点击

@@ -29,16 +29,16 @@
 		</div> -->
 		<div class="workflow-tool-right">
 			<el-text size="small"> W: </el-text>
-			<el-input v-model="state.width" style="width: 80px; padding: 5px 10px" size="small" @change="widthValueChange"></el-input>
+			<el-input v-model="width" style="width: 80px; padding: 5px 10px" size="small"></el-input>
 
 			<el-text size="small"> H: </el-text>
-			<el-input v-model="state.height" style="width: 80px; padding: 5px 10px" size="small" @change="heightValueChange" />
+			<el-input v-model="height" style="width: 80px; padding: 5px 10px" size="small" />
 
 			<div class="workflow-tool-icon" title="放大" @click="onToolClick('zoomIn')">
 				<SvgIcon name="ele-ZoomIn" />
 			</div>
 
-			<el-text size="small"> {{ Math.floor(props.config.scaleX * 100) }}%</el-text>
+			<el-text size="small"> {{ Math.floor(props.scaleX * 100) }}%</el-text>
 
 			<div class="workflow-tool-icon" title="缩小" @click="onToolClick('zoomOut')">
 				<SvgIcon name="ele-ZoomOut" />
@@ -61,14 +61,14 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['tool', 'setStageWidth', 'setStageHeight']);
 
-const props = defineProps(['config']);
+const props = defineProps(['scaleX']);
 
 // 定义变量内容
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 const state = reactive({
-	width: props.config.width,
-	height: props.config.height,
+	// width: props.config.width,
+	// height: props.config.height,
 	toolList: [
 		{ icon: 'ele-Help', title: '帮助', fnName: 'help' },
 		// { icon: 'ele-Download', title: '下载', fnName: 'download' },
@@ -79,13 +79,16 @@ const state = reactive({
 	],
 });
 
-const widthValueChange = () => {
-	emit('setStageWidth', state.width);
-};
+const width = defineModel('width');
+const height = defineModel('height');
 
-const heightValueChange = () => {
-	emit('setStageHeight', state.height);
-};
+// const widthValueChange = () => {
+// 	emit('setStageWidth', state.width);
+// };
+
+// const heightValueChange = () => {
+// 	emit('setStageHeight', state.height);
+// };
 
 // 设置 tool 标题
 const setToolTitle = computed(() => {
