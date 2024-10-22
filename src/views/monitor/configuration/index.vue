@@ -96,6 +96,7 @@ import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { leftNavList } from './js/mock';
+import { useRoute } from 'vue-router';
 import Konva from 'konva';
 
 import { useMonitorApi } from '/@/api/monitor';
@@ -108,6 +109,7 @@ const Node = defineAsyncComponent(() => import('./component/node/index.vue'));
 // 定义变量内容
 const leftNavRefs = ref([]);
 const canvasRightRef = ref();
+const route = useRoute();
 const helpRef = ref();
 const transformer = ref();
 const selectionRectangle = ref();
@@ -146,9 +148,9 @@ const setClientWidth = () => {
 const initLeftNavList = async () => {
 	state.leftNavList = leftNavList;
 
-	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
+	const respond = await useMonitorApi().getMonitor(route.params.id);
 
-	var componentData = respond.monitorDevices.map((device: any) => {
+	var componentData = respond.monitorDevices?.map((device: any) => {
 		device.config = JSON.parse(device.config);
 		return device;
 	});
@@ -854,8 +856,7 @@ const onToolSubmit = async () => {
 	});
 
 	var data = {
-		id: '017bcd59-38bf-f00d-3436-3a11d8ebe1cc',
-		areaName: '入库区域监控',
+		id: route.params.id,
 		monitorDevices: componentData,
 		stageWidth: state.stageSize.width,
 		stageHeight: state.stageSize.height,

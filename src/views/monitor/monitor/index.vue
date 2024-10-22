@@ -55,6 +55,7 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import signalR from '/@/utils/signalR';
 import { useMonitorApi } from '/@/api/monitor';
+import { useRoute } from 'vue-router';
 
 // 引入组件
 const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
@@ -75,6 +76,7 @@ const setComponentRef = (index: number) => {
 
 // 定义变量内容
 const canvasRightRef = ref();
+const route = useRoute();
 const helpRef = ref();
 const stage = ref();
 const layer = ref();
@@ -111,8 +113,8 @@ const initLeftNavList = async () => {
 	state.title = '入库区域';
 
 	// 查询数据
-	const respond = await useMonitorApi().getMonitor('017bcd59-38bf-f00d-3436-3a11d8ebe1cc');
-	var componentData = respond.monitorDevices.map((device: any) => {
+	const respond = await useMonitorApi().getMonitor(route.params.id);
+	var componentData = respond.monitorDevices?.map((device: any) => {
 		device.config = JSON.parse(device.config);
 		device.config.draggable = false;
 		return device;
@@ -128,12 +130,15 @@ const initLeftNavList = async () => {
 
 const initMonitorState = async () => {
 	// 电控柜
-	const serviceIds = state.componentData.filter((x) => x.component === 'cabinet').map((c) => c.config.driveId);
+	const serviceIds = state.componentData.filter((x) => x.component === 'cabinet' && x.config.driveId !== '').map((c) => c.config.driveId);
+	if (serviceIds.length === 0) return;
+	console.log(serviceIds);
 	const serviceRespond = await useMonitorApi().getServersState(serviceIds);
 	serviceRespond.items.forEach(cabinetStateChange);
 
 	// 物流设备
 	const deviceNos = state.componentData.filter((x) => x.config.deviceNo !== undefined).map((c) => c.config.deviceNo);
+	if (deviceNos.length === 0) return;
 	const deviceRespond = await useMonitorApi().getDevicesState(deviceNos);
 	deviceRespond.items.forEach(deviceStateChange);
 };
