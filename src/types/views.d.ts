@@ -512,6 +512,28 @@ declare type CanvasComponent<T = any> = {
 	config: T;
 };
 
+// areaMonitor
+declare type AreaMonitor<T = any> = {
+	id: string;
+	areaName: string;
+	stageWidth: number;
+	stageHeight: number;
+	stageScale: number;
+	state: boolean;
+	creatorId: string;
+	creationTime: T;
+	remark: string;
+	monitorDevices: Array<MonitorDevices>;
+};
+
+// monitorDevices
+declare type MonitorDevices = {
+	id: string;
+	component: string;
+	config: string;
+	orderNum: number;
+};
+
 /**
  * views make
  */

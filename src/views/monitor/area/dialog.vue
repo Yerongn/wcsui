@@ -1,16 +1,21 @@
 <template>
 	<div class="system-processflow-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
-			<el-form ref="processflowDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
+			<el-form ref="dialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="流程名称" prop="processflowName" :rules="[{ required: true, message: '流程名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="state.ruleForm.processflowName" placeholder="请输入流程名称" clearable></el-input>
+						<el-form-item label="区域名称" prop="areaName" :rules="[{ required: true, message: '区域名称不能为空', trigger: 'blur' }]">
+							<el-input v-model="state.ruleForm.areaName" placeholder="请输入区域名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="流程描述">
-							<el-input v-model="state.ruleForm.remark" placeholder="请输入流程描述" maxlength="150"></el-input>
+						<el-form-item label="区域状态">
+							<el-switch v-model="state.ruleForm.state" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="区域描述">
+							<el-input v-model="state.ruleForm.remark" placeholder="请输入区域描述" maxlength="150"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -19,7 +24,6 @@
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="default">取 消</el-button>
 					<el-button type="primary" @click="onSubmit" size="default">{{ state.dialog.submitTxt }}</el-button>
-					<el-button type="primary" @click="onConfigure" size="default">配置流程</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -28,18 +32,16 @@
 
 <script setup lang="ts" name="systemDeptDialog">
 import { reactive, ref } from 'vue';
-import { useProcessFlowApi } from '/@/api/processflow';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+
+import { useMonitorApi } from '/@/api/monitor';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
-const guidEmpty = '00000000-0000-0000-0000-000000000000';
 
 // 定义变量内容
-const processflowDialogFormRef = ref();
+const dialogFormRef = ref();
 const state = reactive({
-	ruleForm: {} as ProcessFlowType,
+	ruleForm: {} as AreaMonitor,
 	dialog: {
 		isShowDialog: false,
 		type: '',
@@ -49,18 +51,15 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = (type: string, row: ProcessFlowType) => {
+const openDialog = (type: string, row: AreaMonitor) => {
 	if (type === 'edit') {
 		state.ruleForm = row;
-		state.dialog.title = '修改流程';
+		state.dialog.title = '修改区域';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.dialog.title = '新增流程';
+		state.dialog.title = '新增区域';
 		state.dialog.submitTxt = '新 增';
-		state.ruleForm = {
-			state: true,
-			id: guidEmpty,
-		} as ProcessFlowType;
+		state.ruleForm = { state: true } as AreaMonitor;
 		// 清空表单，此项需加表单验证才能使用
 		// nextTick(() => {
 		// 	processflowDialogFormRef.value.resetFields();
@@ -79,20 +78,16 @@ const onCancel = () => {
 };
 // 提交
 const onSubmit = () => {
-	processflowDialogFormRef.value.validate(async (valid: boolean) => {
+	dialogFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.dialog.type === 'add') {
-			await useProcessFlowApi().addProcessFlow(state.ruleForm);
+			await useMonitorApi().addMonitor(state.ruleForm);
 		} else {
-			await useProcessFlowApi().updateProcessFlow(state.ruleForm);
+			await useMonitorApi().updateAreaMonitor(state.ruleForm);
 		}
 		closeDialog(); // 关闭弹窗
 		emit('refresh');
 	});
-};
-
-const onConfigure = () => {
-	router.push({ path: `/rule/workflow/${state.ruleForm.id}/${state.ruleForm.processflowName}` }); //'/rule/workflow/'
 };
 
 // 暴露变量

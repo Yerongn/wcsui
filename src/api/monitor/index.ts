@@ -23,6 +23,13 @@ export function useMonitorApi() {
 				data: data,
 			});
 		},
+		updateAreaMonitor: (data: any) => {
+			return request({
+				url: '/device-monitor/area/' + data.id,
+				method: 'put',
+				data: data,
+			});
+		},
 		delMonitor: (id: any) => {
 			return request({
 				url: '/device-monitor',
