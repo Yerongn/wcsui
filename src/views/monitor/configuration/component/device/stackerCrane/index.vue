@@ -25,7 +25,7 @@ const state = reactive({
 });
 
 const image = new window.Image();
-image.src = 'device/StackerCrane.svg';
+image.src = 'device/stacker-crane.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;

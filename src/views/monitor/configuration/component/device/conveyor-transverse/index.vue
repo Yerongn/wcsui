@@ -32,7 +32,7 @@
 	</v-group>
 </template>
 
-<script setup lang="ts" name="converyTransverse">
+<script setup lang="ts" name="conveyorTransverse">
 import { reactive, ref } from 'vue';
 
 const props = defineProps(['config']);
@@ -44,18 +44,19 @@ const state = reactive({
 });
 
 //获取节点属性
-const setAttrs = async (config: any) => {
+const setAttrs = (config: any) => {
 	state.loaded = config.state.loaded;
 	var node = conveyor.value.getNode();
 	node.strokeEnabled(config.state.errorCode > 0);
 };
 
 const image = new window.Image();
-image.src = 'device/Convery-Transverse.svg';
+image.src = 'device/conveyor-transverse.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;
 };
+
 defineExpose({
 	setAttrs,
 });

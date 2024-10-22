@@ -121,7 +121,7 @@ const openDialog = async (deviceNo: string) => {
 	state.dialog.deviceNo = deviceNo;
 	state.activeName = 'deviceInfo';
 
-	var response = await useMonitorApi().getConveryState(deviceNo);
+	var response = await useMonitorApi().getConveyorState(deviceNo);
 
 	state.ruleForm.taskNo = response.taskNo;
 	state.ruleForm.barcode = response.barcode;
@@ -143,7 +143,7 @@ const onCancel = () => {
 const onSubmit = () => {
 	deptDialogFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
-		await useMonitorApi().updateConveryState(state.dialog.deviceNo, state.ruleForm);
+		await useMonitorApi().updateConveyorState(state.dialog.deviceNo, state.ruleForm);
 		closeDialog(); // 关闭弹窗
 	});
 };

@@ -70,8 +70,8 @@
 </template>
 
 <script lang="ts">
-const ConveryTransverse = defineAsyncComponent(() => import('./component/device/convery-transverse/index.vue'));
-const ConveryPortrait = defineAsyncComponent(() => import('./component/device/convery-portrait/index.vue'));
+const ConveyorTransverse = defineAsyncComponent(() => import('./component/device/conveyor-transverse/index.vue'));
+const ConveyorPortrait = defineAsyncComponent(() => import('./component/device/conveyor-portrait/index.vue'));
 const Cabinet = defineAsyncComponent(() => import('./component/device/cabinet/index.vue'));
 const GoodsShelves = defineAsyncComponent(() => import('./component/device/goodsShelves/index.vue'));
 const StackerCrane = defineAsyncComponent(() => import('./component/device/stackerCrane/index.vue'));
@@ -79,8 +79,8 @@ const StackerCrane = defineAsyncComponent(() => import('./component/device/stack
 import SvgIconV2 from '../../../components/svgIconv2/index.vue';
 export default {
 	components: {
-		converyPortrait: ConveryPortrait,
-		converyTransverse: ConveryTransverse,
+		conveyorPortrait: ConveyorPortrait,
+		conveyorTransverse: ConveyorTransverse,
 		cabinet: Cabinet,
 		goodsShelves: GoodsShelves,
 		stackerCrane: StackerCrane,
@@ -204,7 +204,7 @@ const initSortable = () => {
 					config.y = mousePos.y - stageY;
 					config.name = 'object';
 					config.id = nodeId;
-					if (type.startsWith('convery')) {
+					if (type.startsWith('conveyor')) {
 						config.deviceNo = getMaxDeviceNo();
 					}
 					const node = {
@@ -678,8 +678,8 @@ const onTextDblclick = (e: any) => {
 };
 
 const getMaxDeviceNo = () => {
-	var converys = state.componentData.filter((c: CanvasComponent) => c.component.startsWith('convery'));
-	const maxConvery = converys.reduce(
+	var conveyors = state.componentData.filter((c: CanvasComponent) => c.component.startsWith('conveyor'));
+	const maxConveyor = conveyors.reduce(
 		(max: CanvasComponent, component: CanvasComponent) => (component.config.deviceNo > max.config.deviceNo ? component : max),
 		{
 			id: '',
@@ -690,7 +690,7 @@ const getMaxDeviceNo = () => {
 		}
 	);
 
-	return parseInt(maxConvery.config.deviceNo) + 1;
+	return parseInt(maxConveyor.config.deviceNo) + 1;
 };
 
 // 初始化 Konva
@@ -887,7 +887,7 @@ const onToolLeftCopy = () => {
 	config.y = rect.config.y;
 	config.name = 'object';
 	config.id = nodeId;
-	if (rect.component.startsWith('convery')) {
+	if (rect.component.startsWith('conveyor')) {
 		config.deviceNo = getMaxDeviceNo();
 	}
 	const node = {
@@ -926,7 +926,7 @@ const onToolRightCopy = () => {
 	config.y = rect.config.y;
 	config.name = 'object';
 	config.id = nodeId;
-	if (rect.component.startsWith('convery')) {
+	if (rect.component.startsWith('conveyor')) {
 		config.deviceNo = getMaxDeviceNo();
 	}
 	const node = {
@@ -965,7 +965,7 @@ const onToolTopCopy = () => {
 	config.y = rect.config.y - rect.config.height;
 	config.name = 'object';
 	config.id = nodeId;
-	if (rect.component.startsWith('convery')) {
+	if (rect.component.startsWith('conveyor')) {
 		config.deviceNo = getMaxDeviceNo();
 	}
 	const node = {
@@ -1004,7 +1004,7 @@ const onToolBottomCopy = () => {
 	config.y = rect.config.y + rect.config.height;
 	config.name = 'object';
 	config.id = nodeId;
-	if (rect.component.startsWith('convery')) {
+	if (rect.component.startsWith('conveyor')) {
 		config.deviceNo = getMaxDeviceNo();
 	}
 	const node = {

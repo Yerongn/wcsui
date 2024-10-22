@@ -160,10 +160,10 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'convery-transverse',
+				icon: 'conveyor-transverse',
 				name: '输送线',
 				id: '21',
-				componentType: 'converyTransverse',
+				componentType: 'conveyorTransverse',
 				config: {
 					x: 20,
 					y: 50,
@@ -185,10 +185,10 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'convery-portrait',
+				icon: 'conveyor-portrait',
 				name: '输送线',
 				id: '22',
-				componentType: 'converyPortrait',
+				componentType: 'conveyorPortrait',
 				config: {
 					x: 20,
 					y: 50,
@@ -210,10 +210,10 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'convery-half-circle',
+				icon: 'conveyor-half-circle',
 				name: '输送线',
 				id: '23',
-				componentType: 'converyHalfCircle',
+				componentType: 'conveyorHalfCircle',
 				config: {
 					x: 20,
 					y: 50,
@@ -235,10 +235,10 @@ export const leftNavList = [
 				],
 			},
 			{
-				icon: 'convery-1-4-circle',
+				icon: 'conveyor-1-4-circle',
 				name: '输送线',
 				id: '24',
-				componentType: 'convery1/4Circle',
+				componentType: 'conveyor1/4Circle',
 				config: {
 					x: 20,
 					y: 50,

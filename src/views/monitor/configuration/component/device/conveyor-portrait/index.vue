@@ -66,7 +66,7 @@ const setAttrs = async (config: any) => {
 };
 
 const image = new window.Image();
-image.src = 'device/Convery-Portrait.svg';
+image.src = 'device/conveyor-portrait.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;

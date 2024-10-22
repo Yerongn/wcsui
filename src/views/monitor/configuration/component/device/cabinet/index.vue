@@ -82,7 +82,7 @@ const setAttrs = async (config: any) => {
 // );
 
 const image = new window.Image();
-image.src = 'device/Cabinet.svg';
+image.src = 'device/cabinet.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;

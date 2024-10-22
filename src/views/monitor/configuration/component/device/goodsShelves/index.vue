@@ -11,7 +11,7 @@
 	</v-group>
 </template>
 
-<script setup lang="ts" name="converyTransverse">
+<script setup lang="ts" name="goodsShelves">
 import { reactive } from 'vue';
 
 const props = defineProps(['config']);
@@ -20,7 +20,7 @@ const state = reactive({
 	image: null as any,
 });
 const image = new window.Image();
-image.src = 'device/GoodsShelves.svg';
+image.src = 'device/goods-shelves.svg';
 image.onload = () => {
 	// set image only when it is loaded
 	state.image = image;

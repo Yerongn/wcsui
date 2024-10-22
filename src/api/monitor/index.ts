@@ -57,15 +57,15 @@ export function useMonitorApi() {
 				data: deviceNos,
 			});
 		},
-		getConveryState: (deviceNo: any) => {
+		getConveyorState: (deviceNo: any) => {
 			return request({
-				url: '/device-monitor/convery-model/' + deviceNo,
+				url: '/device-monitor/conveyor-model/' + deviceNo,
 				method: 'get',
 			});
 		},
-		updateConveryState: (deviceNo: string, data: any) => {
+		updateConveyorState: (deviceNo: string, data: any) => {
 			return request({
-				url: '/device-monitor/convery-model/' + deviceNo,
+				url: '/device-monitor/conveyor-model/' + deviceNo,
 				method: 'put',
 				data: data,
 			});

@@ -16,16 +16,16 @@
 							</el-form-item>
 
 							<el-form-item
-								v-if="state.form.component.startsWith('convery') || state.form.component === 'stackerCrane'"
+								v-if="state.form.component.startsWith('conveyor') || state.form.component === 'stackerCrane'"
 								label="设备编号"
 								prop="deviceNo"
 							>
 								<el-input v-model="nodeConfig['deviceNo']" clearable></el-input>
 							</el-form-item>
-							<el-form-item v-if="state.form.component === 'converyTransverse'" label="设备长度" prop="width">
+							<el-form-item v-if="state.form.component === 'conveyorTransverse'" label="设备长度" prop="width">
 								<el-input-number v-model="state.form.width" :min="1" :max="1500" clearable @change="widthValueChange"></el-input-number>
 							</el-form-item>
-							<el-form-item v-if="state.form.component === 'converyPportrait'" label="设备长度" prop="height">
+							<el-form-item v-if="state.form.component === 'conveyorPportrait'" label="设备长度" prop="height">
 								<el-input-number v-model="state.form.height" :min="1" :max="500" clearable @change="heightValueChange"></el-input-number>
 							</el-form-item>
 						</el-collapse-item>
@@ -116,7 +116,7 @@ const getDriveList = async () => {
 };
 
 const widthValueChange = (value: number) => {
-	if (state.form.component.indexOf('convery')) {
+	if (state.form.component.indexOf('conveyor')) {
 		(state.shape as Group).children[0].width(value);
 		(state.shape as Group).children[1].width(value);
 	}
@@ -127,7 +127,7 @@ const widthValueChange = (value: number) => {
 };
 
 const heightValueChange = (value: number) => {
-	if (state.form.component.indexOf('convery')) {
+	if (state.form.component.indexOf('conveyor')) {
 		(state.shape as Group).children[0].height(value);
 		(state.shape as Group).children[1].height(value);
 	}

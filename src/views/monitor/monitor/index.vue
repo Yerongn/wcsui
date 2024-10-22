@@ -30,16 +30,16 @@
 </template>
 
 <script lang="ts">
-const ConveryTransverse = defineAsyncComponent(() => import('../../monitor/configuration/component/device/convery-transverse/index.vue'));
-const ConveryPortrait = defineAsyncComponent(() => import('../../monitor/configuration/component/device/convery-portrait/index.vue'));
+const ConveyorTransverse = defineAsyncComponent(() => import('../../monitor/configuration/component/device/conveyor-transverse/index.vue'));
+const ConveyorPortrait = defineAsyncComponent(() => import('../../monitor/configuration/component/device/conveyor-portrait/index.vue'));
 const Cabinet = defineAsyncComponent(() => import('../../monitor/configuration/component/device/cabinet/index.vue'));
 const GoodsShelves = defineAsyncComponent(() => import('../../monitor/configuration/component/device/goodsShelves/index.vue'));
 const StackerCrane = defineAsyncComponent(() => import('../../monitor/configuration/component/device/stackerCrane/index.vue'));
 
 export default {
 	components: {
-		converyPortrait: ConveryPortrait,
-		converyTransverse: ConveryTransverse,
+		conveyorTransverse: ConveyorTransverse,
+		conveyorPortrait: ConveyorPortrait,
 		cabinet: Cabinet,
 		goodsShelves: GoodsShelves,
 		stackerCrane: StackerCrane,
@@ -145,7 +145,7 @@ const ondblclick = (e: any) => {
 
 	const component = state.componentData.find((r) => r.config.id === id);
 
-	if (component?.component.startsWith('convery')) {
+	if (component?.component.startsWith('conveyor')) {
 		devicePropertiesRef.value.openDialog(component?.config.deviceNo);
 	}
 };
@@ -235,14 +235,12 @@ const deviceStateChange = (deviceState: any) => {
 	if (deviceState === null) return;
 
 	const component = state.componentData.find((r) => r.config.deviceNo == deviceState.deviceNo);
-
 	if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(deviceState);
 };
 
 const cabinetStateChange = (servicestate: any) => {
 	// 查找设备
 	const component = state.componentData.find((r) => r.component === 'cabinet' && r.config.driveId === servicestate.id);
-
 	if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(servicestate);
 
 	// var st = stage.value.getStage();
