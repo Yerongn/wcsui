@@ -16,6 +16,11 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="异常编码">
+									<el-input v-model="state.ruleForm.errorCode" placeholder="异常编码" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="起始地址">
 									<el-input v-model="state.ruleForm.fromNode" placeholder="起始地址" />
 								</el-form-item>
@@ -71,6 +76,7 @@ const state = reactive({
 		barcode: '',
 		fromNode: '',
 		toNode: '',
+		errorCode: '',
 	},
 	tableData: {
 		deviceLogData: [] as Array<DeviceLogType>,
@@ -121,6 +127,7 @@ const openDialog = async (deviceNo: string) => {
 	state.ruleForm.barcode = response.barcode;
 	state.ruleForm.fromNode = response.fromNode;
 	state.ruleForm.toNode = response.toNode;
+	state.ruleForm.errorCode = response.errorCode;
 
 	state.dialog.isShowDialog = true;
 };

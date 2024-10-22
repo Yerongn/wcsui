@@ -39,12 +39,27 @@ const state = reactive({
 
 //获取节点属性
 const setAttrs = async (config: any) => {
-	// var node = cabinet.value.getNode();
-	// console.log(node);
-	// node.cache();
-	// node.fill = 'red';
-	// node.filters([Konva.Filters.Blur]);
-	// node.blurRadius(10);
+	var node = cabinet.value.getNode();
+	node.cache();
+	node.filters([Konva.Filters.RGBA]);
+
+	// 初始化 橙色
+	if (config.connectionState === 'Initial') {
+		node.blue(127);
+		node.green(127);
+		node.red(127);
+	} else if (config.connectionState === 'Connected') {
+		// 已连接绿色
+		node.blue(0);
+		node.green(225);
+		node.red(0);
+	} else {
+		// 红色
+		node.blue(0);
+		node.green(0);
+		node.red(225);
+	}
+	node.alpha(0.8);
 };
 
 // watch(

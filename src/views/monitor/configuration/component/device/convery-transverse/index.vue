@@ -1,10 +1,13 @@
 <template>
 	<v-group :config="props.config">
 		<v-image
+			ref="conveyor"
 			:config="{
 				image: state.image,
 				width: props.config.width,
 				height: props.config.height,
+				stroke: 'red',
+				strokeEnabled: false,
 			}"
 		>
 		</v-image>
@@ -30,9 +33,10 @@
 </template>
 
 <script setup lang="ts" name="converyTransverse">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const props = defineProps(['config']);
+const conveyor = ref();
 
 const state = reactive({
 	loaded: false,
@@ -42,6 +46,8 @@ const state = reactive({
 //获取节点属性
 const setAttrs = async (config: any) => {
 	state.loaded = config.state.loaded;
+	var node = conveyor.value.getNode();
+	node.strokeEnabled(config.state.errorCode > 0);
 };
 
 const image = new window.Image();

@@ -49,14 +49,12 @@ export default {
 
 <script setup lang="ts" name="pagescanvas1">
 import { defineAsyncComponent, reactive, onMounted, onUnmounted, nextTick, ref } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-import { useSignalRStore } from '/@/stores/signalR';
 import signalR from '/@/utils/signalR';
 import { useMonitorApi } from '/@/api/monitor';
-import Konva from 'konva';
 
 // 引入组件
 const Tool = defineAsyncComponent(() => import('./tool/index.vue'));
@@ -83,7 +81,6 @@ const layer = ref();
 const selectedNode = ref();
 const devicePropertiesRef = ref();
 const stores = useTagsViewRoutes();
-const storesSignalR = useSignalRStore();
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 const state = reactive({
@@ -241,36 +238,36 @@ const cabinetStateChange = (servicestate: any) => {
 	// 查找设备
 	const component = state.componentData.find((r) => r.component === 'cabinet' && r.config.driveId === servicestate.id);
 
-	// if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(servicestate);
+	if (component !== undefined) componentRefs.value[state.componentData.indexOf(component)].setAttrs(servicestate);
 
-	var st = stage.value.getStage();
-	let id = '#' + component?.config.id;
-	var service = st.findOne(id);
-	if (service === undefined) return;
-	// device.children[0].fill(Konva.Util.getRandomColor());
-	let node = service.children[0];
+	// var st = stage.value.getStage();
+	// let id = '#' + component?.config.id;
+	// var service = st.findOne(id);
+	// if (service === undefined) return;
+	// // device.children[0].fill(Konva.Util.getRandomColor());
+	// let node = service.children[0];
 
-	// 更新设备状态
-	node.cache();
-	node.filters([Konva.Filters.RGBA]);
+	// // 更新设备状态
+	// node.cache();
+	// node.filters([Konva.Filters.RGBA]);
 
-	// 初始化 橙色
-	if (servicestate.connectionState === 'Initial') {
-		node.blue(127);
-		node.green(127);
-		node.red(127);
-	} else if (servicestate.connectionState === 'Connected') {
-		// 已连接绿色
-		node.blue(0);
-		node.green(225);
-		node.red(0);
-	} else {
-		// 红色
-		node.blue(0);
-		node.green(0);
-		node.red(225);
-	}
-	node.alpha(0.8);
+	// // 初始化 橙色
+	// if (servicestate.connectionState === 'Initial') {
+	// 	node.blue(127);
+	// 	node.green(127);
+	// 	node.red(127);
+	// } else if (servicestate.connectionState === 'Connected') {
+	// 	// 已连接绿色
+	// 	node.blue(0);
+	// 	node.green(225);
+	// 	node.red(0);
+	// } else {
+	// 	// 红色
+	// 	node.blue(0);
+	// 	node.green(0);
+	// 	node.red(225);
+	// }
+	// node.alpha(0.8);
 };
 
 // 页面卸载时

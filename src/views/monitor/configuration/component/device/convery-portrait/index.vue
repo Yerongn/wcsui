@@ -1,10 +1,13 @@
 <template>
 	<v-group :config="props.config">
 		<v-image
+			ref="conveyor"
 			:config="{
 				image: state.image,
 				width: props.config.width,
 				height: props.config.height,
+				stroke: 'red',
+				strokeEnabled: false,
 			}"
 		>
 		</v-image>
@@ -31,9 +34,11 @@
 
 <script setup lang="ts" name="converyPortrait">
 import { reactive, ref } from 'vue';
-import Konva from 'konva';
+// import Konva from 'konva';
 
 const props = defineProps(['config']);
+
+const conveyor = ref();
 
 const rectRef = ref();
 
@@ -46,16 +51,18 @@ const state = reactive({
 //获取节点属性
 const setAttrs = async (config: any) => {
 	state.loaded = config.state.loaded;
-	if (state.loaded) {
-		console.log('12312');
-		const node = rectRef.value.getNode();
-		const layer = node.getLayer();
-		var anim = new Konva.Animation(function (frame) {
-			var dist = state.velocity * (frame.timeDiff / 1000);
-			rectRef.value.getNode().move({ x: dist, y: 0 });
-		}, layer);
-		anim.start();
-	}
+	var node = conveyor.value.getNode();
+	node.strokeEnabled(config.state.errorCode > 0);
+	// if (state.loaded) {
+	// 	console.log('12312');
+	// 	const node = rectRef.value.getNode();
+	// 	const layer = node.getLayer();
+	// 	var anim = new Konva.Animation(function (frame) {
+	// 		var dist = state.velocity * (frame.timeDiff / 1000);
+	// 		rectRef.value.getNode().move({ x: dist, y: 0 });
+	// 	}, layer);
+	// 	anim.start();
+	// }
 };
 
 const image = new window.Image();
