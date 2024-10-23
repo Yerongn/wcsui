@@ -31,7 +31,7 @@
 				<el-table-column label="操作" width="100">
 					<template #default="scope">
 						<el-button size="small" text type="primary" @click="onOpenEditDic('edit', scope.row)">修改</el-button>
-						<el-button size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+						<el-button size="small" text type="danger" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

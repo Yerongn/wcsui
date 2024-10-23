@@ -39,6 +39,7 @@
 				</el-card>
 			</div>
 			<el-pagination
+				v-if="state.tableData.total > 0"
 				@size-change="onHandleSizeChange"
 				@current-change="onHandleCurrentChange"
 				class="mt15"
@@ -61,7 +62,6 @@ import { defineAsyncComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useMonitorApi } from '/@/api/monitor';
 import { Delete, Edit, Monitor, Setting } from '@element-plus/icons-vue';
-
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -115,11 +115,11 @@ const onTabelRowDel = (row: AreaMonitor) => {
 };
 
 const onConfigure = (row: AreaMonitor) => {
-	router.push({ path: `/monitor/configuration/${row.id}` });
+	router.push({ path: `/monitor/configuration/${row.id}/${row.areaName}` });
 };
 
 const onMonitor = (row: AreaMonitor) => {
-	router.push({ path: `/monitor/monitor/${row.id}` });
+	router.push({ path: `/monitor/monitor/${row.id}/${row.areaName}` });
 };
 
 // 分页改变

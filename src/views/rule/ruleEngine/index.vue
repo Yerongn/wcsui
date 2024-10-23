@@ -24,11 +24,7 @@
 				default-expand-all
 				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
 			>
-				<el-table-column label="序号" show-overflow-tooltip width="80">
-					<template #default="scope">
-						{{ scope.$index }}
-					</template>
-				</el-table-column>
+				<el-table-column type="index" label="序号" width="60" />
 				<el-table-column prop="ruleName" label="规则名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="expression" label="规则表达式" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="deviceNo" label="设备号" width="80"> </el-table-column>
@@ -44,7 +40,7 @@
 				<el-table-column label="操作" show-overflow-tooltip width="140">
 					<template #default="scope">
 						<el-button size="small" text type="primary" @click="onOpenEditDept('edit', scope.row)" v-auth="'system:processFlow:edit'">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)" v-auth="'system:processFlow:remove'">删除</el-button>
+						<el-button size="small" text type="danger" @click="onTabelRowDel(scope.row)" v-auth="'system:processFlow:remove'">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

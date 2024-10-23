@@ -1,6 +1,6 @@
 <template>
 	<div class="workflow-tool">
-		<div class="pl15">{{ props.titel }} 设备监控</div>
+		<div class="pl15">{{ props.title }} 设备监控</div>
 		<div class="workflow-tool-right">
 			<div class="workflow-tool-icon" title="放大" @click="onToolClick('zoomIn')">
 				<SvgIcon name="ele-ZoomIn" />
@@ -25,7 +25,7 @@ import { reactive } from 'vue';
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['tool']);
 
-const props = defineProps(['titel', 'config']);
+const props = defineProps(['title', 'config']);
 
 // 定义变量内容
 const state = reactive({

@@ -57,7 +57,7 @@
 					<template #default="scope">
 						<el-button size="small" text type="primary" @click="onOpenAddMenu('add')">新增</el-button>
 						<el-button size="small" text type="primary" @click="onOpenEditMenu('edit', scope.row)">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
+						<el-button size="small" text type="danger" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

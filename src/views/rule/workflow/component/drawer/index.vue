@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-drawer :title="`${state.nodeData.type === 'line' ? '线' : '节点'}操作`" v-model="state.isOpen" size="320px">
+		<el-drawer :title="`${state.nodeData.type === 'line' ? '线' : '节点'}操作`" v-model="state.isOpen" size="520px">
 			<el-scrollbar>
 				<Lines v-if="state.nodeData.type === 'line'" @change="onLineChange" @close="close" ref="lineRef" />
 				<Nodes v-else @submit="onNodeSubmit" @close="close" ref="nodeRef" />
@@ -42,6 +42,7 @@ const open = (item: WorkflowDrawerLabelType, conn: EmptyObjectType) => {
 		}, 300);
 	});
 };
+
 // 关闭
 const close = () => {
 	state.isOpen = false;

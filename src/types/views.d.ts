@@ -233,6 +233,7 @@ declare interface SysDicState {
 declare type ProcessFlowType = {
 	id: string;
 	processflowName: string;
+	processflowConfigure: string;
 	remark: string;
 	state: boolean;
 	orderNum: number;

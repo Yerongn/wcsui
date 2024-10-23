@@ -32,7 +32,7 @@
 					</div>
 
 					<!-- 右侧绘画区 -->
-					<div class="workflow-right" ref="workflowRightRef">
+					<div id="workflow-right" class="workflow-right" ref="workflowRightRef">
 						<div
 							v-for="(v, k) in state.jsplumbData.nodeList"
 							:key="v.nodeId"
@@ -156,10 +156,11 @@ const initSortable = () => {
 				const { x, y, width, height } = el.getBoundingClientRect();
 				if (clientX < x || clientX > width + x || clientY < y || y > y + height) {
 					ElMessage.warning('请把节点拖入到画布中');
+				} else if (id === '21' && state.jsplumbData.nodeList.some((n) => n.id === '21')) {
+					ElMessage.warning('一个流程只能有一个开始节点');
 				} else {
 					// 节点id（唯一）
 					const nodeId = Math.random().toString(36).substr(2, 12);
-
 					let item: any = {};
 					state.leftNavList.forEach((l) => {
 						if (l.children) if (l.children.find((c: any) => c.id === id)) item = l.children.find((c: any) => c.id === id);
@@ -576,7 +577,7 @@ onUnmounted(() => {
 						transition: all 0.3s ease;
 						min-width: 94.5px;
 						background: var(--el-color-white);
-						border: 1px solid var(--el-border-color-light, #ebeef5);
+						border: 1px solid var(--el-border-color-light, #606266);
 						.workflow-left-item-icon {
 							display: flex;
 							align-items: center;

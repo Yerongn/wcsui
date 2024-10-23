@@ -3,7 +3,7 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" :titel="state.title" :config="state.stageSize" />
+				<Tool @tool="onToolClick" :title="state.title" :config="state.stageSize" />
 				<div class="canvas-content">
 					<!-- 绘画区 -->
 					<div class="canvas-right" id="canvas" ref="canvasRightRef">
@@ -110,8 +110,6 @@ const setClientWidth = () => {
 };
 // 左侧导航-数据初始化
 const initLeftNavList = async () => {
-	state.title = '入库区域';
-
 	// 查询数据
 	const respond = await useMonitorApi().getMonitor(route.params.id);
 	var componentData = respond.monitorDevices?.map((device: any) => {
@@ -121,7 +119,7 @@ const initLeftNavList = async () => {
 	});
 
 	state.componentData = componentData;
-
+	state.title = respond.areaName;
 	// state.stageSize.width = respond.stageWidth;
 	// state.stageSize.height = respond.stageHeight;
 	state.stageSize.scaleX = respond.stageScale;
@@ -132,7 +130,6 @@ const initMonitorState = async () => {
 	// 电控柜
 	const serviceIds = state.componentData.filter((x) => x.component === 'cabinet' && x.config.driveId !== '').map((c) => c.config.driveId);
 	if (serviceIds.length === 0) return;
-	console.log(serviceIds);
 	const serviceRespond = await useMonitorApi().getServersState(serviceIds);
 	serviceRespond.items.forEach(cabinetStateChange);
 

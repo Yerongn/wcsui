@@ -160,13 +160,19 @@ const solveAddTagsView = async (path: string, to?: RouteToFrom) => {
 	);
 	if (current.length <= 0) {
 		// 防止：Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.
-		let findItem = state.tagsViewRoutesList.find((v: RouteItem) => v.path === isDynamicPath);
+		let findItem = JSON.parse(JSON.stringify(state.tagsViewRoutesList.find((v: RouteItem) => v.path === isDynamicPath)));
 		if (!findItem) return false;
 		if (findItem.meta.isAffix) return false;
 		if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
 		to?.meta?.isDynamic ? (findItem.params = to.params) : (findItem.query = to?.query);
 		findItem.url = setTagsViewHighlight(findItem);
+
+		if (to?.params?.name !== undefined && findItem.meta.title.indexOf('-') < 0) {
+			findItem.meta.title = ` ${to?.params?.name} - ${findItem.meta.title}`;
+		}
+
 		state.tagsViewList.push({ ...findItem });
+
 		await storesKeepALiveNames.addCachedView(findItem);
 		addBrowserSetSession(state.tagsViewList);
 	}
@@ -193,6 +199,8 @@ const addTagsView = (path: string, to?: RouteToFrom) => {
 	// 防止拿取不到路由信息
 	nextTick(async () => {
 		let item: RouteItem;
+		console.log(path);
+		console.log(to);
 		if (to?.meta?.isDynamic) {
 			// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
 			if (!getThemeConfig.value.isShareTagsView) await solveAddTagsView(path, to);

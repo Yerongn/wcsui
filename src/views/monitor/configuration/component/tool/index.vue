@@ -1,6 +1,6 @@
 <template>
 	<div class="workflow-tool">
-		<div class="pl15">{{ setToolTitle }}</div>
+		<div class="pl15">{{ props.title }} 监控配置</div>
 
 		<el-divider direction="vertical" />
 
@@ -61,7 +61,7 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['tool', 'setStageWidth', 'setStageHeight']);
 
-const props = defineProps(['scaleX']);
+const props = defineProps(['scaleX', 'title']);
 
 // 定义变量内容
 const storesThemeConfig = useThemeConfig();

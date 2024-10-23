@@ -19,7 +19,7 @@
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="default">取 消</el-button>
 					<el-button type="primary" @click="onSubmit" size="default">{{ state.dialog.submitTxt }}</el-button>
-					<el-button type="primary" @click="onConfigure" size="default">配置流程</el-button>
+					<!-- <el-button type="primary" @click="onConfigure" size="default">配置流程</el-button> -->
 				</span>
 			</template>
 		</el-dialog>
@@ -29,8 +29,8 @@
 <script setup lang="ts" name="systemDeptDialog">
 import { reactive, ref } from 'vue';
 import { useProcessFlowApi } from '/@/api/processflow';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+// import { useRouter } from 'vue-router';
+// const router = useRouter();
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -91,9 +91,9 @@ const onSubmit = () => {
 	});
 };
 
-const onConfigure = () => {
-	router.push({ path: `/rule/workflow/${state.ruleForm.id}/${state.ruleForm.processflowName}` }); //'/rule/workflow/'
-};
+// const onConfigure = () => {
+// 	router.push({ path: `/rule/workflow/${state.ruleForm.id}/${state.ruleForm.processflowName}` }); //'/rule/workflow/'
+// };
 
 // 暴露变量
 defineExpose({

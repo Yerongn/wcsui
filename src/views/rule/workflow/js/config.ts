@@ -31,7 +31,7 @@ export const jsplumbDefaults = {
 	LogEnabled: true,
 	// 连接器的默认外观
 	PaintStyle: {
-		stroke: '#E0E3E7',
+		stroke: '#606266',
 		strokeWidth: 2,
 		outlineStroke: 'transparent',
 		outlineWidth: 10,
@@ -76,7 +76,7 @@ export const jsplumbMakeSource = {
 	filterExclude: false,
 	anchor: 'Continuous',
 	// 是否允许自己连接自己
-	allowLoopback: true,
+	allowLoopback: false,
 	maxConnections: -1,
 };
 
@@ -86,7 +86,7 @@ export const jsplumbMakeTarget = {
 	filterExclude: false,
 	// 是否允许自己连接自己
 	anchor: 'Continuous',
-	allowLoopback: true,
+	allowLoopback: false,
 	dropOptions: { hoverClass: 'ef-drop-hover' },
 };
 

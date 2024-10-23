@@ -41,7 +41,7 @@
 				<el-table-column label="操作" show-overflow-tooltip width="140">
 					<template #default="scope">
 						<el-button size="small" text type="primary" @click="onOpenEditDept('edit', scope.row)" v-auth="'system:dept:edit'">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)" v-auth="'system:dept:remove'">删除</el-button>
+						<el-button size="small" text type="danger" @click="onTabelRowDel(scope.row)" v-auth="'system:dept:remove'">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

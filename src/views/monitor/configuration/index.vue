@@ -4,7 +4,13 @@
 		<div class="layout-padding-auto layout-padding-view canvas-warp">
 			<div class="canvas">
 				<!-- 顶部工具栏 -->
-				<Tool @tool="onToolClick" v-model:width="state.stageSize.width" v-model:height="state.stageSize.height" :scaleX="state.stageSize.scaleX" />
+				<Tool
+					@tool="onToolClick"
+					v-model:width="state.stageSize.width"
+					v-model:height="state.stageSize.height"
+					:title="state.title"
+					:scaleX="state.stageSize.scaleX"
+				/>
 				<!-- @setStageHeight="setStageHeight" @set-stage-width="setStageWidth" -->
 				<!-- 左侧导航区 -->
 				<div class="canvas-content">
@@ -133,6 +139,7 @@ const state = reactive({
 		scaleX: 1,
 		scaleY: 1,
 	},
+	title: '监控配置',
 	isEditing: false,
 	selectedShapeName: '',
 	selected: [] as Array<any>,
@@ -159,7 +166,7 @@ const initLeftNavList = async () => {
 	state.stageSize.height = respond.stageHeight;
 	state.stageSize.scaleX = respond.stageScale;
 	state.stageSize.scaleY = respond.stageScale;
-
+	state.title = respond.areaName;
 	// 查询接口数据
 	state.componentData = componentData;
 };

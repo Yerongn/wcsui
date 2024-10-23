@@ -41,7 +41,7 @@
 						<el-button :disabled="scope.row.groupName === 'admin'" size="small" text type="primary" @click="onOpenEditGroup('edit', scope.row)"
 							>修改</el-button
 						>
-						<el-button :disabled="scope.row.groupName === 'admin'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+						<el-button :disabled="scope.row.groupName === 'admin'" size="small" text type="danger" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

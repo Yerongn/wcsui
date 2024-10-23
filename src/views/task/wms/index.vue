@@ -50,7 +50,7 @@
 				<el-table-column prop="creationTime" label="创建时间" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="100">
 					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onRowDel(scope.row)">回收</el-button>
+						<el-button size="small" text type="danger" @click="onRowDel(scope.row)">回收</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

@@ -33,7 +33,7 @@
 						<el-button :disabled="scope.row.driveName === 'admin'" size="small" text type="primary" @click="onOpenEditDrive('edit', scope.row)"
 							>修改</el-button
 						>
-						<el-button :disabled="scope.row.driveName === 'admin'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+						<el-button :disabled="scope.row.driveName === 'admin'" size="small" text type="danger" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
