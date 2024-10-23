@@ -51,12 +51,13 @@
 						<v-stage ref="stage" :config="state.stageSize" @click="handleStageMouseDown">
 							<v-layer ref="layer" @dragmove="onDragmove" @dragend="onDragend">
 								<component
-									v-for="item in state.componentData"
+									v-for="(item, index) in state.componentData"
 									:key="item.id"
 									:is="item.component"
 									:config="item.config"
 									@transformend="handleTransformEnd"
 									@dblclick="onTextDblclick"
+									@contextmenu="onContextmenu(item, index, $event)"
 								/>
 								<v-rect ref="selectionRectangle" :config="state.selectionRectangle" />
 								<v-transformer ref="transformer" />
@@ -69,6 +70,8 @@
 					<div class="nodeInfo" v-show="state.selected.length === 1">
 						<Node ref="devicePropertiesRef" :props="selectedNode"></Node>
 					</div>
+					<!-- 节点右键菜单 -->
+					<Contextmenu :dropdown="state.dropdownNode" ref="contextmenuNodeRef" @current="onCurrentNodeClick" />
 				</div>
 			</div>
 		</div>
@@ -109,12 +112,13 @@ import { useMonitorApi } from '/@/api/monitor';
 
 // 引入组件
 const Tool = defineAsyncComponent(() => import('./component/tool/index.vue'));
-
 const Node = defineAsyncComponent(() => import('./component/node/index.vue'));
+const Contextmenu = defineAsyncComponent(() => import('./component/contextmenu/index.vue'));
 
 // 定义变量内容
 const leftNavRefs = ref([]);
 const canvasRightRef = ref();
+const contextmenuNodeRef = ref();
 const route = useRoute();
 const helpRef = ref();
 const transformer = ref();
@@ -131,6 +135,7 @@ var GUIDELINE_OFFSET = 5;
 const state = reactive({
 	leftNavList: [] as Array<any>,
 	componentData: [] as Array<CanvasComponent>,
+	dropdownNode: { x: '', y: '' },
 	isShow: false,
 	stageSize: {
 		width: 800,
@@ -792,6 +797,46 @@ const handleDeleteKeyDown = (e: any) => {
 		);
 	});
 	state.selected = [];
+};
+
+// 右侧内容区-当前项右键菜单点击
+const onContextmenu = (v: any, k: number, e: any) => {
+	e.evt.preventDefault();
+	// state.jsPlumbNodeIndex = k;
+	const { clientX, clientY } = e.evt;
+	state.dropdownNode.x = clientX;
+	state.dropdownNode.y = clientY;
+	// v.type = 'node';
+	// v.label = '';
+	// let item: any = {};
+	// state.leftNavList.forEach((l) => {
+	// 	if (l.children) if (l.children.find((c: any) => c.id === v.id)) item = l.children.find((c: any) => c.id === v.id);
+	// });
+	// v.from = item.form;
+	contextmenuNodeRef.value.openContextmenu(v);
+};
+
+// 右侧内容区-当前项右键菜单点击回调(节点)
+const onCurrentNodeClick = (item: any) => {
+	if (state.selected.length !== 1) return;
+	const { contextMenuClickId, nodeId } = item;
+	if (contextMenuClickId === 0) {
+		// 更改数组位置就行了
+		// 下一层
+		// const nodeIndex = state.jsplumbData.nodeList.findIndex((item) => item.nodeId === nodeId);
+		// state.jsplumbData.nodeList.splice(nodeIndex, 1);
+		// state.jsPlumb.removeAllEndpoints(nodeId);
+		// state.jsPlumbNodeIndex = null;
+	} else if (contextMenuClickId === 1) {
+		// 上一层
+		// drawerRef.value.open(item);
+	} else if (contextMenuClickId === 2) {
+		// 置于底层
+		// drawerRef.value.open(item);
+	} else if (contextMenuClickId === 3) {
+		// 置于顶层
+		// drawerRef.value.open(item);
+	}
 };
 
 // 顶部工具栏-当前项点击

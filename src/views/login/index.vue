@@ -31,10 +31,10 @@
 							</el-tabs>
 						</div>
 						<Scan v-if="state.isScan" />
-						<div class="login-content-main-sacn" @click="state.isScan = !state.isScan">
+						<!-- <div class="login-content-main-sacn" @click="state.isScan = !state.isScan">
 							<i class="iconfont" :class="state.isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
 							<div class="login-content-main-sacn-delta"></div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
