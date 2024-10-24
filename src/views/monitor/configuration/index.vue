@@ -822,19 +822,28 @@ const onCurrentNodeClick = (item: any) => {
 	const { contextMenuClickId, nodeId } = item;
 	if (contextMenuClickId === 0) {
 		// 更改数组位置就行了
-		// 下一层
+		// 下一层 删除当前 加入下个位置
 		// const nodeIndex = state.jsplumbData.nodeList.findIndex((item) => item.nodeId === nodeId);
 		// state.jsplumbData.nodeList.splice(nodeIndex, 1);
 		// state.jsPlumb.removeAllEndpoints(nodeId);
 		// state.jsPlumbNodeIndex = null;
+		//   // 检查索引是否有效以及是否不是最后一个元素
+		// 	if (index < 0 || index >= arr.length - 1) {
+		//     throw new Error('Invalid index for swapping adjacent elements.');
+		// }
+		// // 交换元素
+		// let temp = arr[index];
+		// arr[index] = arr[index + 1];
+		// arr[index + 1] = temp;
+		//arr.splice(start, deleteCount, item1)
 	} else if (contextMenuClickId === 1) {
-		// 上一层
-		// drawerRef.value.open(item);
+		// 上一层 下一层 删除当前 加入上个位置
+		//arr.splice(start, deleteCount, item1)
 	} else if (contextMenuClickId === 2) {
-		// 置于底层
-		// drawerRef.value.open(item);
+		// 置于底层 删除当前 数组后面增加一个
+		// arr.splice(start, deleteCount)
 	} else if (contextMenuClickId === 3) {
-		// 置于顶层
+		// 置于顶层 删除当前 数组前面面增加一个
 		// drawerRef.value.open(item);
 	}
 };
