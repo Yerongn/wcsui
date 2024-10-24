@@ -120,7 +120,7 @@ declare type WcsTaskType<T = any> = {
 	taskNo: string;
 	wmsTaskNo: string;
 	containerBarcode: string;
-	taskRunStatus: string;
+	taskStatus: string;
 	taskType: string;
 	sourceAddress: string;
 	targetAddress: string;
@@ -138,7 +138,6 @@ declare type WcsSubTaskType<T = any> = {
 	wmsTaskNo: string;
 	containerBarcode: string;
 	taskStatus: string;
-	taskRunStatus: string;
 	taskType: string;
 	executionDeviceType: string;
 	executionDevice: string;

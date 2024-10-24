@@ -3,13 +3,22 @@
 		<el-card shadow="hover" class="layout-padding-auto">
 			<div class="system-wcsSub-search mb15">
 				<el-input size="default" placeholder="请输入任务编号" v-model="state.tableData.queryParams.taskNo" style="max-width: 180px"> </el-input>
-				<el-input
+				<el-select
 					size="default"
-					placeholder="请输入任务状态"
-					v-model="state.tableData.queryParams.taskRunStatus"
+					v-model="state.tableData.queryParams.taskStatus"
+					placeholder="请选择任务状态"
+					clearable
 					style="max-width: 180px"
 					class="ml10"
-				></el-input>
+				>
+					<el-option v-for="item in state.taskStatusType" :key="item.dicValue" :label="item.dicLabel" :value="item.dicValue">
+						<span style="float: left">{{ item.dicLabel }} ({{ item.dicValue }})</span>
+						<!-- <span style="float: left">{{ item.dicLabel }}</span>
+						<span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">
+							{{ item.dicValue }}
+						</span> -->
+					</el-option>
+				</el-select>
 				<el-input
 					size="default"
 					placeholder="请输入容器条码"
@@ -57,11 +66,10 @@
 				<el-table-column type="index" label="序号" width="60" />
 				<el-table-column prop="taskNo" label="任务号" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="containerBarcode" label="容器条码" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="taskRunStatus" label="任务状态" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="taskType" label="任务类型" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="taskStatus" label="任务状态" :formatter="formatStatus" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="taskType" label="任务类型" :formatter="formatTaskType" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column prop="executionDevice" label="执行设备" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="executionDeviceType" label="执行设备类型" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="taskStatus" label="是否可执行" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="sourceAddress" label="起始地址" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="targetAddress" label="目标地址" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="priority" label="优先级" show-overflow-tooltip></el-table-column>
@@ -98,6 +106,7 @@
 import { defineAsyncComponent, reactive, onMounted, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useWcsTaskApi } from '/@/api/task/wcs/index';
+import { useDicApi } from '/@/api/dic';
 
 // 引入组件
 const TaskDialogRef = defineAsyncComponent(() => import('/@/views/task/wcs/dialog.vue'));
@@ -107,6 +116,8 @@ const taskDialogRef = ref();
 
 // 定义变量内容
 const state = reactive({
+	taskStatusType: [] as ListType[],
+	taskType: [] as ListType[],
 	tableData: {
 		data: [] as Array<WcsSubTaskType>,
 		total: 0,
@@ -114,7 +125,7 @@ const state = reactive({
 		queryParams: {
 			taskNo: '',
 			containerBarcode: '',
-			taskRunStatus: '',
+			taskStatus: '',
 			sourceAddress: '',
 			targetAddress: '',
 			executionDevice: '',
@@ -164,9 +175,25 @@ const onHandleCurrentChange = (val: number) => {
 	state.tableData.queryParams.skipCount = val;
 	getTableData();
 };
+
+// 任务类型转换
+const formatTaskType = (row: WmsTaskType) => {
+	const dic = state.taskType.find((s) => s.dicValue == row.taskType);
+	return dic?.dicLabel || '未知';
+};
+
+const formatStatus = (row: WmsTaskType) => {
+	const dic = state.taskStatusType.find((s) => s.dicValue == row.taskStatus);
+	return dic?.dicLabel || '未知';
+};
 // 页面加载时
-onMounted(() => {
+onMounted(async () => {
 	getTableData();
+	let response = await useDicApi().getDicsByDicType('wcs_task_status');
+	state.taskStatusType = response.items;
+
+	response = await useDicApi().getDicsByDicType('wcs_task_type');
+	state.taskType = response.items;
 });
 </script>
 
