@@ -68,7 +68,7 @@
 
 					<!-- 节点信息 -->
 					<div class="nodeInfo" v-show="state.selected.length === 1">
-						<Node ref="devicePropertiesRef" :props="selectedNode"></Node>
+						<Node ref="devicePropertiesRef"></Node>
 					</div>
 					<!-- 节点右键菜单 -->
 					<Contextmenu :dropdown="state.dropdownNode" ref="contextmenuNodeRef" @current="onCurrentNodeClick" />
@@ -125,7 +125,6 @@ const transformer = ref();
 const selectionRectangle = ref();
 const stage = ref();
 const layer = ref();
-const selectedNode = ref();
 const devicePropertiesRef = ref();
 const stores = useTagsViewRoutes();
 const storesThemeConfig = useThemeConfig();
@@ -802,49 +801,42 @@ const handleDeleteKeyDown = (e: any) => {
 // 右侧内容区-当前项右键菜单点击
 const onContextmenu = (v: any, k: number, e: any) => {
 	e.evt.preventDefault();
-	// state.jsPlumbNodeIndex = k;
+	if (state.selected.length > 1) return;
 	const { clientX, clientY } = e.evt;
 	state.dropdownNode.x = clientX;
 	state.dropdownNode.y = clientY;
-	// v.type = 'node';
-	// v.label = '';
-	// let item: any = {};
-	// state.leftNavList.forEach((l) => {
-	// 	if (l.children) if (l.children.find((c: any) => c.id === v.id)) item = l.children.find((c: any) => c.id === v.id);
-	// });
-	// v.from = item.form;
 	contextmenuNodeRef.value.openContextmenu(v);
 };
 
 // 右侧内容区-当前项右键菜单点击回调(节点)
 const onCurrentNodeClick = (item: any) => {
 	if (state.selected.length !== 1) return;
-	const { contextMenuClickId, nodeId } = item;
+	const { contextMenuClickId } = item;
+	const index = state.componentData.findIndex((c) => c.id === item.id);
 	if (contextMenuClickId === 0) {
-		// 更改数组位置就行了
-		// 下一层 删除当前 加入下个位置
-		// const nodeIndex = state.jsplumbData.nodeList.findIndex((item) => item.nodeId === nodeId);
-		// state.jsplumbData.nodeList.splice(nodeIndex, 1);
-		// state.jsPlumb.removeAllEndpoints(nodeId);
-		// state.jsPlumbNodeIndex = null;
-		//   // 检查索引是否有效以及是否不是最后一个元素
-		// 	if (index < 0 || index >= arr.length - 1) {
-		//     throw new Error('Invalid index for swapping adjacent elements.');
-		// }
-		// // 交换元素
-		// let temp = arr[index];
-		// arr[index] = arr[index + 1];
-		// arr[index + 1] = temp;
-		//arr.splice(start, deleteCount, item1)
+		// 下一层
+		if (index === 0) return; // 最底层
+		state.componentData.splice(index, 1);
+		const newObj = Object.assign({}, ...Object.keys(item).map((key) => (key !== 'contextMenuClickId' ? { [key]: item[key] } : {})));
+		state.componentData.splice(index - 1, 0, newObj);
 	} else if (contextMenuClickId === 1) {
-		// 上一层 下一层 删除当前 加入上个位置
-		//arr.splice(start, deleteCount, item1)
+		// 上一层
+		if (index + 1 === state.componentData.length) return;
+		state.componentData.splice(index, 1);
+		const newObj = Object.assign({}, ...Object.keys(item).map((key) => (key !== 'contextMenuClickId' ? { [key]: item[key] } : {})));
+		state.componentData.splice(index + 1, 0, newObj);
 	} else if (contextMenuClickId === 2) {
-		// 置于底层 删除当前 数组后面增加一个
-		// arr.splice(start, deleteCount)
+		// 置于底层
+		if (index === 0) return; // 最底层
+		state.componentData.splice(index, 1);
+		const newObj = Object.assign({}, ...Object.keys(item).map((key) => (key !== 'contextMenuClickId' ? { [key]: item[key] } : {})));
+		state.componentData.unshift(newObj);
 	} else if (contextMenuClickId === 3) {
-		// 置于顶层 删除当前 数组前面面增加一个
-		// drawerRef.value.open(item);
+		// 置于顶层
+		if (index + 1 === state.componentData.length) return;
+		state.componentData.splice(index, 1);
+		const newObj = Object.assign({}, ...Object.keys(item).map((key) => (key !== 'contextMenuClickId' ? { [key]: item[key] } : {})));
+		state.componentData.push(newObj);
 	}
 };
 
@@ -1292,4 +1284,3 @@ onUnmounted(() => {
 	}
 }
 </style>
-: number: number

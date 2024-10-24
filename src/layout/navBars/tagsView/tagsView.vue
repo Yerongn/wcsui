@@ -199,8 +199,6 @@ const addTagsView = (path: string, to?: RouteToFrom) => {
 	// 防止拿取不到路由信息
 	nextTick(async () => {
 		let item: RouteItem;
-		console.log(path);
-		console.log(to);
 		if (to?.meta?.isDynamic) {
 			// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
 			if (!getThemeConfig.value.isShareTagsView) await solveAddTagsView(path, to);

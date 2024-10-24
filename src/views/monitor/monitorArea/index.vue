@@ -57,7 +57,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="area">
+<script setup lang="ts" name="monitorArea">
 import { defineAsyncComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useMonitorApi } from '/@/api/monitor';
@@ -67,7 +67,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 // 引入组件
-const AreaDialog = defineAsyncComponent(() => import('/@/views/monitor/area/dialog.vue'));
+const AreaDialog = defineAsyncComponent(() => import('/@/views/monitor/monitorArea/dialog.vue'));
 
 // 定义变量内容
 const processFlowDialogRef = ref();

@@ -50,8 +50,8 @@ const state = reactive({
 	dropdownList: [
 		{ contextMenuClickId: 0, txt: '下移一层', icon: 'ele-Bottom' },
 		{ contextMenuClickId: 1, txt: '上移一层', icon: 'ele-Top' },
-		{ contextMenuClickId: 1, txt: '置于底层', icon: 'ele-Download' },
-		{ contextMenuClickId: 1, txt: '置于顶层', icon: 'ele-Upload' },
+		{ contextMenuClickId: 2, txt: '置于底层', icon: 'ele-Download' },
+		{ contextMenuClickId: 3, txt: '置于顶层', icon: 'ele-Upload' },
 	],
 	item: {
 		type: 'node',

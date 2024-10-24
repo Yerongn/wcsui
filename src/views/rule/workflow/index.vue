@@ -32,7 +32,7 @@
 					</div>
 
 					<!-- 右侧绘画区 -->
-					<div id="workflow-right" class="workflow-right" ref="workflowRightRef">
+					<div class="workflow-right" ref="workflowRightRef">
 						<div
 							v-for="(v, k) in state.jsplumbData.nodeList"
 							:key="v.nodeId"
